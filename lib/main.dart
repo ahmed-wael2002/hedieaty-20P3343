@@ -53,6 +53,7 @@ class MyHomePage extends StatefulWidget {
   // _ indicates the variable is private
   @override
   State<MyHomePage> createState() => _MyHomePageState();
+
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -71,6 +72,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+    print('Stateful widget -- initState');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,10 +115,12 @@ class _MyHomePageState extends State<MyHomePage> {
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
+
           children: <Widget>[
             // Inserting an image
             // You have to edit pubspec.yaml -- 2 whitespaces for assets: -- 4 whitespaces for path
             Image.asset('assets/images/heart.png', width:200, height: 200), // <-- SEE HERE
+            const SizedBox(height: 50),
             const Text(
                 __name
             ),
