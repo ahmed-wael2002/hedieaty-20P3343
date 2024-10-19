@@ -1,10 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'profile_card.dart';
+import 'profile_widget.dart';
 
 void main() {
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -56,7 +59,6 @@ class MyHomePage extends StatefulWidget {
   // _ indicates the variable is private
   @override
   State<MyHomePage> createState() => _MyHomePageState();
-
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -75,7 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -92,15 +93,23 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        //backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Title is formatted to be bold
-        title: const Text("Hedieaty", style: TextStyle(fontWeight: FontWeight.w500)),
+        title: const Text("Hedieaty",
+            style: TextStyle(fontWeight: FontWeight.w500)),
         elevation: 0,
         // Leading for placing icons to the left side
-        leading: IconButton(icon:Icon(Icons.menu), onPressed: ()=>{ print("Menu is pressed!" )},),
+        leading: IconButton(
+          icon: Icon(Icons.notifications),
+          onPressed: () => {print("Menu is pressed!")},
+        ),
         // Actions for placing icons to the right side
-        actions: [IconButton(icon:Icon(Icons.logout), onPressed: ()=>{ print("User is logging out!" )},)],
-
+        actions: [
+          IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () => {print("User is logging out!")},
+          )
+        ],
       ),
 
       body: Center(
@@ -120,30 +129,63 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
+          // Aligning all items to the center (incase of vertical or horizontal orientation)
+          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
           children: <Widget>[
-            // Inserting an image
-            // You have to edit pubspec.yaml -- 2 whitespaces for assets: -- 4 whitespaces for path
-            Image.asset('assets/images/heart.png', width:200, height: 200), // <-- SEE HERE
-            const SizedBox(height: 50),
-            const Text(
-                __name
+            /***************** Button ******************/
+            // Inserting the Create Event list button
+            ElevatedButton(
+              /* Defining the action of the button */
+              onPressed: () {
+                const snackBar = SnackBar(
+                  content: const Text("A new event has been created!"),
+                  duration: Duration(seconds: 1),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(120, 40),
+                textStyle: const TextStyle(fontSize: 20), // Text size inside the button
+              ),
+              /* Defining the attributes of the button */
+              child: const Row(children: [
+                Icon(Icons.add),
+                Text("Create a new Event/List"),
+              ]),
             ),
-            const Text(
-              'You have pushed the button this many times:',
+
+            /***************** Profile Widget ******************/
+            const ProfileWidget(
+              imageUrl: 'assets/images/Ahmed Wael.jpg', // Replace with your image URL
+              name: 'Ahmed Wael', // Replace with the user's name
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+
+            /***************** Text ******************/
+           ListView(
+                padding: const EdgeInsets.all(10.0), // Add some padding to the ListView
+                children: const [
+                  ProfileInfoWidget(
+                    assetImagePath: 'assets/images/heart.png', // Replace with your asset path
+                    name: 'John Doe', // Name to display
+                    upcomingEvents: 5, // Number of upcoming events
+                  ),   ProfileInfoWidget(
+                    assetImagePath: 'assets/images/heart.png', // Replace with your asset path
+                    name: 'John Doe', // Name to display
+                    upcomingEvents: 5, // Number of upcoming events
+                  ), ProfileInfoWidget(
+                    assetImagePath: 'assets/images/heart.png', // Replace with your asset path
+                    name: 'John Doe', // Name to display
+                    upcomingEvents: 5, // Number of upcoming events
+                  ), ProfileInfoWidget(
+                    assetImagePath: 'assets/images/heart.png', // Replace with your asset path
+                    name: 'John Doe', // Name to display
+                    upcomingEvents: 5, // Number of upcoming events
+                  ),
+                ],
+              ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
