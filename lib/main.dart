@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'profile_card.dart';
 import 'profile_widget.dart';
+import 'list_of_friends.dart';
 
 void main() {
   runApp(const MyApp());
@@ -100,13 +101,13 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 0,
         // Leading for placing icons to the left side
         leading: IconButton(
-          icon: Icon(Icons.notifications),
+          icon: const Icon(Icons.notifications),
           onPressed: () => {print("Menu is pressed!")},
         ),
         // Actions for placing icons to the right side
         actions: [
           IconButton(
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
             onPressed: () => {print("User is logging out!")},
           )
         ],
@@ -139,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
               /* Defining the action of the button */
               onPressed: () {
                 const snackBar = SnackBar(
-                  content: const Text("A new event has been created!"),
+                  content:  Text("A new event has been created!"),
                   duration: Duration(seconds: 1),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -162,28 +163,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             /***************** Text ******************/
-           ListView(
-                padding: const EdgeInsets.all(10.0), // Add some padding to the ListView
-                children: const [
-                  ProfileInfoWidget(
-                    assetImagePath: 'assets/images/heart.png', // Replace with your asset path
-                    name: 'John Doe', // Name to display
-                    upcomingEvents: 5, // Number of upcoming events
-                  ),   ProfileInfoWidget(
-                    assetImagePath: 'assets/images/heart.png', // Replace with your asset path
-                    name: 'John Doe', // Name to display
-                    upcomingEvents: 5, // Number of upcoming events
-                  ), ProfileInfoWidget(
-                    assetImagePath: 'assets/images/heart.png', // Replace with your asset path
-                    name: 'John Doe', // Name to display
-                    upcomingEvents: 5, // Number of upcoming events
-                  ), ProfileInfoWidget(
-                    assetImagePath: 'assets/images/heart.png', // Replace with your asset path
-                    name: 'John Doe', // Name to display
-                    upcomingEvents: 5, // Number of upcoming events
-                  ),
-                ],
-              ),
+            Expanded(
+              child: FriendsList(), // Expands to fill available space
+            ),
+            //FriendsList(),
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
