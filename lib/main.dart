@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'user.dart'; // Assuming you have the User class in this file
-import 'profile_widget.dart';
-import 'friends_list_view.dart';
-import 'header.dart';
+import 'Logic/user.dart'; // Assuming you have the User class in this file
+import 'Utils/profile_widget.dart';
+import 'Utils/friends_list_view.dart';
+import 'Utils/header.dart';
+import './Pages/EventsPage.dart';
+import 'Utils/CreateUserForm.dart';
+import './Pages/FriendPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,6 +26,7 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       routes: {
         '/homepage': (context) => const MyHomePage(title: 'Hedieaty'),
+        '/events': (context) => Eventspage(),
       },
     );
   }
@@ -40,6 +44,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late User user;
   List<User>? friends;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -70,6 +75,19 @@ class _MyHomePageState extends State<MyHomePage> {
         user.addFriend(newUser);
       });
     }
+  }
+
+  // Handle bottom navigation item tap
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+
+      switch(_selectedIndex){
+        case 2:
+          Navigator.pushNamed(context, '/events');
+          break;
+        }
+    });
   }
 
   @override
@@ -107,97 +125,26 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class CreateUserForm extends StatefulWidget {
-  const CreateUserForm({super.key});
-  @override
-  _CreateUserFormState createState() => _CreateUserFormState();
-}
-
-class _CreateUserFormState extends State<CreateUserForm> {
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextFormField(
-            controller: _nameController,
-            decoration: const InputDecoration(labelText: 'Name'),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a name';
-              }
-              return null;
-            },
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-          TextFormField(
-            controller: _emailController,
-            decoration: const InputDecoration(labelText: 'Email'),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter an email';
-              }
-              return null;
-            },
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: 'Friends',
           ),
-          TextFormField(
-            controller: _passwordController,
-            decoration: const InputDecoration(labelText: 'Password'),
-            obscureText: true,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a password';
-              }
-              return null;
-            },
+          BottomNavigationBarItem(
+            icon: Icon(Icons.event),
+            label: 'Events',
           ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    String name = _nameController.text;
-                    String email = _emailController.text;
-                    String password = _passwordController.text;
-
-                    // Create the User object and return it to the dialog
-                    User newUser = User(name, email, password, 'assets/images/default.jpg');
-                    Navigator.of(context).pop(newUser);
-                  }
-                },
-                child: const Text('Submit'),
-              ),
-            ],
-          )
-
         ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.purple,
+        onTap: _onItemTapped,
       ),
     );
   }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
 }
+
