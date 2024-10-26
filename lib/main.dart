@@ -7,6 +7,8 @@ import './Pages/EventsPage.dart';
 import 'Utils/CreateUserForm.dart';
 import './Pages/FriendPage.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import './Utils/events_list_view.dart';
+import './Logic/event.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       routes: {
         '/homepage': (context) => const MyHomePage(title: 'Hedieaty'),
-        '/events': (context) => Eventspage(),
+        '/events': (context) => const Eventspage(),
       },
     );
   }
@@ -57,7 +59,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       '123',
       'assets/images/Ahmed Wael.jpg',
     );
-
+    setState(() {
+      user.addEvent(Event('Wello\'s Birthday', 'birthday'));
+    });
     _tabController = TabController(length: 2, vsync: this);
   }
 
@@ -118,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               controller: _tabController,
               children: [
                 FriendsList(user.friendsList),
-                const Eventspage(),
+                EventsList(user.eventsList),
               ],
             ),
           ),
@@ -127,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       floatingActionButton: SpeedDial(
         icon: Icons.add,
         activeIcon: Icons.close,
-        backgroundColor: Colors.purple,
+        backgroundColor: Colors.purple[100],
         children: [
           SpeedDialChild(
             child: const Icon(Icons.person_add),

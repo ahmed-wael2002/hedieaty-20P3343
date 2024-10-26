@@ -9,24 +9,26 @@ var icons = {
 };
 
 class Event{
-  late String _title;
+  late String _name;
   late var _type;
+  static int _numberOfGifts = 0;
   List<Gift>? _giftsList;
 
-
-  Event(String title, String type){
-    _title = title;
+  Event(String name, String type){
+    _name = name;
     _type = (icons.containsKey(type)) ? icons[type] : icons['default'];
     _giftsList = null;
   }
 
   // Function to add a new friend to an existing list of friends
   bool addGift(Gift gift) {
+    _numberOfGifts++;
     _giftsList?.add(gift);
     return _giftsList != null;
   }
 
   bool removeGift(Gift gift) {
+    _numberOfGifts--;
     return _giftsList?.remove(gift) ?? false;
   }
 
@@ -36,18 +38,22 @@ class Event{
     _type = (icons.containsKey(type)) ? icons[type] : icons['default'];
   }
 
-  String get title => _title;
+  String get name => _name;
 
-  set title(String value) {
-    _title = value;
+  set name(String value) {
+    _name = value;
   }
 
   // Overriding == operator and hashCode
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is Event && runtimeType == other.runtimeType && _title == other._title;
+          other is Event && runtimeType == other.runtimeType && _name == other._name;
 
   @override
-  int get hashCode => _title.hashCode;
+  int get hashCode => _name.hashCode;
+
+  int get numberOfGifts => _numberOfGifts;
+
+  List<Gift>? get giftsList => _giftsList;
 }

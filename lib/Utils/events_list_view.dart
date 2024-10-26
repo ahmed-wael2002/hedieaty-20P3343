@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import '../Logic/user.dart';
-import '../Pages/FriendPage.dart';
+import '../Logic/event.dart';
+import '../Pages/EventsPage.dart';
 
-class FriendsList extends StatelessWidget {
-  final List<User>? friends;
+class EventsList extends StatelessWidget {
+  final List<Event>? events;
 
-  FriendsList(this.friends, {super.key});
+  const EventsList(this.events, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return friends == null || friends!.isEmpty
+    return events == null || events!.isEmpty
         ? Center( child: Image.asset('assets/images/empty.png', width: 300, height: 300,),)
         : ListView.separated(
-      itemCount: friends!.length,
+      itemCount: events!.length,
       itemBuilder: (BuildContext context, int index) {
           return ListTile(
             shape: RoundedRectangleBorder(
@@ -23,16 +23,13 @@ class FriendsList extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Friendpage(friends![index]),
+                  builder: (context) => const Eventspage(),
                 ),
               );
             },
-            title: Text(friends![index].name),
-            subtitle: Text(friends![index].upcomingEvents == 0? 'No Upcoming Events' : '${friends![index].upcomingEvents} Upcoming Events'),
-            leading: CircleAvatar(
-              radius: 40,
-              backgroundImage: AssetImage(friends![index].imageUrl),
-            ),
+            title: Text(events![index].name),
+            subtitle: Text(events![index].numberOfGifts == 0? 'No gifts' : '${events![index].numberOfGifts} of gifts'),
+            leading: events![index].type,
             trailing: const Icon(Icons.arrow_forward),
           );
       },
