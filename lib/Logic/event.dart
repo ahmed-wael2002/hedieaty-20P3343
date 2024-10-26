@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 var icons = {
   'default':const Icon(Icons.question_mark),
   'birthday':const Icon(Icons.cake),
-  'educatuion':const Icon(Icons.school),
+  'education':const Icon(Icons.school),
   'baby':const Icon(Icons.child_friendly),
 };
 

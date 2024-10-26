@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lecture_code/Utils/CreateEventForm.dart';
 import 'Logic/user.dart'; // Assuming you have the User class in this file
 import 'Utils/profile_widget.dart';
 import 'Utils/friends_list_view.dart';
@@ -37,7 +38,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
   final String title;
 
   @override
@@ -88,9 +88,23 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     }
   }
 
-  void _showCreateEventDialog(BuildContext context) {
-    // Implement your event creation dialog here
+  void _showCreateEventDialog(BuildContext context) async {
+    final Event? newEvent = await showDialog<Event>(
+      context: context,
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          title: Text('Create a new Event'),
+          content: CreateEventForm(),
+        );
+      },
+    );
+    if (newEvent != null) {
+      setState(() {
+        user.addEvent(newEvent);
+      });
+    }
   }
+
 
   void _onItemTapped(int index) {
     setState(() {
