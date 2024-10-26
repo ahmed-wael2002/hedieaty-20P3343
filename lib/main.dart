@@ -6,7 +6,6 @@ import 'Utils/friends_list_view.dart';
 import 'Utils/header.dart';
 import './Pages/EventsPage.dart';
 import 'Utils/CreateUserForm.dart';
-import './Pages/FriendPage.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import './Utils/events_list_view.dart';
 import './Logic/event.dart';
@@ -59,9 +58,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       '123',
       'assets/images/Ahmed Wael.jpg',
     );
-    setState(() {
-      user.addEvent(Event('Wello\'s Birthday', 'birthday'));
-    });
     _tabController = TabController(length: 2, vsync: this);
   }
 

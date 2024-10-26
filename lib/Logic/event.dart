@@ -11,7 +11,7 @@ var icons = {
 class Event{
   late String _name;
   late var _type;
-  static int _numberOfGifts = 0;
+  int _numberOfGifts = 0;
   List<Gift>? _giftsList;
 
   Event(String name, String type){
