@@ -1,13 +1,18 @@
+import 'event.dart';
+
 class User {
   String _name;
   String _email;
   String _password;
   String _imageUrl;
-  int _upcomingEvents = 0;  // This will be changed in the future by the Event class
-  List<User>? _friendsList;
+  static int _upcomingEvents = 0;  // This will be changed in the future by the Event class
+  static int _numberFriends = 0; // counts the number of friends in the user
+  List<User>? _friendsList; // This is will be changed to a list of indices
+  List<Event>? _eventsList; // This is will be changed to a list of indices
 
   User(this._name, this._email, this._password, this._imageUrl) {
     _friendsList = [];
+    _eventsList = [];
   }
 
   String get name => _name;
@@ -17,12 +22,26 @@ class User {
 
   // Function to add a new friend to an existing list of friends
   bool addFriend(User user) {
+    _numberFriends++;
     _friendsList?.add(user);
     return _friendsList != null;
   }
 
   bool removeFriend(User user) {
+    _numberFriends--;
     return _friendsList?.remove(user) ?? false;
+  }
+
+  // Function to add a new friend to an existing list of friends
+  bool addEvent(Event event) {
+    _upcomingEvents++;
+    _eventsList?.add(event);
+    return _eventsList != null;
+  }
+
+  bool removeEvent(Event event) {
+    _upcomingEvents--;
+    return _eventsList?.remove(event) ?? false;
   }
 
   // Overriding == operator and hashCode
@@ -53,7 +72,8 @@ class User {
   }
 
   int get upcomingEvents => _upcomingEvents;
-  void addEvent() {
-    _upcomingEvents++;
-  }
+
+  static int get numberFriends => _numberFriends;
+
+  List<Event>? get eventsList => _eventsList;
 }

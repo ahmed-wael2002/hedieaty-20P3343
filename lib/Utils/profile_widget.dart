@@ -30,8 +30,8 @@ class ProfileWidget extends StatelessWidget {
               child: Image.asset(
                 imageUrl,
                 fit: BoxFit.cover,
-                width: 150, // Size of the image inside the frame
-                height: 150,
+                width: 80, // Size of the image inside the frame
+                height: 80,
               ),
             ),
           ),

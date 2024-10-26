@@ -10,13 +10,7 @@ class FriendsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return friends == null || friends!.isEmpty
-        ? Center(
-          child: Column(children: [
-            const Text('You have no friends :(', style: TextStyle(fontWeight:FontWeight.bold, fontSize: 25),),
-            Image.asset('assets/images/no_friends.jpg', width: 300, height: 300,),
-          ],
-          )
-        )
+        ? Center( child: Image.asset('assets/images/no_friends.jpg', width: 300, height: 300,),)
         : ListView.separated(
       itemCount: friends!.length,
       itemBuilder: (BuildContext context, int index) {
@@ -24,7 +18,7 @@ class FriendsList extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
             ),
-            tileColor: Colors.purple[100],
+            // tileColor: Colors.purple[100],
             onTap:(){
               Navigator.push(
                 context,

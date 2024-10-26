@@ -6,6 +6,7 @@ import 'Utils/header.dart';
 import './Pages/EventsPage.dart';
 import 'Utils/CreateUserForm.dart';
 import './Pages/FriendPage.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,10 +42,11 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   late User user;
   List<User>? friends;
   int _selectedIndex = 0;
+  late TabController _tabController;
 
   @override
   void initState() {
@@ -55,9 +57,16 @@ class _MyHomePageState extends State<MyHomePage> {
       '123',
       'assets/images/Ahmed Wael.jpg',
     );
+
+    _tabController = TabController(length: 2, vsync: this);
   }
 
-  // Function to show the Create User dialog and get the newly created user back
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   void _showCreateUserDialog(BuildContext context) async {
     final User? newUser = await showDialog<User>(
       context: context,
@@ -68,8 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
-
-    // If a new user is returned, add them to the friends list
     if (newUser != null) {
       setState(() {
         user.addFriend(newUser);
@@ -77,16 +84,18 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  // Handle bottom navigation item tap
+  void _showCreateEventDialog(BuildContext context) {
+    // Implement your event creation dialog here
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-
-      switch(_selectedIndex){
+      switch (_selectedIndex) {
         case 2:
           Navigator.pushNamed(context, '/events');
           break;
-        }
+      }
     });
   }
 
@@ -94,36 +103,43 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const Header(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  _showCreateUserDialog(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  textStyle: const TextStyle(fontSize: 20),
-                ),
-                child: const Row(
-                  children: [
-                    Icon(Icons.add),
-                    Text("Create a new Event/List"),
-                  ],
-                ),
-              ),
+      body: Column(
+        children: [
+          ProfileWidget(imageUrl: user.imageUrl, name: user.name),
+          TabBar(
+            controller: _tabController,
+            tabs: const [
+              Tab(icon: Icon(Icons.people)),
+              Tab(icon: Icon(Icons.event)),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                FriendsList(user.friendsList),
+                const Eventspage(),
+              ],
             ),
-            ProfileWidget(
-              imageUrl: user.imageUrl,
-              name: user.name,
-            ),
-            Expanded(
-              child: FriendsList(user.friendsList),
-            ),
-          ],
-        ),
+          ),
+        ],
+      ),
+      floatingActionButton: SpeedDial(
+        icon: Icons.add,
+        activeIcon: Icons.close,
+        backgroundColor: Colors.purple,
+        children: [
+          SpeedDialChild(
+            child: const Icon(Icons.person_add),
+            label: 'Add Friend',
+            onTap: () => _showCreateUserDialog(context),
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.event),
+            label: 'Add Event',
+            onTap: () => _showCreateEventDialog(context),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -147,4 +163,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
