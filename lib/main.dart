@@ -59,9 +59,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       '123',
       'assets/images/Ahmed Wael.jpg',
     );
-    setState(() {
-      user.addEvent(Event('Wello\'s Birthday', 'birthday'));
-    });
     _tabController = TabController(length: 2, vsync: this);
   }
 

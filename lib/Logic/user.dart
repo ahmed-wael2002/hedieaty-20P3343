@@ -5,8 +5,8 @@ class User {
   String _email;
   String _password;
   String _imageUrl;
-  static int _upcomingEvents = 0;  // This will be changed in the future by the Event class
-  static int _numberFriends = 0; // counts the number of friends in the user
+  int _upcomingEvents = 0;  // This will be changed in the future by the Event class
+  int _numberFriends = 0; // counts the number of friends in the user
   List<User>? _friendsList; // This is will be changed to a list of indices
   List<Event>? _eventsList; // This is will be changed to a list of indices
 
@@ -73,7 +73,7 @@ class User {
 
   int get upcomingEvents => _upcomingEvents;
 
-  static int get numberFriends => _numberFriends;
+  int get numberFriends => _numberFriends;
 
   List<Event>? get eventsList => _eventsList;
 }
