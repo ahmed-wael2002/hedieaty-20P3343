@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../Logic/user.dart';
-import '../utils/profile_widget.dart';
 import '../Utils/friends_list_view.dart';
 import '../utils/header.dart';
+import '../Utils/profile_widget.dart';
 
 class Friendpage extends StatelessWidget {
   final User friend;
@@ -15,7 +15,7 @@ class Friendpage extends StatelessWidget {
       appBar: Header(),
       body: Column(
         children: [
-          ProfileWidget(imageUrl: friend.imageUrl, name: friend.name),
+          ProfileWidget(imageUrl: friend.imageUrl, name: friend.name, email: friend.email),
           FriendsList(friend.friendsList),
         ],
       ),

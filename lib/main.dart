@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lecture_code/Pages/ProfilePage.dart';
 import 'package:lecture_code/Utils/CreateEventForm.dart';
 import 'Logic/user.dart'; // Assuming you have the User class in this file
 import 'Utils/profile_widget.dart';
@@ -9,6 +10,8 @@ import 'Utils/CreateUserForm.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import './Utils/events_list_view.dart';
 import './Logic/event.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Hedieaty',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
@@ -119,11 +122,22 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       appBar: const Header(),
       body: Column(
         children: [
-          ProfileWidget(imageUrl: user.imageUrl, name: user.name),
+          GestureDetector(
+            onTap:(){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfilePage(user: user,),
+                ),
+              );
+            },
+            child:ProfileWidget(imageUrl: user.imageUrl, name: user.name, email: user.email),
+          ),
+          const SizedBox(height: 10),
           TabBar(
             controller: _tabController,
             tabs: const [
-              Tab(icon: Icon(Icons.people)),
+              Tab(icon: Icon(LineAwesomeIcons.address_card)),
               Tab(icon: Icon(Icons.event)),
             ],
           ),
@@ -141,7 +155,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       floatingActionButton: SpeedDial(
         icon: Icons.add,
         activeIcon: Icons.close,
-        backgroundColor: Colors.purple[100],
+        backgroundColor: Colors.pink,
+        foregroundColor: Colors.white,
         children: [
           SpeedDialChild(
             child: const Icon(Icons.person_add),
@@ -171,7 +186,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.purple,
+        selectedItemColor: Colors.pink,
         onTap: _onItemTapped,
       ),
     );
