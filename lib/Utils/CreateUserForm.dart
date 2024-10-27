@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../Logic/user.dart';
-import '../Logic/event.dart';
 
 class CreateUserForm extends StatefulWidget {
   const CreateUserForm({super.key});

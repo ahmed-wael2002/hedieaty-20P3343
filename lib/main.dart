@@ -137,8 +137,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           TabBar(
             controller: _tabController,
             tabs: const [
-              Tab(icon: Icon(LineAwesomeIcons.address_card)),
-              Tab(icon: Icon(Icons.event)),
+              Tab(icon: Icon(LineAwesomeIcons.user)),
+              Tab(icon: Icon(LineAwesomeIcons.calendar)),
             ],
           ),
           Expanded(
@@ -173,22 +173,30 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(LineAwesomeIcons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people),
+            icon: Icon(LineAwesomeIcons.user_friends),
             label: 'Friends',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.event),
+            icon: Icon(LineAwesomeIcons.gift),
             label: 'Events',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.pink,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white,
+        backgroundColor: Colors.pink,
+        selectedFontSize: 14,
+        unselectedFontSize: 12,
+        showUnselectedLabels: false,
+        showSelectedLabels: false,
+        type: BottomNavigationBarType.fixed,
         onTap: _onItemTapped,
       ),
+
     );
   }
 }
