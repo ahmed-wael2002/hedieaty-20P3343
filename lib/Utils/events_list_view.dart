@@ -23,7 +23,7 @@ class _EventsListState extends State<EventsList> {
   @override
   Widget build(BuildContext context) {
     return widget.events == null || widget.events!.isEmpty
-        ? Center( child: Image.asset('assets/images/empty.png', width: 300, height: 300,),)
+        ? Center( child: Image.asset('assets/images/empty.png', width: 200, height: 200,),)
         : ListView.separated(
       padding: const EdgeInsets.all(16.0), // Padding on all sides
       itemCount: widget.events!.length,
@@ -37,7 +37,7 @@ class _EventsListState extends State<EventsList> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Eventspage(),
+                  builder: (context) => Eventspage(event: _events[index]),
                 ),
               );
             },

@@ -2,10 +2,11 @@ import 'user.dart';
 
 class Gift{
   late String _name;
+  String _imageUrl = 'assets/images/default.jpg';
   bool _isPledged = false;
   late User _pledgingUser;
 
-  Gift(this._name);
+  Gift(this._name, this._imageUrl);
 
   User get pledgingUser => _pledgingUser;
 
@@ -21,6 +22,7 @@ class Gift{
 
 
   String get name => _name;
+  String get imageUrl => _imageUrl;
 
   set name(String value) {
     _name = value;
@@ -34,4 +36,12 @@ class Gift{
 
   @override
   int get hashCode => _name.hashCode;
+
+  set isPledged(bool value) {
+    _isPledged = value;
+  }
+
+  set imageUrl(String value) {
+    _imageUrl = value;
+  }
 }

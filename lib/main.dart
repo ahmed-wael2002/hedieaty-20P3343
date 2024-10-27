@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       routes: {
         '/homepage': (context) => const MyHomePage(title: 'Hedieaty'),
-        '/events': (context) => const Eventspage(),
+        // '/events': (context) => Eventspage(),
       },
     );
   }

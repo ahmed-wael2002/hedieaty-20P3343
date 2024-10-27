@@ -26,8 +26,8 @@ class _FriendsListState extends State<FriendsList> {
         ? Center(
       child: Image.asset(
         'assets/images/empty.png',
-        width: 300,
-        height: 300,
+        width: 200,
+        height: 200,
       ),
     )
         : ListView.separated(

@@ -12,24 +12,24 @@ class Event{
   late String _name;
   late var _type;
   int _numberOfGifts = 0;
-  List<Gift>? _giftsList;
+  late List<Gift> _giftsList;
 
   Event(String name, String type){
     _name = name;
     _type = (icons.containsKey(type)) ? icons[type] : icons['default'];
-    _giftsList = null;
+    _giftsList = [];
   }
 
   // Function to add a new friend to an existing list of friends
   bool addGift(Gift gift) {
     _numberOfGifts++;
-    _giftsList?.add(gift);
-    return _giftsList != null;
+    _giftsList.add(gift);
+    return _giftsList.isEmpty;
   }
 
   bool removeGift(Gift gift) {
     _numberOfGifts--;
-    return _giftsList?.remove(gift) ?? false;
+    return _giftsList.remove(gift);
   }
 
   get type => _type;
@@ -55,5 +55,9 @@ class Event{
 
   int get numberOfGifts => _numberOfGifts;
 
-  List<Gift>? get giftsList => _giftsList;
+  List<Gift> get giftsList => _giftsList;
+
+  set giftsList(List<Gift> value) {
+    _giftsList = value;
+  }
 }
