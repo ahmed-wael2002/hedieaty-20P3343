@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_code/Pages/ProfilePage.dart';
 import 'package:lecture_code/Utils/CreateEventForm.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Logic/user.dart'; // Assuming you have the User class in this file
 import 'Utils/profile_widget.dart';
 import 'Utils/friends_list_view.dart';
@@ -11,17 +12,25 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import './Utils/events_list_view.dart';
 import './Logic/event.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-
+import './Pages/LoginPage.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  bool isLoggedIn = false;
+
+  Future<void> checkIsLoggedIn() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? prefsVal = prefs.getBool('isLoggedIn');
+    isLoggedIn = prefsVal ?? false;
+  }
 
   @override
   Widget build(BuildContext context) {
+    checkIsLoggedIn();
     return MaterialApp(
       title: 'Hedieaty',
       theme: ThemeData(
@@ -29,7 +38,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: isLoggedIn! ? const MyHomePage(title: 'Flutter Demo Home Page') : const LoginPage(),
       routes: {
         '/homepage': (context) => const MyHomePage(title: 'Hedieaty'),
         // '/events': (context) => Eventspage(),
@@ -196,7 +206,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         type: BottomNavigationBarType.fixed,
         onTap: _onItemTapped,
       ),
-
     );
   }
 }
