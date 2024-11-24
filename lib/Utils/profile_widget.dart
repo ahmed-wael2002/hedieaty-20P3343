@@ -14,7 +14,9 @@ class ProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      margin: EdgeInsets.all(16.0),
+      child:Center(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -48,6 +50,7 @@ class ProfileWidget extends StatelessWidget {
           ),
         ],
       ),
+    )
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_code/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'Homepage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,6 +21,12 @@ class _LoginPageState extends State<LoginPage> {
     prefs.setBool('isLoggedIn', true);
   }
 
+  Future<void> logout() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLoggedIn', false);
+  }
+
+
   void _login() {
     if (_formKey.currentState!.validate()) {
       String email = _emailController.text.trim();
@@ -28,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
       if ((email == "admin@admin.com") && (password == '123456')) {
         updateLoginCache();
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const MyHomePage(title: 'Homepage')));
+            builder: (context) => MyHomePage(title: 'Homepage', logoutCallback: logout,),));
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Logging in...')),
         );
@@ -142,8 +149,31 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: _login,
                             icon: Image.asset('assets/images/google.png',
                                 scale: 20),
-                            label: const Text('Login with Google')))
+                            label: const Text('Login with Google')
+                        )
+                    ),
+                    const SizedBox(height: 20,),
+                    GestureDetector(
+                      child: Expanded(child:Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Don't have an account? "),
+                          GestureDetector(
+                            onTap: ()=>print('Create a new account'),
+                            child: const Text(
+                              'Create a new account',
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                          )
+                        ],
+                      )
+                    )
+                    )
                   ],
-                ))));
+                )
+            )
+        )
+    );
   }
 }
