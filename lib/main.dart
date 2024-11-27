@@ -1,9 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:lecture_code/configs/theme/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import './Pages/LoginPage.dart';
+import 'features/auth/presentation/pages/login_page.dart';
 import './Pages/Homepage.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -27,10 +32,7 @@ class MyApp extends StatelessWidget {
     checkIsLoggedIn();
     return MaterialApp(
       title: 'Hedieaty',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
-        useMaterial3: true,
-      ),
+      theme: themeData,
       debugShowCheckedModeBanner: false,
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: const LoginPage(), // This line is for testing

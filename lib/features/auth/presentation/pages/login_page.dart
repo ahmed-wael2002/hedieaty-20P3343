@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lecture_code/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Homepage.dart';
+import '../widgets/custom_password_field.dart';
+import '../widgets/custom_text_field.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,7 +14,6 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  bool _isPasswordVisible = false;
 
   Future<void> updateLoginCache() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -27,24 +26,24 @@ class _LoginPageState extends State<LoginPage> {
   }
 
 
-  void _login() {
-    if (_formKey.currentState!.validate()) {
-      String email = _emailController.text.trim();
-      String password = _passwordController.text;
-
-      if ((email == "admin@admin.com") && (password == '123456')) {
-        updateLoginCache();
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => MyHomePage(title: 'Homepage', logoutCallback: logout,),));
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Logging in...')),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Cannot find user!')),
-        );
-      }
+  String? _emailValidator(email) {
+    if (email == null || email.isEmpty) {
+      return "Please enter an email address";
+    } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+        .hasMatch(email)) {
+      return "Please enter a valid email address";
     }
+    return null;
+  }
+
+  String? _passwordValidator(value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your password';
+    }
+    if (value.length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+    return null;
   }
 
   @override
@@ -56,65 +55,43 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.all(16.0),
                 width: double.infinity,
                 child: Column(
+
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
+
                   children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.emailAddress,
+                    // Email text field
+                    CustomFormTextField(
                       controller: _emailController,
-                      validator: (email) {
-                        if (email == null || email.isEmpty) {
-                          return "Please enter an email address";
-                        } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                            .hasMatch(email)) {
-                          return "Please enter a valid email address";
-                        }
-                        return null;
-                      },
+                      validator: _emailValidator,
+                      labelText: 'Email',
+                      hintText: 'Enter your email address',
+                      inputType: keyboardTypes['email'],
                     ),
+
+                    // Spacing
                     const SizedBox(
                       height: 20,
                     ),
-                    TextFormField(
-                      controller: _passwordController,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _isPasswordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isPasswordVisible = !_isPasswordVisible;
-                            });
-                          },
-                        ),
-                      ),
-                      obscureText: !_isPasswordVisible,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        if (value.length < 6) {
-                          return 'Password must be at least 6 characters';
-                        }
-                        return null;
-                      },
+
+                    // Password field
+                    CustomPasswordField(
+                        controller: _passwordController,
+                        validator: _passwordValidator,
+                        labelText: 'Email',
+                        hintText: 'Enter your password',
                     ),
+
+                    // Vertical spacing
                     const SizedBox(
                       height: 20,
                     ),
+
+                    // Login Button
                     SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                            onPressed: _login, child: const Text('Login'))),
+                            onPressed: (){}, child: const Text('Login'))),
                     const SizedBox(
                       height: 20,
                     ),
@@ -146,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       width: double.infinity,
                         child: ElevatedButton.icon(
-                            onPressed: _login,
+                            onPressed: (){},
                             icon: Image.asset('assets/images/google.png',
                                 scale: 20),
                             label: const Text('Login with Google')
@@ -160,7 +137,9 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           const Text("Don't have an account? "),
                           GestureDetector(
-                            onTap: ()=>print('Create a new account'),
+                            onTap: () {
+                              // Todo: Create a SignUp page
+                            },
                             child: const Text(
                               'Create a new account',
                               style: TextStyle(color: Colors.blue),

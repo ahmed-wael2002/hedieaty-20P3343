@@ -8,7 +8,7 @@ import 'ProfilePage.dart';
 import '../Utils/CreateEventForm.dart';
 import '../Utils/profile_widget.dart';
 import '../Utils/friends_list_view.dart';
-import '../Utils/header.dart';
+// import '../Utils/header.dart';
 import '../Utils/CreateUserForm.dart';
 import '../Utils/events_list_view.dart';
 import '../Logic/event.dart';
@@ -100,10 +100,10 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: Drawer(
         child: Column(
           children: [
-            SizedBox(height: 150,),
-            ListTile(title: Text('Profile Widget'),),
-            ListTile(title: Text('Profile Widget'),),
-            ListTile(title: Text('Profile Widget'),),
+            const SizedBox(height: 150,),
+            const ListTile(title: Text('Profile Widget'),),
+            const ListTile(title: Text('Profile Widget'),),
+            const ListTile(title: Text('Profile Widget'),),
             GestureDetector(
               onTap: ()=>setState(() {
                 widget.logoutCallback;
