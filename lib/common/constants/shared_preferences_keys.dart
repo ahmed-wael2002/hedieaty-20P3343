@@ -1,0 +1,2 @@
+
+String isLoggedInKey = 'isLoggedIn';

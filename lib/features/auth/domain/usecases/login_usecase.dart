@@ -8,8 +8,8 @@ class LoginUsercase implements UseCase<bool, LoginParams>{
   LoginUsercase(this._loginRepository);
 
   @override
-  Future<bool> call({LoginParams ? params}) {
-    return _loginRepository.login(params!.email, params.password);
+  Future<bool> call({LoginParams ? params}) async{
+    return await _loginRepository.login(params!.email, params.password);
   }
 }
 
