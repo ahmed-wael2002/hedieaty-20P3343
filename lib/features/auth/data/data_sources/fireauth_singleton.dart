@@ -47,6 +47,30 @@ class FirebaseAuthSingleton {
     }
   }
 
+  Future<bool?> registerNewUser({required String name, required String email, required String password,}) async {
+    try {
+      // Create a new user with email and password
+      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+
+      // Get the newly created user
+      User? user = userCredential.user;
+
+      // If user creation is successful, update the display name
+      if (user != null) {
+        await user.updateDisplayName(name);
+        await user.reload(); // Ensure the changes are reflected
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    catch (e) {
+      return false;
+    }
+  }
+
+
   // Sign out
   Future<void> signOut() async {
     try {

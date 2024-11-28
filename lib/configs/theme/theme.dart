@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomTheme{
+  static const colorSeed = Colors.pink;
 
-   static const _appBarTheme =  AppBarTheme(
-      elevation: 5,
-      foregroundColor: Colors.white,
-    );
+  static final _lightColorScheme = ColorScheme.fromSeed(seedColor: colorSeed, brightness: Brightness.light);
+  static final _darkColorScheme = ColorScheme.fromSeed(seedColor: colorSeed, brightness: Brightness.dark);
+
+   AppBarTheme _getAppBarTheme (ColorScheme colorScheme){
+     return AppBarTheme(
+       elevation: 5,
+       backgroundColor: colorScheme.surface,
+       foregroundColor: colorScheme.primary,
+     );
+   }
 
    static final _fontFamily = GoogleFonts.poppins().fontFamily;
 
@@ -18,8 +25,6 @@ class CustomTheme{
          Radius.circular(8.0),
        ),
      ),
-     // backgroundColor: colorScheme.primary, // Use primary color from the ColorScheme
-     // foregroundColor: colorScheme.onPrimary, // Text color
    );
 
    static final _inputDecorationTheme = InputDecorationTheme(
@@ -43,10 +48,11 @@ class CustomTheme{
      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
    );
 
-   static ThemeData lightThemeData(BuildContext context) {
+   ThemeData lightThemeData(BuildContext context) {
      return ThemeData(
-       colorSchemeSeed: Colors.pink, // Generates a ColorScheme
-       appBarTheme: _appBarTheme,
+       colorScheme: _lightColorScheme, // Generates a ColorScheme
+       appBarTheme: _getAppBarTheme(_lightColorScheme),
+       scaffoldBackgroundColor: _lightColorScheme.surface,
        fontFamily: _fontFamily,
        inputDecorationTheme: _inputDecorationTheme,
        elevatedButtonTheme: ElevatedButtonThemeData(style: buttonPrimary),
@@ -54,13 +60,13 @@ class CustomTheme{
      );
    }
 
-   static ThemeData darkThemeData() {
+   ThemeData darkThemeData() {
      return ThemeData(
        colorScheme: ColorScheme.fromSeed(
          seedColor: Colors.pink,
          brightness: Brightness.dark, // Adjust for dark mode
        ),
-       appBarTheme: _appBarTheme.copyWith(
+       appBarTheme: _getAppBarTheme(_darkColorScheme).copyWith(
          backgroundColor: Colors.black, // Optional: Customize AppBar for dark theme
        ),
        fontFamily: _fontFamily,
@@ -68,6 +74,7 @@ class CustomTheme{
          fillColor: Colors.grey.shade800, // Adjust text field background for dark theme
        ),
        elevatedButtonTheme: ElevatedButtonThemeData(style: buttonPrimary),
+       scaffoldBackgroundColor: _darkColorScheme.surface,
        useMaterial3: true,
      );
    }

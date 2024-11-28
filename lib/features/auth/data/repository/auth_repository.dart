@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lecture_code/features/auth/data/data_sources/fireauth_singleton.dart';
-import 'package:lecture_code/features/auth/domain/repository/login_repository.dart';
+import 'package:lecture_code/features/auth/domain/repository/auth_repository.dart';
 
-class LoginRepositoryImpl implements LoginRepository{
+class AuthRepositoryImpl implements AuthRepository{
 
   @override
   Future<bool> login(String email, String password) async{
@@ -13,6 +13,10 @@ class LoginRepositoryImpl implements LoginRepository{
     catch(e){
       return false;
     }
+  }
 
+  @override
+  Future<bool> register(String name, String email, String password) async{
+    return await FirebaseAuthSingleton.instance.registerNewUser(name: name, email: email, password: password) ?? false;
   }
 }

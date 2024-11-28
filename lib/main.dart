@@ -17,10 +17,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final customTheme = CustomTheme();
     return MaterialApp(
       title: 'Hedieaty',
-      theme: CustomTheme.lightThemeData(context),
-      darkTheme: CustomTheme.darkThemeData(),
+      theme: customTheme.lightThemeData(context),
+      darkTheme: customTheme.darkThemeData(),
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
       home: const AuthWrapper(),

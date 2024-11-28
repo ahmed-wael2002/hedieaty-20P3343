@@ -17,3 +17,10 @@ String? passwordValidator(value) {
   }
   return null;
 }
+
+String? nameValidator(name){
+  if(name == null || name.isEmpty){
+    return 'Please enter a username';
+  }
+  return null;
+}

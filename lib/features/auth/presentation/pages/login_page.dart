@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lecture_code/features/auth/presentation/pages/signup_page.dart';
 import 'package:provider/provider.dart';
 import '../state_mgmt/login_provider.dart';
 import '../state_mgmt/validator_functions.dart';
@@ -14,7 +15,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loginProvider = Provider.of<LoginProvider>(context, listen:true);
+    final loginProvider = Provider.of<AuthProvider>(context, listen:true);
 
     return Scaffold(
       body: Form(
@@ -26,6 +27,13 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // Image.asset('assets/images/header.jpg'),
+              Text(
+                'Login',
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+
+              const SizedBox(height: 20),
 
               CustomFormTextField(
                 controller: _emailController,
@@ -35,7 +43,7 @@ class LoginPage extends StatelessWidget {
                 inputType: keyboardTypes['email'],
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
 
               CustomPasswordField(
                 controller: _passwordController,
@@ -44,12 +52,30 @@ class LoginPage extends StatelessWidget {
                 hintText: 'Enter your password',
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
 
               ElevatedButton(
                 onPressed: ()=>_loginButtonFn(context, _formKey, loginProvider, _emailController.text, _passwordController.text),
                 child: const Text('Login'),
               ),
+
+              const SizedBox(height: 20),
+
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Don\'t have an account? '),
+                  GestureDetector(
+                    onTap: ()=>Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context)=>SignupPage())
+                    ),
+                    child: const Text(
+                        'Sign up',
+                        style: TextStyle(color: Colors.blue),
+                      )
+                    )
+                  ],
+                ),
 
             ],
           ),

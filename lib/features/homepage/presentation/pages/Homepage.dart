@@ -4,15 +4,15 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 // Pages
-import 'ProfilePage.dart';
-import '../Utils/CreateEventForm.dart';
-import '../Utils/profile_widget.dart';
-import '../Utils/friends_list_view.dart';
+import '../../../../Pages/ProfilePage.dart';
+import '../../../../Utils/CreateEventForm.dart';
+import '../../../../Utils/profile_widget.dart';
+import '../../../../Utils/friends_list_view.dart';
 // import '../Utils/header.dart';
-import '../Utils/CreateUserForm.dart';
-import '../Utils/events_list_view.dart';
-import '../Logic/event.dart';
-import '../Logic/user.dart';
+import '../../../../Utils/CreateUserForm.dart';
+import '../../../../Utils/events_list_view.dart';
+import '../../../../Logic/event.dart';
+import '../../../../Logic/user.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({super.key, required this.title, required this.logoutCallback});
@@ -131,8 +131,8 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: SpeedDial(
         icon: Icons.add,
         activeIcon: Icons.close,
-        backgroundColor: Colors.pink,
-        foregroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
         children: [
           SpeedDialChild(
             child: const Icon(Icons.person_add),
@@ -162,9 +162,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.white,
+        selectedItemColor: Theme.of(context).colorScheme.onPrimary,
         unselectedItemColor: Colors.white70,
-        backgroundColor: Colors.pink,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         selectedFontSize: 14,
         unselectedFontSize: 12,
         showUnselectedLabels: false,
