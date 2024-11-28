@@ -6,7 +6,7 @@ import '../Utils/profile_widget.dart';
 
 class Friendpage extends StatelessWidget {
   final User friend;
-  Friendpage(this.friend);
+  const Friendpage(this.friend, {super.key});
 
   @override
   Widget build(BuildContext context) {

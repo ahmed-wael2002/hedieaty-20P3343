@@ -60,7 +60,7 @@ class ProfilePage extends StatelessWidget {
                   user.email,
                   style: const TextStyle(fontSize: 20),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 SizedBox(
                   width: 200,
                   child: ElevatedButton(

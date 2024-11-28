@@ -31,13 +31,6 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
       decoration: InputDecoration(
         labelText: widget.labelText,
         hintText: widget.hintText,
-        filled: true,
-        fillColor: Colors.grey.shade200,
-        floatingLabelBehavior: FloatingLabelBehavior.never, // Disable floating label
-        border:OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide.none,
-        ),
         suffixIcon: IconButton(
           icon: Icon(
             _isPasswordVisible

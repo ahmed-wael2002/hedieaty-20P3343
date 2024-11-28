@@ -60,7 +60,7 @@ class _GiftsListState extends State<GiftsList> {
               ),
               IconButton(
                 onPressed: () => setState(() {
-                  widget.gifts!.removeAt(index);
+                  widget.gifts.removeAt(index);
                 }),
                 icon: const Icon(LineAwesomeIcons.trash, color: Colors.red),
               ),

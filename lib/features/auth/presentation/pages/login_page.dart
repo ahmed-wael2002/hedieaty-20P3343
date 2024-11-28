@@ -47,16 +47,7 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 10),
 
               ElevatedButton(
-                onPressed: () async{
-                  if(_formKey.currentState!.validate()){
-                    await loginProvider.login(_emailController.text, _passwordController.text);
-                    if(loginProvider.isLoggedIn == false){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Log in failed!'), backgroundColor: Colors.red,)
-                      );
-                    }
-                  }
-                },
+                onPressed: ()=>_loginButtonFn(context, _formKey, loginProvider, _emailController.text, _passwordController.text),
                 child: const Text('Login'),
               ),
 
@@ -65,6 +56,20 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+_loginButtonFn(context, formKey, loginProvider, email, password) async{
+  if(formKey.currentState!.validate()){
+    await loginProvider.login(email, password);
+    if(loginProvider.isLoggedIn == false){
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: loginProvider.isLoggedIn ? const Text('Logged in successfully') : const Text('Logged in failed'),
+            backgroundColor: loginProvider.isLoggedIn ? Colors.green : Colors.red,
+          )
+      );
+    }
   }
 }
 

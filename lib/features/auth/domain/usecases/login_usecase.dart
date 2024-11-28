@@ -13,7 +13,6 @@ class LoginUsercase implements UseCase<bool, LoginParams>{
   }
 }
 
-
 class LoginParams {
   final String email;
   final String password;

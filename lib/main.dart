@@ -19,7 +19,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Hedieaty',
-      theme: themeData,
+      theme: CustomTheme.lightThemeData(context),
+      darkTheme: CustomTheme.darkThemeData(),
+      themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
       home: const AuthWrapper(),
     );

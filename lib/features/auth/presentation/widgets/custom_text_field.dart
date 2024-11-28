@@ -45,14 +45,7 @@ _inputDecoration(
 {
   return InputDecoration(
     labelText: labelText,
-    floatingLabelBehavior: FloatingLabelBehavior.never, // Disable floating label
     hintText: hintText,
-    filled: true,
-    fillColor: Colors.grey.shade200,
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8.0),
-      borderSide: BorderSide.none,
-    ),
   );
 }
 
