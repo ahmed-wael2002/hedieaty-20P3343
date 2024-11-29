@@ -1,16 +1,18 @@
-import 'event.dart';
+import '../../../../Logic/event.dart';
 
-class User {
+class UserEntity {
   String _name;
   String _email;
   String _password;
   String _imageUrl;
+
   int _upcomingEvents = 0;  // This will be changed in the future by the Event class
   int _numberFriends = 0; // counts the number of friends in the user
-  List<User>? _friendsList; // This is will be changed to a list of indices
+
+  List<UserEntity>? _friendsList; // This is will be changed to a list of indices
   List<Event>? _eventsList; // This is will be changed to a list of indices
 
-  User(this._name, this._email, this._password, this._imageUrl) {
+  UserEntity(this._name, this._email, this._password, this._imageUrl) {
     _friendsList = [];
     _eventsList = [];
   }
@@ -21,13 +23,13 @@ class User {
   }
 
   // Function to add a new friend to an existing list of friends
-  bool addFriend(User user) {
+  bool addFriend(UserEntity user) {
     _numberFriends++;
     _friendsList?.add(user);
     return _friendsList != null;
   }
 
-  bool removeFriend(User user) {
+  bool removeFriend(UserEntity user) {
     _numberFriends--;
     return _friendsList?.remove(user) ?? false;
   }
@@ -48,14 +50,14 @@ class User {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is User && runtimeType == other.runtimeType && _name == other._name;
+          other is UserEntity && runtimeType == other.runtimeType && _name == other._name;
 
   @override
   int get hashCode => _name.hashCode;
 
   // Getters and Setters
   String get email => _email;
-  List<User>? get friendsList => _friendsList;
+  List<UserEntity>? get friendsList => _friendsList;
   String get imageUrl => _imageUrl;
 
   set imageUrl(String value) {

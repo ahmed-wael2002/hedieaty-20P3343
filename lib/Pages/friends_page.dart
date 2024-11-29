@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../Logic/user.dart';
+import '../features/homepage/domain/entity/user.dart';
 import '../Utils/friends_list_view.dart';
 import '../utils/header.dart';
-import '../Utils/profile_widget.dart';
+import '../features/homepage/presentation/widgets/profile_widget.dart';
 
 class Friendpage extends StatelessWidget {
-  final User friend;
+  final UserEntity friend;
   const Friendpage(this.friend, {super.key});
 
   @override
@@ -15,7 +15,7 @@ class Friendpage extends StatelessWidget {
       appBar: const Header(),
       body: Column(
         children: [
-          ProfileWidget(imageUrl: friend.imageUrl, name: friend.name, email: friend.email),
+          const ProfileWidget(),
           Expanded(child:FriendsList(friend.friendsList),)
         ],
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../Logic/event.dart';
-import '../Pages/EventsPage.dart';
+import '../Pages/events_page.dart';
 
 class EventsList extends StatefulWidget {
   final List<Event>? events;

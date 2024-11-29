@@ -1,16 +1,16 @@
-import 'user.dart';
+import '../features/homepage/domain/entity/user.dart';
 
 class Gift{
   late String _name;
   String _imageUrl = 'assets/images/default.jpg';
   bool _isPledged = false;
-  late User _pledgingUser;
+  late UserEntity _pledgingUser;
 
   Gift(this._name, this._imageUrl);
 
-  User get pledgingUser => _pledgingUser;
+  UserEntity get pledgingUser => _pledgingUser;
 
-  set pledgingUser(User value) {
+  set pledgingUser(UserEntity value) {
     _pledgingUser = value;
   }
 

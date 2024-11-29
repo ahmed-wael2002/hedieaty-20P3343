@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import '../Logic/user.dart';
-import '../Pages/FriendPage.dart';
+import '../features/homepage/domain/entity/user.dart';
+import '../Pages/friends_page.dart';
 
 class FriendsList extends StatefulWidget {
-  final List<User>? friends;
+  final List<UserEntity>? friends;
   const FriendsList(this.friends, {super.key});
 
   @override
@@ -12,8 +12,8 @@ class FriendsList extends StatefulWidget {
 }
 
 class _FriendsListState extends State<FriendsList> {
-  late List<User> _friends;
-  late List<User> _filteredFriends;
+  late List<UserEntity> _friends;
+  late List<UserEntity> _filteredFriends;
   late final TextEditingController _searchController;
 
   @override

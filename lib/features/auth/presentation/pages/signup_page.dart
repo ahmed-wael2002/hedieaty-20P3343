@@ -4,7 +4,7 @@ import 'package:lecture_code/features/auth/presentation/widgets/custom_password_
 import 'package:lecture_code/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:provider/provider.dart';
 
-import '../state_mgmt/login_provider.dart';
+import '../state_mgmt/auth_provider.dart';
 
 class SignupPage extends StatelessWidget {
   SignupPage({super.key});

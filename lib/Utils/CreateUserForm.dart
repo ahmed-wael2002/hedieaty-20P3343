@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Logic/user.dart';
+import '../features/homepage/domain/entity/user.dart';
 
 class CreateUserForm extends StatefulWidget {
   const CreateUserForm({super.key});
@@ -69,7 +69,7 @@ class _CreateUserFormState extends State<CreateUserForm> {
                     String password = _passwordController.text;
 
                     // Create the User object and return it to the dialog
-                    User newUser = User(name, email, password, 'assets/images/default.jpg');
+                    UserEntity newUser = UserEntity(name, email, password, 'assets/images/default.jpg');
                     Navigator.of(context).pop(newUser);
                   }
                 },

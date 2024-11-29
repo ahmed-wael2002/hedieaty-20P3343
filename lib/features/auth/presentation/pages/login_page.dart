@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_code/features/auth/presentation/pages/signup_page.dart';
 import 'package:provider/provider.dart';
-import '../state_mgmt/login_provider.dart';
+import '../state_mgmt/auth_provider.dart';
 import '../state_mgmt/validator_functions.dart';
 import '../widgets/custom_password_field.dart';
 import '../widgets/custom_text_field.dart';

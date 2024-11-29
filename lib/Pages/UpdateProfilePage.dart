@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import '../Logic/user.dart';
+import '../features/homepage/domain/entity/user.dart';
 
 class UpdateProfilePage extends StatelessWidget {
   const UpdateProfilePage({super.key, required this.user});
-  final User user;
+  final UserEntity user;
 
   @override
   Widget build(BuildContext context) {

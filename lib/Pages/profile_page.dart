@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_code/Pages/UpdateProfilePage.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import '../Logic/user.dart';
+import '../features/homepage/domain/entity/user.dart';
 
 class ProfilePage extends StatelessWidget {
-  final User user;
+  final UserEntity user;
   const ProfilePage({super.key, required this.user});
 
   @override

@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:lecture_code/features/homepage/presentation/state_management/homepage_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfileWidget extends StatelessWidget {
-  final String imageUrl;
-  final String name;
-  final String email;
 
   const ProfileWidget({
     super.key,
-    required this.imageUrl,
-    required this.name,
-    required this.email
   });
 
   @override
   Widget build(BuildContext context) {
+    final homepageProvider = Provider.of<HomepageProvider>(context);
     return Container(
       margin: const EdgeInsets.all(16.0),
       child:Center(
@@ -25,26 +22,22 @@ class ProfileWidget extends StatelessWidget {
             height: 80,
             child: ClipOval(
               child: Image.asset(
-                imageUrl,
+                homepageProvider.user.imageUrl,
                 fit: BoxFit.cover,
               ),
             ),
           ),
           const SizedBox(width: 30),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                name,
-                style: const TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
+                homepageProvider.user.name,
+                style: Theme.of(context).textTheme.headlineMedium
               ),
               Text(
-                email,
-                style: const TextStyle(
-                  fontSize: 15,
-                ),
+                homepageProvider.user.email,
+                style: Theme.of(context).textTheme.titleMedium
               ),
             ],
           ),
