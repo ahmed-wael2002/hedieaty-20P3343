@@ -33,7 +33,7 @@ class UpdateProfilePage extends StatelessWidget {
                         height: 120,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
-                          child: Image(image: AssetImage(user.imageUrl)),
+                          child: const Image(image: AssetImage('assets/images/Ahmed Wael.jpg')),
                         ),
                       ),
                       Positioned(

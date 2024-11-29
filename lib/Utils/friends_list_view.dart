@@ -37,7 +37,7 @@ class _FriendsListState extends State<FriendsList> {
     final query = _searchController.text.toLowerCase();
     setState(() {
       _filteredFriends = _friends.where((friend) {
-        return friend.name.toLowerCase().contains(query);
+        return friend.name!.toLowerCase().contains(query);
       }).toList();
     });
   }
@@ -84,13 +84,13 @@ class _FriendsListState extends State<FriendsList> {
                     ),
                   );
                 },
-                title: Text(_filteredFriends[index].name),
-                subtitle: Text(_filteredFriends[index].upcomingEvents == 0
+                title: Text(_filteredFriends[index].name!),
+                subtitle: Text(_filteredFriends[index].eventsList.isEmpty
                     ? 'No Upcoming Events'
-                    : '${_filteredFriends[index].upcomingEvents} Upcoming Events'),
-                leading: CircleAvatar(
+                    : '${_filteredFriends[index].eventsList.length} Upcoming Events'),
+                leading: const CircleAvatar(
                   radius: 25,
-                  backgroundImage: AssetImage(_filteredFriends[index].imageUrl),
+                  backgroundImage: AssetImage('assets/images/Ahmed Wael.jpg'),
                 ),
                 trailing: IconButton(
                   onPressed: () {

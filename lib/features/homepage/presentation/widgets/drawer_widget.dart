@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 // import '../../../auth/presentation/pages/auth_wrapper.dart';
@@ -22,14 +23,27 @@ class CustomDrawer extends StatelessWidget {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const AuthWrapper()));
             },
-            child: const Text('Logout')),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(LineAwesomeIcons.alternate_sign_out),
+                SizedBox(width: 10,),
+                Text('Logout')
+              ],
+            ),
+        ),
         const SizedBox(
           height: 20,
         ),
-        ElevatedButton(onPressed: () {}, child: const Text('Logout')),
+        ElevatedButton(
+            onPressed: () {},
+            child: const Text('Logout')
+        ),
+
         const SizedBox(
           height: 20,
         ),
+
         ElevatedButton(onPressed: () {}, child: const Text('Logout')),
         const SizedBox(
           height: 20,

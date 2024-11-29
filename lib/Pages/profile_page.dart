@@ -33,7 +33,7 @@ class ProfilePage extends StatelessWidget {
                       height: 120,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
-                        child: Image(image: AssetImage(user.imageUrl)),
+                        child: const Image(image: AssetImage('assets/images/Ahmed Wael.jpg')),
                       ),
                     ),
                     Positioned(
@@ -53,11 +53,11 @@ class ProfilePage extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  user.name,
+                  user.name!,
                   style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  user.email,
+                  user.email!,
                   style: const TextStyle(fontSize: 20),
                 ),
                 const SizedBox(height: 10),

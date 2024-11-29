@@ -22,7 +22,8 @@ class ProfileWidget extends StatelessWidget {
             height: 80,
             child: ClipOval(
               child: Image.asset(
-                homepageProvider.user.imageUrl,
+                'assets/images/Ahmed Wael.jpg',
+                // homepageProvider.user.imageUrl,
                 fit: BoxFit.cover,
               ),
             ),
@@ -32,11 +33,11 @@ class ProfileWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                homepageProvider.user.name,
+                homepageProvider.user.name!,
                 style: Theme.of(context).textTheme.headlineMedium
               ),
               Text(
-                homepageProvider.user.email,
+                homepageProvider.user.email!,
                 style: Theme.of(context).textTheme.titleMedium
               ),
             ],

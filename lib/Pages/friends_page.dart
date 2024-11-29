@@ -11,12 +11,12 @@ class Friendpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      appBar: const Header(),
+    return const Scaffold(
+      appBar: Header(),
       body: Column(
         children: [
-          const ProfileWidget(),
-          Expanded(child:FriendsList(friend.friendsList),)
+          ProfileWidget(),
+          Expanded(child:FriendsList([]),)
         ],
       ),
 

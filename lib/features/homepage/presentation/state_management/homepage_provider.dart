@@ -12,7 +12,7 @@ class HomepageProvider extends ChangeNotifier {
   Widget currentView;
   late List<Widget> navigationWidgets;
 
-  Future<void> userLogOut() async{
+  Future<void> userLogOut() async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setBool(isLoggedInKey, false);
   }
@@ -25,15 +25,17 @@ class HomepageProvider extends ChangeNotifier {
 
   HomepageProvider() : currentView = const SizedBox.shrink() {
     user = UserEntity(
-      'Ahmed Wael',
-      'ahmedwael@gmail.com',
-      '123',
-      'assets/images/Ahmed Wael.jpg',
+        'M09YK1ZaTwc16WfLetLU',
+        'Ahmed Wael',
+        'awael92@gmail.com',
+        '01557000791',
+        [],
+        []
     );
     // Initialize the navigationWidgets
     navigationWidgets = [
-      FriendsList(user.friendsList),
-      EventsList(user.eventsList),
+      const FriendsList([]),
+      const EventsList([]),
       const FlutterLogo(),
     ];
     // Set the default currentView to the first widget

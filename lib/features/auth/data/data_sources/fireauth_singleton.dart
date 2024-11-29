@@ -26,7 +26,6 @@ class FirebaseAuthSingleton {
       return userCredential.user;
     }
     catch (e) {
-      print('Error signing in: $e');
       rethrow;
     }
   }
@@ -42,15 +41,21 @@ class FirebaseAuthSingleton {
       return userCredential.user;
     }
     catch (e) {
-      print('Error registering: $e');
       rethrow;
     }
   }
 
-  Future<bool?> registerNewUser({required String name, required String email, required String password,}) async {
+  Future<String?> registerNewUser({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
     try {
       // Create a new user with email and password
-      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
       // Get the newly created user
       User? user = userCredential.user;
@@ -59,16 +64,17 @@ class FirebaseAuthSingleton {
       if (user != null) {
         await user.updateDisplayName(name);
         await user.reload(); // Ensure the changes are reflected
-        return true;
+        return null; // Null means success
       }
       else {
-        return false;
+        return 'Failed to create user: User is null.';
       }
-    }
-    catch (e) {
-      return false;
+    } catch (e) {
+      // Return the error message
+      return 'Failed to register: ${e.toString()}';
     }
   }
+
 
 
   // Sign out
@@ -77,7 +83,6 @@ class FirebaseAuthSingleton {
       await _firebaseAuth.signOut();
     }
     catch (e) {
-      print('Error signing out: $e');
       rethrow;
     }
   }
@@ -88,7 +93,6 @@ class FirebaseAuthSingleton {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
     }
     catch (e) {
-      print('Error sending password reset email: $e');
       rethrow;
     }
   }
