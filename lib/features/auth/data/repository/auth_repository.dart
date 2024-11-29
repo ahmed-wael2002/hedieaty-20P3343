@@ -19,12 +19,13 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<String?> register(String name, String email, String password) async {
+  Future<String?> register(String name, String email, String password, String phoneNumber) async {
     try {
       return await _authSingleton.registerNewUser(
         name: name,
         email: email,
         password: password,
+        phoneNumber: phoneNumber,
       );
     } catch (e) {
       print('Error in register: $e');

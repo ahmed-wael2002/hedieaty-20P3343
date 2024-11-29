@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomTheme{
-  static final colorSeed = Colors.pink.shade800;
+  static final colorSeed = Colors.pink;
 
   static final _lightColorScheme = ColorScheme.fromSeed(seedColor: colorSeed, brightness: Brightness.light);
   static final _darkColorScheme = ColorScheme.fromSeed(seedColor: colorSeed, brightness: Brightness.dark);

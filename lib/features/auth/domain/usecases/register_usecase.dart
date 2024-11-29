@@ -18,6 +18,7 @@ class RegisterUseCase extends UseCase<String?, RegisterParams> {
       params.name,
       params.email,
       params.password,
+      params.phoneNumber
     );
   }
 }

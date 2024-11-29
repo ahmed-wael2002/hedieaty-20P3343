@@ -12,7 +12,7 @@ import '../../data/repository/auth_repository.dart';
 class AuthProvider extends ChangeNotifier {
   bool isLoggedIn = false;
   bool isSignedUp = false;
-  String? uid = '';
+  String uid = '';
 
   final signInUsecase = SignInUseCase(FirebaseAuthRepository(FirebaseAuthSingleton.instance));
   final registerUsecase = RegisterUseCase(FirebaseAuthRepository(FirebaseAuthSingleton.instance));
@@ -27,6 +27,7 @@ class AuthProvider extends ChangeNotifier {
   Future<void> _initializeAuthProvider() async {
     var prefs = await SharedPreferences.getInstance();
     isLoggedIn = prefs.getBool(isLoggedInKey) ?? false;
+    uid = prefs.getString(userIdKey) ?? '';
     notifyListeners();
   }
 
@@ -45,12 +46,13 @@ class AuthProvider extends ChangeNotifier {
     isLoggedIn = uid != '';
     var prefs = await SharedPreferences.getInstance();
     prefs.setBool(isLoggedInKey, isLoggedIn);
+    prefs.setString(userIdKey, uid);
     notifyListeners();
   }
 
   /// Register a new user
-  Future<void> register(String name, String email, String password) async {
-    isSignedUp = await registerUsecase.call(params: RegisterParams(name: name, email: email, password: password)) == null;
+  Future<void> register(String name, String email, String password, String phoneNumber) async {
+    isSignedUp = await registerUsecase.call(params: RegisterParams(name: name, email: email, password: password, phoneNumber: phoneNumber)) == null;
     notifyListeners();
   }
 }

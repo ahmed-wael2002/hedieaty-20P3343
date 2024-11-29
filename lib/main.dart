@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Hedieaty',
       theme: customTheme.lightThemeData(context),
       darkTheme: customTheme.darkThemeData(),
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
       home: const AuthWrapper(),
     );

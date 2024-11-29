@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lecture_code/features/homepage/presentation/state_management/user_provider.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +13,7 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: true);
+    final userProvider = Provider.of<UserProvider>(context, listen: true);
     return Drawer(
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,8 +38,8 @@ class CustomDrawer extends StatelessWidget {
           height: 20,
         ),
         ElevatedButton(
-            onPressed: () {},
-            child: const Text('Logout')
+            onPressed: () => userProvider.setUser(authProvider.uid),
+            child: const Text('Test User')
         ),
 
         const SizedBox(

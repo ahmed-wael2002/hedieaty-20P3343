@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:lecture_code/features/homepage/presentation/state_management/homepage_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../domain/entity/user.dart';
+
 class ProfileWidget extends StatelessWidget {
 
+  final UserEntity user;
+
   const ProfileWidget({
-    super.key,
+    super.key, required this.user,
   });
 
   @override
@@ -33,11 +37,11 @@ class ProfileWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                homepageProvider.user.name!,
+                user.name ?? 'unknown',
                 style: Theme.of(context).textTheme.headlineMedium
               ),
               Text(
-                homepageProvider.user.email!,
+                user.email ?? 'unknown',
                 style: Theme.of(context).textTheme.titleMedium
               ),
             ],

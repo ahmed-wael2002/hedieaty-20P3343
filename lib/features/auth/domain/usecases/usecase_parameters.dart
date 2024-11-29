@@ -9,8 +9,9 @@ class RegisterParams {
   final String name;
   final String email;
   final String password;
+  final String phoneNumber;
 
-  RegisterParams({required this.name, required this.email, required this.password});
+  RegisterParams({required this.name, required this.email, required this.password, required this.phoneNumber});
 }
 
 class NoParams {} // For use cases that don’t require parameters

@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lecture_code/features/homepage/data/data_sources/remote/firestore_singleton.dart';
+import 'package:lecture_code/features/homepage/data/model/user.dart';
 
 class FirebaseAuthSingleton {
   // Private constructor
@@ -49,6 +51,7 @@ class FirebaseAuthSingleton {
     required String name,
     required String email,
     required String password,
+    required String phoneNumber,
   }) async {
     try {
       // Create a new user with email and password
@@ -57,8 +60,17 @@ class FirebaseAuthSingleton {
         password: password,
       );
 
+
       // Get the newly created user
       User? user = userCredential.user;
+
+      await FirestoreDataSource.instance.addUser(user!.uid, UserModel(
+          uid: user.uid,
+          name: name,
+          email: email,
+          phoneNumber: phoneNumber,
+          friendsIds: []).toJson()
+      );
 
       // If user creation is successful, update the display name
       if (user != null) {

@@ -11,14 +11,15 @@ class SignupPage extends StatelessWidget {
 
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController(); // Fixed spelling
   final _formKey = GlobalKey<FormState>();
 
-  void _signUpFn(BuildContext context, GlobalKey<FormState> formKey, String name, String email, String password) async {
+  void _signUpFn(BuildContext context, GlobalKey<FormState> formKey, String name, String email, String password, String phoneNumber) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false); // Use listen: false to avoid rebuild issues
 
     if (formKey.currentState!.validate()) {
-      await authProvider.register(name, email, password);
+      await authProvider.register(name, email, password, phoneNumber);
       _notify(authProvider.isSignedUp, context);
       if (authProvider.isSignedUp) {
         Navigator.pop(context);
@@ -74,6 +75,16 @@ class SignupPage extends StatelessWidget {
 
                   const SizedBox(height: 20),
 
+                  CustomFormTextField(
+                    controller: _phoneController,
+                    validator: nameValidator,
+                    labelText: 'Phone Number',
+                    hintText: 'Enter your phone number',
+                    inputType: keyboardTypes['username'],
+                  ),
+
+                  const SizedBox(height: 20),
+
                   CustomPasswordField(
                     controller: _passwordController,
                     validator: passwordValidator,
@@ -90,6 +101,7 @@ class SignupPage extends StatelessWidget {
                       _nameController.text,
                       _emailController.text,
                       _passwordController.text,
+                      _phoneController.text
                     ), // Pass function reference properly
                     child: const Text('Sign up'),
                   ),
