@@ -20,12 +20,9 @@ class FirestoreRepositoryImpl implements UserRepository {
       // Step 2: Convert the fetched data into a UserModel
       UserModel user = UserModel.fromMap(result);
 
-      // Step 3: Fetch the user's friends using the getAllFriends method
-      List<UserEntity>? friends = await getAllFriends(userId);
-
       // Step 4: Populate the UserEntity with the list of friends
       UserEntity userEntity = UserEntity.fromUserModel(user);
-      userEntity.friendsList = friends ?? [];
+      userEntity.friendsList = await getAllFriends(userEntity.uid ?? '') ?? [];
 
       // Step 5: Return the populated UserEntity
       return userEntity;
@@ -68,22 +65,18 @@ class FirestoreRepositoryImpl implements UserRepository {
   @override
   Future<bool?> addFriend(UserEntity me, String phoneNumber) async {
     // Get the friend data based on the phone number
-    var friendMap = await _firestore.getUserByPhoneNumber(phoneNumber);
-
-    // Check if the friendMap is not empty
-    if (friendMap.isNotEmpty) {
-      // Convert the first map entry into a UserModel
-      UserModel friend = UserModel.fromMap(friendMap[0]);
-
-      // Add the friend to the current user's friends list
-      me.addFriend(UserEntity.fromUserModel(friend));
-
-      // Ensure uid is a string when updating Firestore
-      UserModel userModel = UserModel.fromEntity(me);
-      // Update the user's data in Firestore
-      return await _firestore.updateUser(me.uid!, userModel.toJson());
-    } else {
-      // If no friend data found, return false
+    try {
+      var friendMap = await _firestore.getUserByPhoneNumber(phoneNumber);
+      if (friendMap != null && friendMap.isNotEmpty) {
+        UserModel friend = UserModel.fromMap(friendMap);
+        me.addFriend(UserEntity.fromUserModel(friend));
+        UserModel userModel = UserModel.fromEntity(me);
+        return await _firestore.updateUser(me.uid!, userModel.toJson());
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Error adding friend: $e');
       return false;
     }
   }

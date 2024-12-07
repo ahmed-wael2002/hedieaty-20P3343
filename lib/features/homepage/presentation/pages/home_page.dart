@@ -36,11 +36,6 @@ class MyHomePage extends StatelessWidget {
             userProvider.setUser(authProvider.uid);
           }
 
-          // Update the friends list only if the user is not null
-          if (userProvider.user != null) {
-            homepageProvider.updateFriends(userProvider.user!.friendsList);
-          }
-
           // If the user data is still loading, show a loading indicator
           if (userProvider.user == null) {
             return Scaffold(

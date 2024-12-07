@@ -23,6 +23,8 @@ class ProfilePage extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(20),
               child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 /* Profile Picture view */
                 Stack(
@@ -54,7 +56,7 @@ class ProfilePage extends StatelessWidget {
                 ),
                 Text(
                   user.name!,
-                  style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold,),
                 ),
                 Text(
                   user.email!,

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lecture_code/features/homepage/presentation/widgets/Friends%20List/friends_list_wrapper.dart';
 
 import '../../../../Utils/events_list_view.dart';
-import '../widgets/friends_list_view.dart';
+import '../widgets/Friends List/friends_list_view.dart';
 import '../../domain/entity/user.dart';
 
 class HomepageProvider extends ChangeNotifier {
@@ -10,7 +11,6 @@ class HomepageProvider extends ChangeNotifier {
   int selectedPageIndex = 0;
   Widget currentView;
   late List<Widget> navigationWidgets;
-  List<UserEntity> friends = [];
 
   void navigateToPage(int index) {
     selectedPageIndex = index;
@@ -21,7 +21,7 @@ class HomepageProvider extends ChangeNotifier {
   HomepageProvider() : currentView = const SizedBox.shrink() {
     // Initialize the navigationWidgets
     navigationWidgets = [
-      FriendsList([]),
+      const FriendsListView(),
       const EventsList([]),
       const FlutterLogo(),
     ];
@@ -29,13 +29,4 @@ class HomepageProvider extends ChangeNotifier {
     currentView = navigationWidgets[0];
   }
 
-  void updateFriends(List<UserEntity> newFriends) {
-    if (newFriends.isNotEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        friends = newFriends;
-        navigationWidgets[0] = FriendsList(friends); // Update the FriendsList widget
-        notifyListeners();
-      });
-    }
-  }
 }
