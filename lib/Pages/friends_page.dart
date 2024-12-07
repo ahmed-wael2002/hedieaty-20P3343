@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../features/homepage/domain/entity/user.dart';
-import '../Utils/friends_list_view.dart';
+import '../features/homepage/presentation/widgets/friends_list_view.dart';
 import '../utils/header.dart';
 import '../features/homepage/presentation/widgets/profile_widget.dart';
 

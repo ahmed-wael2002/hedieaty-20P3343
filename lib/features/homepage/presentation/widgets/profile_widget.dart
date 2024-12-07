@@ -33,18 +33,24 @@ class ProfileWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 30),
-          Column(
+          Expanded(
+            child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 user.name ?? 'unknown',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.headlineMedium
               ),
               Text(
                 user.email ?? 'unknown',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.titleMedium
               ),
             ],
+          ),
           ),
         ],
       ),

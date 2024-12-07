@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../common/constants/shared_preferences_keys.dart';
 import '../../data/repository/auth_repository.dart';
 
-class AuthProvider extends ChangeNotifier {
+class AuthenticationProvider extends ChangeNotifier {
   bool isLoggedIn = false;
   bool isSignedUp = false;
   String uid = '';
@@ -19,7 +19,7 @@ class AuthProvider extends ChangeNotifier {
   final signOutUsecase = SignOutUseCase(FirebaseAuthRepository(FirebaseAuthSingleton.instance));
 
   /// Constructor to initialize necessary variables
-  AuthProvider() {
+  AuthenticationProvider() {
     _initializeAuthProvider();
   }
 

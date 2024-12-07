@@ -15,7 +15,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loginProvider = Provider.of<AuthProvider>(context, listen:true);
+    final loginProvider = Provider.of<AuthenticationProvider>(context, listen:true);
 
     return Scaffold(
       body: Form(

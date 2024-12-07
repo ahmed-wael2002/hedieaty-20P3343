@@ -5,10 +5,16 @@ class UserEntity {
   final String? name;
   final String? email;
   final String? phoneNumber;
-  final List<UserEntity> friendsList; // Now it's a final list that must be provided at creation
+  List<UserEntity> friendsList; // Now it's a final list that must be provided at creation
   final List<String> eventsList;
 
   UserEntity(this.uid, this.name, this.email, this.phoneNumber, this.friendsList, this.eventsList);
+
+  void addFriend(UserEntity? friend) {
+    if(friend != null){
+      friendsList.add(friend);
+    }
+  }
 
   factory UserEntity.fromUserModel(UserModel userModel) {
     return UserEntity(

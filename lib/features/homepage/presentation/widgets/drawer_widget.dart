@@ -12,7 +12,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context, listen: true);
+    final authProvider = Provider.of<AuthenticationProvider>(context, listen: true);
     final userProvider = Provider.of<UserProvider>(context, listen: true);
     return Drawer(
         child: Column(

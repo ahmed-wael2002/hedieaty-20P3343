@@ -3,17 +3,16 @@ import 'package:lecture_code/features/homepage/domain/repository/user_repository
 
 import '../../../../common/usecases/usecase.dart';
 
-class GetUserUsecase implements UseCase<UserEntity?, String>{
+class AddUserUsecase implements UseCase<bool?, UserEntity?>{
   final UserRepository _userRepository;
 
-  GetUserUsecase(this._userRepository);
+  AddUserUsecase(this._userRepository);
 
   @override
-  Future<UserEntity?> call({String? params}) async{
+  Future<bool?> call({UserEntity? params}) async{
     if(params != null) {
-      return await _userRepository.fetchUser(params);
+      return await _userRepository.createUser(params);
     }
     return null;
   }
-  
 }

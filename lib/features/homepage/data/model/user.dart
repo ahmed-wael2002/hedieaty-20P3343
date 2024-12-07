@@ -1,3 +1,4 @@
+
 import 'package:lecture_code/features/homepage/domain/entity/user.dart';
 
 class UserModel {
@@ -34,4 +35,16 @@ class UserModel {
       'friends': friendsIds,
     };
   }
+
+  factory UserModel.fromEntity(UserEntity userData) {
+    return UserModel(
+      uid: userData.uid.toString(), // Ensure uid is a string
+      name: userData.name,
+      email: userData.email,
+      phoneNumber: userData.phoneNumber,
+      friendsIds: userData.friendsList.map((friend) => friend.uid.toString()).toList(), // Ensure friends' uids are strings
+    );
+  }
+
+
 }

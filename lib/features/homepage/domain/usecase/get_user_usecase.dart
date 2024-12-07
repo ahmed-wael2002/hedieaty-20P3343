@@ -6,7 +6,6 @@ import '../../../../common/usecases/usecase.dart';
 class GetUserUsecase implements UseCase<UserEntity?, String>{
   final UserRepository _userRepository;
 
-
   GetUserUsecase(this._userRepository);
 
   @override

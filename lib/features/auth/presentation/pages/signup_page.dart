@@ -16,7 +16,7 @@ class SignupPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   void _signUpFn(BuildContext context, GlobalKey<FormState> formKey, String name, String email, String password, String phoneNumber) async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false); // Use listen: false to avoid rebuild issues
+    final authProvider = Provider.of<AuthenticationProvider>(context, listen: false); // Use listen: false to avoid rebuild issues
 
     if (formKey.currentState!.validate()) {
       await authProvider.register(name, email, password, phoneNumber);
@@ -38,8 +38,8 @@ class SignupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<AuthProvider>(
-      create: (_) => AuthProvider(),
+    return ChangeNotifierProvider<AuthenticationProvider>(
+      create: (_) => AuthenticationProvider(),
       child: Builder(builder: (context) {
         return Scaffold(
           body: Container(

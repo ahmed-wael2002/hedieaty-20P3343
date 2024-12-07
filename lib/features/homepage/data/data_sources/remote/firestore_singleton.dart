@@ -1,81 +1,106 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import '../../../../../common/remote/firestore_singleton.dart';
 
-class FirestoreDataSource {
+class UserFirestore {
   // Private constructor
-  FirestoreDataSource._privateConstructor();
+  UserFirestore._privateConstructor();
 
-  // The single instance
-  static final FirestoreDataSource _instance = FirestoreDataSource._privateConstructor();
+  // Single instance of the class
+  static final UserFirestore instance = UserFirestore._privateConstructor();
 
-  // Getter for the instance
-  static FirestoreDataSource get instance => _instance;
-
-  // FirebaseFirestore instance
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  // Initialize Firestore (typically done once in the main app entry)
-  Future<void> initialize() async {
-    await Firebase.initializeApp();  // Ensure Firebase is initialized
-  }
+  final FirestoreService _firestore = FirestoreService.instance;
+  final String _collectionId = 'users';
 
   // Example of adding data to a collection
-  Future<void> addUser(String userId, Map<String, dynamic> data) async {
+  Future<bool> addUser(String userId, Map<String, dynamic> data) async {
     try {
-      await _firestore.collection('users').doc(userId).set(data);
+      await _firestore.addDocument(documentId: userId, collectionPath: _collectionId, data: data);
       print('User added');
+      return true;
     } catch (e) {
       print('Error adding user: $e');
-      rethrow;
+      return false;
     }
   }
 
   // Example of fetching a document by ID
-  Future<Map<String, dynamic>?> getUser(String userId) async {
+  Future<Map<String, dynamic>?> getUserById(String userId) async {
+    print('Trying to get the user: $userId');
     try {
-      DocumentSnapshot doc = await _firestore.collection('users').doc(userId).get();
-      if(doc.exists){
-        return doc.data() as Map<String, dynamic>;
-      }
-      return null;
-    }
-    catch (e) {
+      return await _firestore.fetchDocument(
+        collectionPath: _collectionId,
+        documentId: userId,
+      );
+    } catch (e) {
       print('Error fetching user: $e');
       rethrow;
     }
   }
 
   // Example of updating a document
-  Future<void> updateUser(String userId, Map<String, dynamic> data) async {
+  Future<bool> updateUser(String userId, Map<String, dynamic> data) async {
     try {
-      await _firestore.collection('users').doc(userId).update(data);
+      await _firestore.updateDocument(
+        collectionPath: _collectionId,
+        documentId: userId,
+        data: data,
+      );
       print('User updated');
+      return true;
     } catch (e) {
       print('Error updating user: $e');
-      rethrow;
+      return false;
     }
   }
 
   // Example of deleting a document
-  Future<void> deleteUser(String userId) async {
+  Future<bool> deleteUser(String userId) async {
     try {
-      await _firestore.collection('users').doc(userId).delete();
+      await _firestore.deleteDocument(
+        collectionPath: _collectionId,
+        documentId: userId,
+      );
       print('User deleted');
+      return true;
     } catch (e) {
       print('Error deleting user: $e');
-      rethrow;
+      return false;
     }
   }
 
   // Example of querying a collection
   Future<List<Map<String, dynamic>>> getAllUsers() async {
     try {
-      QuerySnapshot querySnapshot = await _firestore.collection('users').get();
-      List<Map<String, dynamic>> users = querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
-      return users;
+      return await _firestore.fetchCollection(
+        collectionPath: _collectionId,
+      );
     } catch (e) {
       print('Error fetching all users: $e');
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> getUserByPhoneNumber(String phoneNumber) async {
+    try {
+      // Fetch documents based on the phone number
+      var results = await _firestore.fetchDocumentsByQuery(
+        collectionPath: _collectionId,
+        field: 'phoneNumber',
+        value: phoneNumber,
+        operator: QueryOperator.isEqualTo,
+      );
+
+      // Check if results are empty and return an empty map if no match is found
+      if (results.isEmpty) {
+        return {}; // Return empty map when no user is found
+      }
+
+      // If results exist, return the first match
+      return results.first;
+    } catch (e) {
+      // Log the error and rethrow it for further handling
+      print('Error fetching user by phone number: $e');
+      rethrow;
+    }
+  }
+
 }

@@ -1,4 +1,3 @@
-// Packages
 import 'package:flutter/material.dart';
 import 'package:lecture_code/features/homepage/domain/entity/user.dart';
 import 'package:lecture_code/features/homepage/presentation/state_management/homepage_provider.dart';
@@ -21,18 +20,39 @@ class MyHomePage extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HomepageProvider()),
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider())
       ],
       child: Builder(
         builder: (context) {
           final homepageProvider = Provider.of<HomepageProvider>(context, listen: true);
           final userProvider = Provider.of<UserProvider>(context, listen: true);
-          final authProvider = Provider.of<AuthProvider>(context, listen: true);
+          final authProvider = Provider.of<AuthenticationProvider>(context, listen: true);
 
           final mockUser = UserEntity('uid', 'name', 'email', 'phoneNumber', [], []);
 
-          userProvider.setUser(authProvider.uid);
+          // Set user and update friends list when authProvider.uid is available
+          if (userProvider.user == null) {
+            userProvider.setUser(authProvider.uid);
+          }
+
+          // Update the friends list only if the user is not null
+          if (userProvider.user != null) {
+            homepageProvider.updateFriends(userProvider.user!.friendsList);
+          }
+
+          // If the user data is still loading, show a loading indicator
+          if (userProvider.user == null) {
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('Hedieaty'),
+              ),
+              body: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+
           return Scaffold(
             appBar: AppBar(
               title: const Text('Hedieaty'),

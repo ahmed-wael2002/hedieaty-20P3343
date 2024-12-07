@@ -64,7 +64,7 @@ class FirebaseAuthSingleton {
       // Get the newly created user
       User? user = userCredential.user;
 
-      await FirestoreDataSource.instance.addUser(user!.uid, UserModel(
+      await UserFirestore.instance.addUser(user!.uid, UserModel(
           uid: user.uid,
           name: name,
           email: email,
@@ -73,20 +73,15 @@ class FirebaseAuthSingleton {
       );
 
       // If user creation is successful, update the display name
-      if (user != null) {
-        await user.updateDisplayName(name);
-        await user.reload(); // Ensure the changes are reflected
-        return null; // Null means success
-      }
-      else {
-        return 'Failed to create user: User is null.';
-      }
-    } catch (e) {
+      await user.updateDisplayName(name);
+      await user.reload(); // Ensure the changes are reflected
+      await signOut();
+      return null; // Null means success
+        } catch (e) {
       // Return the error message
       return 'Failed to register: ${e.toString()}';
     }
   }
-
 
 
   // Sign out
