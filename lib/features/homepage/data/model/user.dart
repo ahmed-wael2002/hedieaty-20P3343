@@ -3,6 +3,7 @@ import 'package:lecture_code/features/homepage/domain/entity/user.dart';
 
 class UserModel {
   final List<dynamic> friendsIds;
+  final List<dynamic> eventsIds;
   final String? uid;
   final String? name;
   final String? email;
@@ -13,7 +14,8 @@ class UserModel {
     required this.name,
     required this.email,
     required this.phoneNumber,
-    required this.friendsIds
+    required this.friendsIds,
+    required this.eventsIds,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> userData) {
@@ -22,17 +24,19 @@ class UserModel {
         name: userData['name'] as String,
         email: userData['email'] as String,
         phoneNumber: userData['phoneNumber'] as String,
-        friendsIds: userData['friends'] as List<dynamic>
+        friendsIds: userData['friends'] as List<dynamic>,
+        eventsIds: userData['events'] as List<dynamic>
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
       'id': uid,
       'name': name,
       'email': email,
       'phoneNumber': phoneNumber,
       'friends': friendsIds,
+      'events': eventsIds,
     };
   }
 
@@ -43,6 +47,7 @@ class UserModel {
       email: userData.email,
       phoneNumber: userData.phoneNumber,
       friendsIds: userData.friendsList.map((friend) => friend.uid.toString()).toList(), // Ensure friends' uids are strings
+      eventsIds: userData.eventsList.map((event) => event.id.toString()).toList(), // Ensure events' ids are strings
     );
   }
 

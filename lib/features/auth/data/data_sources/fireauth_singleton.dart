@@ -60,7 +60,6 @@ class FirebaseAuthSingleton {
         password: password,
       );
 
-
       // Get the newly created user
       User? user = userCredential.user;
 
@@ -69,7 +68,9 @@ class FirebaseAuthSingleton {
           name: name,
           email: email,
           phoneNumber: phoneNumber,
-          friendsIds: []).toJson()
+          friendsIds: [],
+          eventsIds: []
+        ).toMap()
       );
 
       // If user creation is successful, update the display name
