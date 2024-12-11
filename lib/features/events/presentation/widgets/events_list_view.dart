@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import '../Logic/event.dart';
-import '../Pages/events_page.dart';
+import '../../domain/entity/event.dart';
+import 'event_list_tile.dart';
 
 class EventsList extends StatefulWidget {
-  final List<Event>? events;
+  final List<EventEntity>? events;
   const EventsList(this.events, {super.key});
 
   @override
@@ -12,8 +11,8 @@ class EventsList extends StatefulWidget {
 }
 
 class _EventsListState extends State<EventsList> {
-  late List<Event> _events;
-  late List<Event> _filteredEvents;
+  late List<EventEntity> _events;
+  late List<EventEntity> _filteredEvents;
   late final TextEditingController _searchController;
 
   @override
@@ -37,7 +36,7 @@ class _EventsListState extends State<EventsList> {
     final query = _searchController.text.toLowerCase();
     setState(() {
       _filteredEvents = _events.where((event) {
-        return event.name.toLowerCase().contains(query);
+        return event.title!.toLowerCase().contains(query);
       }).toList();
     });
   }
@@ -72,30 +71,14 @@ class _EventsListState extends State<EventsList> {
             padding: const EdgeInsets.all(16.0),
             itemCount: _filteredEvents.length,
             itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Eventspage(event: _filteredEvents[index]),
-                    ),
-                  );
-                },
-                title: Text(_filteredEvents[index].name),
-                subtitle: Text(_filteredEvents[index].numberOfGifts == 0
-                    ? 'No gifts'
-                    : '${_filteredEvents[index].numberOfGifts} gifts'),
-                leading: _filteredEvents[index].type,
-                trailing: IconButton(
-                  icon: const Icon(LineAwesomeIcons.trash, color: Colors.red),
-                  onPressed: () => setState(() {
+              return EventListTile(
+                event: _filteredEvents[index],
+                onRemove: () {
+                  setState(() {
                     _events.removeAt(index);
                     filterEvents();
-                  }),
-                ),
+                  });
+                },
               );
             },
             separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),

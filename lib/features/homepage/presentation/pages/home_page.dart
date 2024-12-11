@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 // Pages
 import '../../../../Pages/profile_page.dart';
 import '../../../auth/presentation/state_mgmt/auth_provider.dart';
+import '../../../events/presentation/state_management/event_provider.dart';
 import '../widgets/profile_widget.dart';
 import '../widgets/speeddial_widget.dart';
 
@@ -21,7 +22,8 @@ class MyHomePage extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => HomepageProvider()),
         ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
-        ChangeNotifierProvider(create: (_) => UserProvider())
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => EventProvider()),
       ],
       child: Builder(
         builder: (context) {

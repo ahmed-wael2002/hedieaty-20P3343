@@ -125,4 +125,24 @@ class UserFirestore {
       return false;
     }
   }
+
+  Future<void> addEventToUser(String userId, String eventId) async {
+    try {
+      // Fetch the user document
+      var user = await getUserById(userId);
+      if (user == null) {
+        throw Exception('User not found');
+      }
+
+      // Add the event to the user's event list
+      List<dynamic> events = user['events'];
+      events.add(eventId);
+
+      // Update the user document
+      await updateUser(userId, {'events': events});
+    } catch (e) {
+      debugPrint('Error adding event to user: $e');
+      rethrow;
+    }
+  }
 }

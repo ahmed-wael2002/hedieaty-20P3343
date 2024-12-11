@@ -1,5 +1,7 @@
 import 'package:lecture_code/features/homepage/domain/entity/user.dart';
 
+import '../../../events/domain/entity/event.dart';
+
 abstract class UserRepository{
   Future<UserEntity?> fetchUser(String userId);
   Future<UserEntity?> getUserByPhoneNumber(String phoneNumber);
@@ -9,4 +11,5 @@ abstract class UserRepository{
   Future<bool?> addFriend(UserEntity me, String phoneNumber);
   Future<List<UserEntity>?> getAllFriends(String userId);
   Future<bool?> removeFriend(UserEntity me, UserEntity friend);
+  Future<bool?> addEvent(UserEntity me, EventEntity newEvent);
 }
