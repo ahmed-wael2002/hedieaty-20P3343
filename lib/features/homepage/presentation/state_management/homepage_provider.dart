@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lecture_code/features/homepage/presentation/widgets/Friends%20List/friends_list_wrapper.dart';
 
 import '../../../../Utils/events_list_view.dart';
-import '../widgets/Friends List/friends_list_view.dart';
-import '../../domain/entity/user.dart';
 
 class HomepageProvider extends ChangeNotifier {
 

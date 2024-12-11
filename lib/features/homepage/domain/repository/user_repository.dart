@@ -8,4 +8,5 @@ abstract class UserRepository{
   Future<bool?> deleteUser(UserEntity user);
   Future<bool?> addFriend(UserEntity me, String phoneNumber);
   Future<List<UserEntity>?> getAllFriends(String userId);
+  Future<bool?> removeFriend(UserEntity me, UserEntity friend);
 }

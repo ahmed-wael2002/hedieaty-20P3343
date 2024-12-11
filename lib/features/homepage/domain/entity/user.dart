@@ -1,3 +1,4 @@
+import '../../../../Logic/event.dart';
 import '../../data/model/user.dart';
 
 class UserEntity {
@@ -6,7 +7,7 @@ class UserEntity {
   final String? email;
   final String? phoneNumber;
   List<UserEntity> friendsList; // Now it's a final list that must be provided at creation
-  final List<String> eventsList;
+  final List<Event> eventsList;
 
   UserEntity(this.uid, this.name, this.email, this.phoneNumber, this.friendsList, this.eventsList);
 
@@ -36,5 +37,9 @@ class UserEntity {
       'friendsList': friendsList.map((friend) => friend.toJson()).toList(),
       'eventsList': eventsList,
     };
+  }
+
+  void removeFriend(UserEntity friend) {
+    friendsList.remove(friend);
   }
 }
