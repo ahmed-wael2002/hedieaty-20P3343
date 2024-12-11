@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class FirestoreService {
   // Private constructor
@@ -46,9 +47,9 @@ class FirestoreService {
   }) async {
     try {
       await _firestore.collection(collectionPath).doc(documentId).set(data);
-      print('Document added with ID: $documentId');
+      debugPrint('Document added with ID: $documentId');
     } catch (e) {
-      print('Error adding document to $collectionPath with ID $documentId: $e');
+      debugPrint('Error adding document to $collectionPath with ID $documentId: $e');
       rethrow;
     }
   }

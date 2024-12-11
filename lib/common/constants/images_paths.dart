@@ -1,0 +1,1 @@
+String defaultImagePath = 'assets/images/default.jpg';

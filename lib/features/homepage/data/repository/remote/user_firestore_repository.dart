@@ -1,6 +1,7 @@
 import 'package:lecture_code/features/homepage/data/data_sources/remote/firestore_singleton.dart';
 import 'package:lecture_code/features/homepage/domain/entity/user.dart';
 import 'package:lecture_code/features/homepage/domain/repository/user_repository.dart';
+import 'package:flutter/material.dart';
 
 import '../../model/user.dart';
 
@@ -27,7 +28,7 @@ class FirestoreRepositoryImpl implements UserRepository {
       // Step 5: Return the populated UserEntity
       return userEntity;
     } catch (e) {
-      print('Error fetching user by userId: $e');
+      debugPrint('Error fetching user by userId: $e');
     }
     return null;
   }
@@ -53,11 +54,11 @@ class FirestoreRepositoryImpl implements UserRepository {
     try {
       var results = await _firestore.getUserByPhoneNumber(phoneNumber);
       if (results.isNotEmpty) {
-        UserModel user = UserModel.fromMap(results[0]);
+        UserModel user = UserModel.fromMap(results.values.first);
         return UserEntity.fromUserModel(user);
       }
     } catch (e) {
-      print('Error in User remote repository implementation: $e');
+      debugPrint('Error in User remote repository implementation: $e');
     }
     return null;
   }
@@ -67,7 +68,7 @@ class FirestoreRepositoryImpl implements UserRepository {
     // Get the friend data based on the phone number
     try {
       var friendMap = await _firestore.getUserByPhoneNumber(phoneNumber);
-      if (friendMap != null && friendMap.isNotEmpty) {
+      if (friendMap.isNotEmpty) {
         UserModel friend = UserModel.fromMap(friendMap);
         me.addFriend(UserEntity.fromUserModel(friend));
         UserModel userModel = UserModel.fromEntity(me);
@@ -76,7 +77,7 @@ class FirestoreRepositoryImpl implements UserRepository {
         return false;
       }
     } catch (e) {
-      print('Error adding friend: $e');
+      debugPrint('Error adding friend: $e');
       return false;
     }
   }
@@ -110,8 +111,19 @@ class FirestoreRepositoryImpl implements UserRepository {
       // Step 5: Return the list of friends
       return friends;
     } catch (e) {
-      print('Error fetching all friends: $e');
+      debugPrint('Error fetching all friends: $e');
       return null;
+    }
+  }
+
+  @override
+  Future<bool?> removeFriend(UserEntity me, UserEntity friend) async {
+    try {
+      me.removeFriend(friend);
+      return await _firestore.removeFriendFromUser(me.uid!, friend.uid!);
+    } catch (e) {
+      debugPrint('Error removing friend: $e');
+      return false;
     }
   }
 

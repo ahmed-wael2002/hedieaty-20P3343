@@ -1,4 +1,5 @@
 import '../../../../../common/remote/firestore_singleton.dart';
+import 'package:flutter/material.dart';
 
 class UserFirestore {
   // Private constructor
@@ -14,24 +15,24 @@ class UserFirestore {
   Future<bool> addUser(String userId, Map<String, dynamic> data) async {
     try {
       await _firestore.addDocument(documentId: userId, collectionPath: _collectionId, data: data);
-      print('User added');
+      debugPrint('User added');
       return true;
     } catch (e) {
-      print('Error adding user: $e');
+      debugPrint('Error adding user: $e');
       return false;
     }
   }
 
   // Example of fetching a document by ID
   Future<Map<String, dynamic>?> getUserById(String userId) async {
-    print('Trying to get the user: $userId');
+    debugPrint('Trying to get the user: $userId');
     try {
       return await _firestore.fetchDocument(
         collectionPath: _collectionId,
         documentId: userId,
       );
     } catch (e) {
-      print('Error fetching user: $e');
+      debugPrint('Error fetching user: $e');
       rethrow;
     }
   }
@@ -44,10 +45,10 @@ class UserFirestore {
         documentId: userId,
         data: data,
       );
-      print('User updated');
+      debugPrint('User updated');
       return true;
     } catch (e) {
-      print('Error updating user: $e');
+      debugPrint('Error updating user: $e');
       return false;
     }
   }
@@ -59,10 +60,10 @@ class UserFirestore {
         collectionPath: _collectionId,
         documentId: userId,
       );
-      print('User deleted');
+      debugPrint('User deleted');
       return true;
     } catch (e) {
-      print('Error deleting user: $e');
+      debugPrint('Error deleting user: $e');
       return false;
     }
   }
@@ -74,7 +75,7 @@ class UserFirestore {
         collectionPath: _collectionId,
       );
     } catch (e) {
-      print('Error fetching all users: $e');
+      debugPrint('Error fetching all users: $e');
       rethrow;
     }
   }
@@ -98,9 +99,30 @@ class UserFirestore {
       return results.first;
     } catch (e) {
       // Log the error and rethrow it for further handling
-      print('Error fetching user by phone number: $e');
+      debugPrint('Error fetching user by phone number: $e');
       rethrow;
     }
   }
+  
+  Future<bool> removeFriendFromUser(String userId, String friendId) async {
+    try {
+      // Fetch the user document
+      var user = await getUserById(userId);
+      if (user == null) {
+        throw Exception('User not found');
+      }
 
+      // Remove the friend from the user's friend list
+      List<dynamic> friends = user['friends'];
+      friends.remove(friendId);
+
+      // Update the user document
+      await updateUser(userId, {'friends': friends});
+
+      return true;
+    } catch (e) {
+      debugPrint('Error removing friend from user: $e');
+      return false;
+    }
+  }
 }
