@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lecture_code/features/events/presentation/widgets/events_wrapper.dart';
 import 'package:lecture_code/features/homepage/presentation/widgets/Friends%20List/friends_list_wrapper.dart';
-
-import '../../../events/presentation/widgets/events_list_view.dart';
 
 class HomepageProvider extends ChangeNotifier {
 
@@ -19,8 +18,8 @@ class HomepageProvider extends ChangeNotifier {
   HomepageProvider() : currentView = const SizedBox.shrink() {
     // Initialize the navigationWidgets
     navigationWidgets = [
-      const FriendsListView(),
-      const EventsList([]),
+      const FriendsWrapper(),
+      const EventsWrapper(),
       const FlutterLogo(),
     ];
     // Set the default currentView to the first widget
