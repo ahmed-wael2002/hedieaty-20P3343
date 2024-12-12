@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lecture_code/features/events/presentation/state_management/event_provider.dart';
+import 'package:provider/provider.dart';
+import '../../../homepage/presentation/state_management/user_provider.dart';
 import '../../domain/entity/event.dart';
 import 'event_list_tile.dart';
 
@@ -43,6 +46,8 @@ class _EventsListState extends State<EventsList> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: true);
+    final eventProvider = Provider.of<EventProvider>(context, listen: true);
     return Column(
       children: [
         Padding(
@@ -75,6 +80,8 @@ class _EventsListState extends State<EventsList> {
                 event: _filteredEvents[index],
                 onRemove: () {
                   setState(() {
+                    userProvider.removeEvent(_events[index]);
+                    eventProvider.deleteEvent(event: _events[index], context: context);
                     _events.removeAt(index);
                     filterEvents();
                   });
