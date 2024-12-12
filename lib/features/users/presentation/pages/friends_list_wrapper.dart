@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lecture_code/features/homepage/domain/entity/user.dart';
-import 'package:lecture_code/features/homepage/presentation/state_management/user_provider.dart';
-import 'package:lecture_code/features/homepage/presentation/widgets/Friends%20List/friends_list_view.dart';
+import 'package:lecture_code/features/users/domain/entity/user.dart';
+import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
+import 'package:lecture_code/features/users/presentation/widgets/friends_list_view.dart';
 import 'package:provider/provider.dart';
 
 class FriendsWrapper extends StatelessWidget {

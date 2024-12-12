@@ -1,4 +1,4 @@
-import '../features/homepage/domain/entity/user.dart';
+import '../features/users/domain/entity/user.dart';
 
 class Gift{
   late String _name;

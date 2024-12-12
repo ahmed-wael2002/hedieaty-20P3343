@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lecture_code/features/homepage/presentation/widgets/Friends%20List/friend_list_tile.dart';
+import 'package:lecture_code/features/users/presentation/widgets/friend_list_tile.dart';
 import 'package:provider/provider.dart';
-import '../../../domain/entity/user.dart';
-import '../../state_management/user_provider.dart';
+import '../../domain/entity/user.dart';
+import '../state_management/user_provider.dart';
 
 class FriendsList extends StatefulWidget {
   final List<UserEntity>? friends;

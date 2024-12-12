@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import '../features/homepage/domain/entity/user.dart';
+import '../features/users/domain/entity/user.dart';
 
 class UpdateProfilePage extends StatelessWidget {
   const UpdateProfilePage({super.key, required this.user});

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:lecture_code/features/homepage/data/data_sources/remote/firestore_singleton.dart';
-import 'package:lecture_code/features/homepage/data/model/user.dart';
+import 'package:lecture_code/features/users/data/data_sources/remote/firestore_singleton.dart';
+import 'package:lecture_code/features/users/data/model/user.dart';
 
 class FirebaseAuthSingleton {
   // Private constructor

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lecture_code/features/homepage/presentation/state_management/user_provider.dart';
+import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 

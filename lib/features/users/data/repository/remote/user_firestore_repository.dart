@@ -1,7 +1,7 @@
 import 'package:lecture_code/features/events/data/data_sources/remote/event_firestore_singleton.dart';
-import 'package:lecture_code/features/homepage/data/data_sources/remote/firestore_singleton.dart';
-import 'package:lecture_code/features/homepage/domain/entity/user.dart';
-import 'package:lecture_code/features/homepage/domain/repository/user_repository.dart';
+import 'package:lecture_code/features/users/data/data_sources/remote/firestore_singleton.dart';
+import 'package:lecture_code/features/users/domain/entity/user.dart';
+import 'package:lecture_code/features/users/domain/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../events/domain/entity/event.dart';

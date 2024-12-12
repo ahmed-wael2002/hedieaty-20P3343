@@ -1,5 +1,5 @@
 import 'package:lecture_code/common/usecases/usecase.dart';
-import 'package:lecture_code/features/homepage/domain/repository/user_repository.dart';
+import 'package:lecture_code/features/users/domain/repository/user_repository.dart';
 
 import '../../../events/domain/entity/event.dart';
 import '../entity/user.dart';

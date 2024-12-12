@@ -3,7 +3,7 @@ import 'package:lecture_code/features/events/domain/entity/event.dart';
 import 'package:lecture_code/features/events/presentation/widgets/events_list_view.dart';
 import 'package:provider/provider.dart';
 
-import '../../../homepage/presentation/state_management/user_provider.dart';
+import '../../../users/presentation/state_management/user_provider.dart';
 import '../state_management/event_provider.dart';
 
 class EventsWrapper extends StatelessWidget {
