@@ -145,4 +145,25 @@ class UserFirestore {
       rethrow;
     }
   }
+
+  Future<void> removeEventFromUser(String userId, String eventId) async{
+    try{
+      // Fetch the user document
+      var user = await getUserById(userId);
+      if(user == null){
+        throw Exception('User not found');
+      }
+
+      // Remove the event from the user's event list
+      List<dynamic> events = user['events'];
+      events.remove(eventId);
+
+      // Update the user document
+      await updateUser(userId, {'events': events});
+    }
+    catch(e){
+      debugPrint('Error removing event from user: $e');
+      rethrow;
+    }
+  }
 }

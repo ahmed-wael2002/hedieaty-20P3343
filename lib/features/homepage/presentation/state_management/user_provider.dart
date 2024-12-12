@@ -7,6 +7,7 @@ import '../../domain/entity/user.dart';
 import '../../domain/usecase/add_event_usecase.dart';
 import '../../domain/usecase/add_friend_usecase.dart';
 import '../../domain/usecase/get_all_friends_usecase.dart';
+import '../../domain/usecase/remove_event_usecase.dart';
 import '../../domain/usecase/remove_friend_usecase.dart';
 
 class UserProvider extends ChangeNotifier{
@@ -16,6 +17,7 @@ class UserProvider extends ChangeNotifier{
   final getAllFriendsUsecase = GetAllFriendsUsecase(FirestoreRepositoryImpl());
   final removeFriendUsecase = RemoveFriendUsecase(FirestoreRepositoryImpl());
   final addEventUsecase = AddEventUsecase(FirestoreRepositoryImpl());
+  final removeEventUsecase = RemoveEventUsecase(FirestoreRepositoryImpl());
 
   void setUser(String userId) async{
     user = await getUserUsecase.call(params: userId);
@@ -33,6 +35,11 @@ class UserProvider extends ChangeNotifier{
 
   void removeFriend(UserEntity friend) async{
     await removeFriendUsecase.call(params: RemoveFriendParams(user!, friend));
+    notifyListeners();
+  }
+
+  void removeEvent(EventEntity event) async{
+    await removeEventUsecase.call(params: RemoveEventParams(user!, event));
     notifyListeners();
   }
 

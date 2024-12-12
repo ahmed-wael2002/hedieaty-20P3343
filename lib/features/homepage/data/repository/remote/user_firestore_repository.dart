@@ -148,4 +148,17 @@ class FirestoreRepositoryImpl implements UserRepository {
     return false;
   }
 
+  @override
+  Future<bool?> removeEvent(UserEntity me, EventEntity event) async{
+    try{
+      me.removeEvent(event);
+      await _firestore.removeEventFromUser(me.uid!, event.id!);
+      return true;
+    }
+    catch(e){
+      debugPrint('Error removing event: $e');
+      return false;
+    }
+  }
+
 }

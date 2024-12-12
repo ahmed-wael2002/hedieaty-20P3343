@@ -12,4 +12,5 @@ abstract class UserRepository{
   Future<List<UserEntity>?> getAllFriends(String userId);
   Future<bool?> removeFriend(UserEntity me, UserEntity friend);
   Future<bool?> addEvent(UserEntity me, EventEntity newEvent);
+  Future<bool?> removeEvent(UserEntity me, EventEntity event);
 }
