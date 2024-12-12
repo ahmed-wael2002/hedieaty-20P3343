@@ -46,6 +46,7 @@ class _FriendsListState extends State<FriendsList> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: true);
+    userProvider.user?.friendsList = _friends;
 
     return Column(
       children: [
@@ -75,38 +76,9 @@ class _FriendsListState extends State<FriendsList> {
             padding: const EdgeInsets.all(16.0),
             itemCount: _filteredFriends.length,
             itemBuilder: (BuildContext context, int index) {
-              // return ListTile(
-              //   shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.circular(15.0),
-              //   ),
-              //   onTap: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => Friendpage(_filteredFriends[index]),
-              //       ),
-              //     );
-              //   },
-              //   title: Text(_filteredFriends[index].name!),
-              //   subtitle: Text(_filteredFriends[index].eventsList.isEmpty
-              //       ? 'No Upcoming Events'
-              //       : '${_filteredFriends[index].eventsList.length} Upcoming Events'),
-              //   leading: const CircleAvatar(
-              //     radius: 25,
-              //     backgroundImage: AssetImage('assets/images/Ahmed Wael.jpg'),
-              //   ),
-              //   trailing: IconButton(
-              //     onPressed: () {
-              //       setState(() {
-              //         _friends.removeAt(index);
-              //         filterFriends();
-              //       });
-              //     },
-              //     icon: const Icon(LineAwesomeIcons.trash, color: Colors.red),
-              //   ),
-              // );
               return FriendListTile(friend: _filteredFriends[index], onRemove: (){
                 userProvider.removeFriend(_filteredFriends[index]);
+                // _filteredFriends.removeAt(index);
               });
             },
             separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
