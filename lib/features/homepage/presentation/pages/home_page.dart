@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lecture_code/features/homepage/domain/entity/user.dart';
+import 'package:lecture_code/features/users/domain/entity/user.dart';
 import 'package:lecture_code/features/homepage/presentation/state_management/homepage_provider.dart';
-import 'package:lecture_code/features/homepage/presentation/state_management/user_provider.dart';
+import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
 import 'package:lecture_code/features/homepage/presentation/widgets/bottom_navigation_widget.dart';
 import 'package:lecture_code/features/homepage/presentation/widgets/drawer_widget.dart';
 import 'package:provider/provider.dart';

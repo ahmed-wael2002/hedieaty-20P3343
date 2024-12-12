@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lecture_code/features/homepage/data/repository/remote/user_firestore_repository.dart';
-import 'package:lecture_code/features/homepage/domain/usecase/get_user_usecase.dart';
+import 'package:lecture_code/features/users/data/repository/remote/user_firestore_repository.dart';
+import 'package:lecture_code/features/users/domain/usecase/get_user_usecase.dart';
 
 import '../../../events/domain/entity/event.dart';
 import '../../domain/entity/user.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lecture_code/features/homepage/presentation/state_management/homepage_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../domain/entity/user.dart';
+import '../../../users/domain/entity/user.dart';
 
 class ProfileWidget extends StatelessWidget {
 

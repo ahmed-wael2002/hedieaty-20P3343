@@ -1,4 +1,4 @@
-import 'package:lecture_code/features/homepage/domain/entity/user.dart';
+import 'package:lecture_code/features/users/domain/entity/user.dart';
 
 import '../../../events/domain/entity/event.dart';
 

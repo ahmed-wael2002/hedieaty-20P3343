@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_code/common/constants/text_constants.dart';
-import 'package:lecture_code/features/homepage/domain/entity/user.dart';
+import 'package:lecture_code/features/users/domain/entity/user.dart';
 
 import '../../../../common/constants/images_paths.dart';
 
