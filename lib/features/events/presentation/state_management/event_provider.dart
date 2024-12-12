@@ -34,4 +34,8 @@ class EventProvider extends ChangeNotifier{
     }
     notifyListeners();
   }
+
+  Future<List<EventEntity>?> getAllEvents(String? uid) async{
+    return await getAllEventsUsecase.call(params: uid);
+  }
 }

@@ -4,8 +4,8 @@ import 'package:lecture_code/features/homepage/presentation/state_management/use
 import 'package:lecture_code/features/homepage/presentation/widgets/Friends%20List/friends_list_view.dart';
 import 'package:provider/provider.dart';
 
-class FriendsListView extends StatelessWidget {
-  const FriendsListView({super.key});
+class FriendsWrapper extends StatelessWidget {
+  const FriendsWrapper({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +38,16 @@ class FriendsListView extends StatelessWidget {
               );
             }
 
+            List<UserEntity> friendsList;
             if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(
-                child: Image.asset('assets/images/empty.png'),
-              );
+              // return Center(
+              //   child: Image.asset('assets/images/empty.png'),
+              // );
+              friendsList = [];
             }
-
-            final friendsList = snapshot.data!;
+            else{
+              friendsList = snapshot.data!;
+            }
 
             return FriendsList(friendsList);
           },

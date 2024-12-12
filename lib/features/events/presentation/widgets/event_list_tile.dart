@@ -25,12 +25,14 @@ class EventListTile extends StatelessWidget {
         // );
       },
       title: Text(event.title ?? unknownString),
+      subtitle: Text(event.date.toString() ?? unknownString),
       // Todo: Add subtitle: number of gifts
       // subtitle: Text( == 0
       //     ? 'No gifts'
       //     : '${_filteredEvents[index].numberOfGifts} gifts'),
       // Todo: Add leading image
       leading: const CircleAvatar(
+        radius: 25,
         backgroundImage: AssetImage('assets/images/default_event.png'),
       ),
       trailing: IconButton(

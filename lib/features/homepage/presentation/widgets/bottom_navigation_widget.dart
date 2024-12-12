@@ -24,7 +24,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           activeColor: color,
           inactiveColor: color,
           icon: const Icon(LineAwesomeIcons.user,),
-          title: const Text('User'),
+          title: const Text('Friends'),
         ),
         FlashyTabBarItem(
           activeColor: color,
