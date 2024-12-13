@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lecture_code/Pages/UpdateProfilePage.dart';
+import 'package:lecture_code/features/users/presentation/pages/UpdateProfilePage.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import '../features/users/domain/entity/user.dart';
+import '../../domain/entity/user.dart';
 
 class ProfilePage extends StatelessWidget {
   final UserEntity user;

@@ -7,7 +7,7 @@ import 'package:lecture_code/features/homepage/presentation/widgets/drawer_widge
 import 'package:provider/provider.dart';
 
 // Pages
-import '../../../../Pages/profile_page.dart';
+import '../../../users/presentation/pages/profile_page.dart';
 import '../../../auth/presentation/state_mgmt/auth_provider.dart';
 import '../../../events/presentation/state_management/event_provider.dart';
 import '../widgets/profile_widget.dart';
