@@ -65,7 +65,16 @@ class MyHomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                Expanded(child: homepageProvider.currentView),
+                Expanded(
+                    child:PageView(
+                      controller: homepageProvider.pageController,
+                      onPageChanged: (index) {
+                        homepageProvider.navigateToPage(index);
+                      },
+                      children: homepageProvider.navigationWidgets,
+                    ),
+                )
+                // Expanded(child: homepageProvider.currentView),
               ],
             ),
             floatingActionButton: const SpeeddialButton(),

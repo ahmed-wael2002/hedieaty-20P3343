@@ -129,7 +129,44 @@ class FirestoreService {
     }
   }
 
+  /// Method to fetch an array of strings from a document as a Stream
+  Stream<List<String>> fetchStringArrayStream({
+    required String collectionPath,
+    required String documentId,
+    required String fieldName,
+  }) {
+    return _firestore.collection(collectionPath).doc(documentId).snapshots().map((snapshot) {
+      final docData = snapshot.data();
+      if (docData != null && docData[fieldName] is List) {
+        return List<String>.from(docData[fieldName]);
+      } else {
+        return [];
+      }
+    });
+  }
+
+  // Method to fetch an array of Maps from a document as a Stream
+  Stream<List<Map<String, dynamic>>> fetchMapArrayStream({
+    required String collectionPath,
+    required String documentId,
+    required String fieldName,
+  }) {
+    return _firestore.collection(collectionPath).doc(documentId).snapshots().map((snapshot) {
+      final docData = snapshot.data();
+      if (docData != null && docData[fieldName] is List) {
+        // Ensure that each item in the list is a Map<String, dynamic>
+        return List<Map<String, dynamic>>.from(
+            docData[fieldName].where((item) => item is Map<String, dynamic>)
+        );
+      } else {
+        return [];
+      }
+    });
+  }
+
 }
+
+
 
 /// Enum for query operators
 enum QueryOperator {
