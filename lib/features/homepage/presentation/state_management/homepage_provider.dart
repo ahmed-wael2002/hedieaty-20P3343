@@ -3,27 +3,32 @@ import 'package:lecture_code/features/events/presentation/widgets/events_wrapper
 import 'package:lecture_code/features/users/presentation/pages/friends_list_wrapper.dart';
 
 class HomepageProvider extends ChangeNotifier {
+  // PageController for managing page navigation
+  final PageController pageController = PageController();
 
-  // Homepage Management
+  // Current selected index
   int selectedPageIndex = 0;
-  Widget currentView;
+
+  // List of navigation widgets
   late List<Widget> navigationWidgets;
 
-  void navigateToPage(int index) {
-    selectedPageIndex = index;
-    currentView = navigationWidgets[selectedPageIndex];
-    notifyListeners();
-  }
-
-  HomepageProvider() : currentView = const SizedBox.shrink() {
-    // Initialize the navigationWidgets
+  HomepageProvider() {
+    // Initialize the navigation widgets
     navigationWidgets = [
       const FriendsWrapper(),
       const EventsWrapper(),
       const FlutterLogo(),
     ];
-    // Set the default currentView to the first widget
-    currentView = navigationWidgets[0];
   }
 
+  // Navigate to a specific page
+  void navigateToPage(int index) {
+    selectedPageIndex = index;
+    pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.easeInOut,
+    );
+    notifyListeners();
+  }
 }
