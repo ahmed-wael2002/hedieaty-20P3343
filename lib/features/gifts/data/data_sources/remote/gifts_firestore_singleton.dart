@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lecture_code/common/remote/firestore_singleton.dart';
 
 import '../../../domain/entity/gift.dart';
 
@@ -7,29 +7,33 @@ class GiftFirestore{
   factory GiftFirestore() => _instance;
   GiftFirestore._internal();
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirestoreService _firestore = FirestoreService.instance;
   final _collectionId = 'gifts';
 
-  Future<List<GiftEntity>> getGifts() async {
-    final snapshot = await _firestore.collection(_collectionId).get();
-    return snapshot.docs.map((doc) => GiftEntity.fromMap(doc.data())).toList();
+  Future<List<GiftEntity>?> getGifts(String eventId) async {
+    final gifts = await _firestore.fetchCollectionByQuery(
+        collectionPath: _collectionId,
+        field: 'eventId',
+        value: eventId,
+        operator: QueryOperator.isEqualTo
+    );
+    return gifts.map((gift) => GiftEntity.fromMap(gift)).toList();
   }
 
   Future<void> addGift(GiftEntity gift) async {
-    await _firestore.collection(_collectionId).add(gift.toMap());
+    await _firestore.addDocument(collectionPath: _collectionId, documentId: gift.id, data: gift.toMap());
   }
 
   Future<void> updateGift(GiftEntity gift) async {
-    await _firestore.collection(_collectionId).doc(gift.id).update(gift.toMap());
+    await _firestore.updateDocument(collectionPath: _collectionId, documentId: gift.id, data: gift.toMap());
   }
 
   Future<void> deleteGift(GiftEntity gift) async {
-    await _firestore.collection(_collectionId).doc(gift.id).delete();
+    await _firestore.deleteDocument(collectionPath: _collectionId, documentId: gift.id);
   }
 
-  Stream<List<String>> getGiftsStream(String eventId) {
-    return _firestore.collection(_collectionId).where('eventId', isEqualTo: eventId).snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => doc.id).toList();
-    });
+  Future<GiftEntity?> getGiftById(String giftId) async{
+    final snapshot = await _firestore.fetchDocument(collectionPath: _collectionId, documentId: giftId);
+    return snapshot != null ? GiftEntity.fromMap(snapshot) : null;
   }
 }

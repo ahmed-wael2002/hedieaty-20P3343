@@ -28,7 +28,7 @@ class FriendPage extends StatelessWidget {
                 child: CircleAvatar(
                   radius: 55,
                   // Todo: Change to dynamic image
-                  backgroundImage: AssetImage(defaultImagePath),
+                  backgroundImage: AssetImage(defaultProfileImagePath),
                 ),
               ),
               const SizedBox(height: 10),

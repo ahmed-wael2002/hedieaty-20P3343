@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lecture_code/features/homepage/presentation/state_management/homepage_provider.dart';
-import 'package:provider/provider.dart';
+// import 'package:lecture_code/features/homepage/presentation/state_management/homepage_provider.dart';
+// import 'package:provider/provider.dart';
 
 import '../../../users/domain/entity/user.dart';
 
@@ -14,7 +14,7 @@ class ProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homepageProvider = Provider.of<HomepageProvider>(context);
+    // final homepageProvider = Provider.of<HomepageProvider>(context);
     return Container(
       margin: const EdgeInsets.all(16.0),
       child:Center(

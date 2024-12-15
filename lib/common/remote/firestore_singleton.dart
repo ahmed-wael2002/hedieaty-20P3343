@@ -129,6 +129,58 @@ class FirestoreService {
     }
   }
 
+  /// Method to fetch documents from a collection based on a query
+  Future<List<Map<String, dynamic>>> fetchCollectionByQuery({
+    required String collectionPath,
+    required String field,
+    required dynamic value,
+    required QueryOperator operator,
+  }) async {
+    try {
+      Query query;
+
+      // Constructing query based on the operator
+      switch (operator) {
+        case QueryOperator.isEqualTo:
+          query = _firestore.collection(collectionPath).where(field, isEqualTo: value);
+          break;
+        case QueryOperator.isGreaterThan:
+          query = _firestore.collection(collectionPath).where(field, isGreaterThan: value);
+          break;
+        case QueryOperator.isLessThan:
+          query = _firestore.collection(collectionPath).where(field, isLessThan: value);
+          break;
+        case QueryOperator.isGreaterThanOrEqualTo:
+          query = _firestore.collection(collectionPath).where(field, isGreaterThanOrEqualTo: value);
+          break;
+        case QueryOperator.isLessThanOrEqualTo:
+          query = _firestore.collection(collectionPath).where(field, isLessThanOrEqualTo: value);
+          break;
+        case QueryOperator.arrayContains:
+          query = _firestore.collection(collectionPath).where(field, arrayContains: value);
+          break;
+        case QueryOperator.arrayContainsAny:
+          query = _firestore.collection(collectionPath).where(field, arrayContainsAny: value);
+          break;
+        case QueryOperator.isNull:
+          query = _firestore.collection(collectionPath).where(field, isNull: value);
+          break;
+        default:
+          throw Exception('Unsupported query operator');
+      }
+
+      // Execute the query
+      final querySnapshot = await query.get();
+
+      // Mapping documents data into a list of Map<String, dynamic>
+      return querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
+
   /// Method to fetch an array of strings from a document as a Stream
   Stream<List<String>> fetchStringArrayStream({
     required String collectionPath,

@@ -47,5 +47,4 @@ class UserProvider extends ChangeNotifier{
     await addEventUsecase.call(params: AddEventParams(user!, event));
     notifyListeners();
   }
-
 }

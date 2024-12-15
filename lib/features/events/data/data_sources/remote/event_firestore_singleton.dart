@@ -74,4 +74,24 @@ class EventFirestore {
       rethrow;
     }
   }
+
+  Future<void> addGiftToEvent(String eventId, String giftId) async {
+    try {
+      // Fetch the event document
+      var event = await getEventById(eventId);
+      if (event == null) {
+        throw Exception('Event not found');
+      }
+
+      // Add the event to the event's event list
+      List<dynamic> gifts = event['gifts'];
+      gifts.add(giftId);
+
+      // Update the event document
+      await updateEvent(eventId, {'gifts': gifts});
+    } catch (e) {
+      debugPrint('Error adding gift to event: $e');
+      rethrow;
+    }
+  }
 }
