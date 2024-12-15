@@ -34,7 +34,7 @@ class FriendListTile extends StatelessWidget {
           child: CircleAvatar(
         radius: 25,
         // Todo: Change to dynamic image
-        backgroundImage: AssetImage(defaultImagePath),
+        backgroundImage: AssetImage(defaultProfileImagePath),
       ),
       ),
       trailing: IconButton(

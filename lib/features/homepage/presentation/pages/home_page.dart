@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lecture_code/features/gifts/presentation/state_management/gift_provider.dart';
 import 'package:lecture_code/features/users/domain/entity/user.dart';
 import 'package:lecture_code/features/homepage/presentation/state_management/homepage_provider.dart';
 import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
@@ -24,6 +25,7 @@ class MyHomePage extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => EventProvider()),
+        ChangeNotifierProvider(create: (_) => GiftProvider()),
       ],
       child: Builder(
         builder: (context) {
@@ -68,9 +70,6 @@ class MyHomePage extends StatelessWidget {
                 Expanded(
                     child:PageView(
                       controller: homepageProvider.pageController,
-                      onPageChanged: (index) {
-                        homepageProvider.navigateToPage(index);
-                      },
                       children: homepageProvider.navigationWidgets,
                     ),
                 )

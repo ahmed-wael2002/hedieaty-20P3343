@@ -4,7 +4,7 @@ class GiftEntity{
   final String description;
   final String category;
   final String price;
-  final bool isPledged;
+  bool isPledged;
   final String eventId;
   final String userId;
 

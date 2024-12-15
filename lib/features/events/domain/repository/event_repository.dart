@@ -1,3 +1,5 @@
+import 'package:lecture_code/features/gifts/domain/entity/gift.dart';
+
 import '../entity/event.dart';
 
 abstract class EventRepository {
@@ -6,4 +8,5 @@ abstract class EventRepository {
   Future<void> updateEvent(EventEntity event);
   Future<void> deleteEvent(EventEntity event);
   Future<List<EventEntity>?> getAllEvents(String userId);
+  Future<void> addGift(EventEntity event, GiftEntity gift);
 }

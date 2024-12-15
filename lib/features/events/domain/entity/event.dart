@@ -1,3 +1,4 @@
+// import '../../../gifts/domain/entity/gift.dart';
 import '../../data/model/event.dart';
 
 class EventEntity{
@@ -8,6 +9,7 @@ class EventEntity{
   final String? location;
   final String? category;
   final String? userId;
+  // List<GiftEntity>? giftsList = [];
 
   EventEntity({
     required this.id,
@@ -17,6 +19,7 @@ class EventEntity{
     required this.location,
     required this.category,
     required this.userId,
+    // this.giftsList
   });
 
   factory EventEntity.fromModel(EventModel model){
@@ -66,5 +69,18 @@ class EventEntity{
       category: eventMap['category'] as String,
       userId: eventMap['userId'] as String,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'date': date,
+      'location': location,
+      'category': category,
+      'userId': userId,
+      // 'giftsList': giftsList!.map((gift) => gift.toMap()).toList(),
+    };
   }
 }

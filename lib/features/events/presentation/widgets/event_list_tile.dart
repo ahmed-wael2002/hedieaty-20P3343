@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_code/common/constants/text_constants.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
+import '../../../gifts/presentation/state_management/gift_provider.dart';
 import '../../domain/entity/event.dart';
+import '../pages/event_page.dart';
+import '../state_management/event_provider.dart';
 
 class EventListTile extends StatelessWidget {
   final EventEntity event;
@@ -16,24 +20,28 @@ class EventListTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.0),
       ),
       onTap: () {
-        // Todo: Navigate to event page
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => Eventspage(event: event),
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider(create: (_) => GiftProvider()),
+                ChangeNotifierProvider(create: (_) => EventProvider()),
+              ],
+              child: EventPage(event: event),
+            ),
+          ),
+        );
       },
       title: Text(event.title ?? unknownString),
-      subtitle: Text(event.date.toString() ?? unknownString),
-      // Todo: Add subtitle: number of gifts
-      // subtitle: Text( == 0
-      //     ? 'No gifts'
-      //     : '${_filteredEvents[index].numberOfGifts} gifts'),
-      // Todo: Add leading image
-      leading: const CircleAvatar(
-        radius: 25,
-        backgroundImage: AssetImage('assets/images/default_event.png'),
+      subtitle: Text('Event Date: ${event.date?.day}/${event.date?.month}/${event.date?.year}'),
+      leading: Hero(
+          tag: event.id!,
+          child:
+          const CircleAvatar(
+          radius: 25,
+          backgroundImage: AssetImage('assets/images/default_event.png'),
+        ),
       ),
       trailing: IconButton(
         icon: const Icon(LineAwesomeIcons.trash, color: Colors.red),

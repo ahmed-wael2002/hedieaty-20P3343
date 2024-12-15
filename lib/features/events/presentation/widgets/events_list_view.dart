@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_code/features/events/presentation/state_management/event_provider.dart';
 import 'package:provider/provider.dart';
+import '../../../../common/constants/images_paths.dart';
 import '../../../users/presentation/state_management/user_provider.dart';
 import '../../domain/entity/event.dart';
 import 'event_list_tile.dart';
@@ -67,7 +68,7 @@ class _EventsListState extends State<EventsList> {
           child: _filteredEvents.isEmpty
               ? Center(
             child: Image.asset(
-              'assets/images/empty.png',
+              emptyImagePath,
               width: 200,
               height: 200,
             ),

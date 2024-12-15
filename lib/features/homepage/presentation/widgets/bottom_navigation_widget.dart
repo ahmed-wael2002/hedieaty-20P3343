@@ -20,52 +20,34 @@ class CustomBottomNavigationBar extends StatelessWidget {
       showElevation: false, // use this to remove appBar's elevation
       onItemSelected: (index) => homepageProvider.navigateToPage(index),
       items: [
-        FlashyTabBarItem(
-          activeColor: color,
-          inactiveColor: color,
+        CustomTabItem(
+          color: color,
           icon: const Icon(LineAwesomeIcons.user,),
-          title: const Text('Friends'),
+          title: 'Friends',
         ),
-        FlashyTabBarItem(
-          activeColor: color,
-          inactiveColor: color,
+        CustomTabItem(
+          color: color,
           icon: const Icon(LineAwesomeIcons.calendar,),
-          title: const Text('Events'),
+          title: 'Events',
         ),
-        FlashyTabBarItem(
-          activeColor: color,
-          inactiveColor: color,
+        CustomTabItem(
+          color: color,
           icon: const Icon(LineAwesomeIcons.gift,),
-          title: const Text('Gifts'),
+          title: 'Gifts',
         ),
       ],
     );
-
-    // return BottomNavigationBar(
-    //   items: const <BottomNavigationBarItem>[
-    //     BottomNavigationBarItem(
-    //       icon: Icon(LineAwesomeIcons.home),
-    //       label: 'Home',
-    //     ),
-    //     BottomNavigationBarItem(
-    //       icon: Icon(LineAwesomeIcons.calendar),
-    //       label: 'Events',
-    //     ),
-    //     BottomNavigationBarItem(
-    //       icon: Icon(LineAwesomeIcons.gift),
-    //       label: 'Gifts',
-    //     ),
-    //   ],
-    //   currentIndex: Provider.of<HomepageProvider>(context).selectedPageIndex,
-    //   selectedItemColor: Theme.of(context).colorScheme.onPrimary,
-    //   unselectedItemColor: Theme.of(context).colorScheme.surfaceDim,
-    //   backgroundColor: Theme.of(context).colorScheme.primary,
-    //   selectedFontSize: 14,
-    //   unselectedFontSize: 12,
-    //   showUnselectedLabels: false,
-    //   showSelectedLabels: false,
-    //   type: BottomNavigationBarType.fixed,
-    //   onTap: homepageProvider.navigateToPage, // Fixed onTap to call navigateToPage
-    // );
+  }
+  FlashyTabBarItem CustomTabItem({
+    required Color color,
+    required Icon icon,
+    required String title,
+  }) {
+    return FlashyTabBarItem(
+      activeColor: color,
+      inactiveColor: color,
+      icon: icon,
+      title: Text(title),
+    );
   }
 }

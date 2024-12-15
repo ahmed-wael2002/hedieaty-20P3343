@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lecture_code/features/auth/data/data_sources/fireauth_singleton.dart';
 import 'package:lecture_code/features/auth/domain/repository/auth_repository.dart';
+import 'package:flutter/material.dart';
 
 
 class FirebaseAuthRepository implements AuthRepository {
@@ -13,7 +14,7 @@ class FirebaseAuthRepository implements AuthRepository {
     try {
       return await _authSingleton.signInWithEmailAndPassword(email, password);
     } catch (e) {
-      print('Error in signIn: $e');
+      debugPrint('Error in signIn: $e');
       rethrow;
     }
   }
@@ -28,7 +29,7 @@ class FirebaseAuthRepository implements AuthRepository {
         phoneNumber: phoneNumber,
       );
     } catch (e) {
-      print('Error in register: $e');
+      debugPrint('Error in register: $e');
       rethrow;
     }
   }
@@ -38,7 +39,7 @@ class FirebaseAuthRepository implements AuthRepository {
     try {
       await _authSingleton.signOut();
     } catch (e) {
-      print('Error in signOut: $e');
+      debugPrint('Error in signOut: $e');
       rethrow;
     }
   }
@@ -48,7 +49,7 @@ class FirebaseAuthRepository implements AuthRepository {
     try {
       await _authSingleton.sendPasswordResetEmail(email);
     } catch (e) {
-      print('Error in sendPasswordReset: $e');
+      debugPrint('Error in sendPasswordReset: $e');
       rethrow;
     }
   }
