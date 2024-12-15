@@ -79,6 +79,7 @@ class EventPage extends StatelessWidget {
         splashColor: Theme.of(context).colorScheme.onPrimaryContainer,
         onPressed: () {
           showModalBottomSheet(
+            isScrollControlled: true,
               context: context,
               builder: (context) => GiftEditSheet(
                 isEditing: false,

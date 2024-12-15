@@ -66,6 +66,7 @@ class GiftListTile extends StatelessWidget {
 
       onTap: () {
         showModalBottomSheet(
+          isScrollControlled: true,
           context: context,
           builder: (context) => GiftEditSheet(
             gift: gift,
