@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_code/common/constants/text_constants.dart';
+import 'package:lecture_code/features/events/presentation/widgets/events_wrapper.dart';
 // import 'package:lecture_code/features/events/presentation/widgets/events_wrapper.dart';
-import 'package:lecture_code/features/events/presentation/widgets/friend_events_wrapper.dart';
+// import 'package:lecture_code/features/events/presentation/widgets/friend_events_wrapper.dart';
 import 'package:lecture_code/features/users/domain/entity/user.dart';
 import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -56,7 +57,8 @@ class FriendPage extends StatelessWidget {
                   ChangeNotifierProvider(create: (_) => UserProvider()),
                   // Add other providers here if needed
                 ],
-                child: Expanded(child:FriendEventsWrapper(friendId: friend.uid!)),
+                child: Expanded(child: EventsWrapper(friendId: friend.uid,))
+                // child: Expanded(child:FriendEventsWrapper(friendId: friend.uid!)),
               )
             ],
           ),
