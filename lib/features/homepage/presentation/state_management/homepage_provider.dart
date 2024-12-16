@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_code/features/events/presentation/widgets/events_wrapper.dart';
+import 'package:lecture_code/features/gifts/presentation/widgets/gifts_list_wrapper.dart';
 import 'package:lecture_code/features/users/presentation/pages/friends_list_wrapper.dart';
 
 class HomepageProvider extends ChangeNotifier {
@@ -17,7 +18,7 @@ class HomepageProvider extends ChangeNotifier {
     navigationWidgets = [
       const FriendsWrapper(),
       const EventsWrapper(),
-      const FlutterLogo(),
+      const GiftsListWrapper(isEditable: true, event: null, userId: null,),
     ];
   }
 

@@ -31,4 +31,9 @@ class GiftRepositoryFirestoreImpl implements GiftRepository {
     return _giftFirestore.getGifts(eventId);
   }
 
+  @override
+  Future<List<GiftEntity>?> getPledgedGifts(String userId) {
+    return _giftFirestore.getPledgedGifts(userId);
+  }
+
 }

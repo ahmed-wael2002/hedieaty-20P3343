@@ -12,38 +12,41 @@ class EventsWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: true);
-    final currentUser = userProvider.user;
-    final eventProvider = Provider.of<EventProvider>(context, listen: true);
+    return Consumer<UserProvider>(
+      builder: (context, userProvider, child) {
+        final currentUser = userProvider.user;
+        return Consumer<EventProvider>(
+          builder: (context, eventProvider, child) {
+            return FutureBuilder(
+              future: eventProvider.getAllEvents(friendId ?? currentUser!.uid),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
 
-    return FutureBuilder(
-        future: eventProvider.getAllEvents(friendId ?? currentUser!.uid),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      'Error: ${snapshot.error}',
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  );
+                }
+
+                List<EventEntity> eventsList;
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  eventsList = [];
+                } else {
+                  eventsList = snapshot.data!;
+                }
+                return EventsList(events: eventsList, isEditable: (friendId == null),);
+              },
             );
-          }
-
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                'Error: ${snapshot.error}',
-                style: const TextStyle(color: Colors.red),
-              ),
-            );
-          }
-
-          List<EventEntity> eventsList;
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            eventsList = [];
-          }
-          else{
-            eventsList = snapshot.data!;
-          }
-          return EventsList(events: eventsList, isEditable: (friendId == null),);
-        },
+          },
+        );
+      },
     );
   }
 }
-

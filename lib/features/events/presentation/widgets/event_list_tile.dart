@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_code/common/constants/text_constants.dart';
+import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,7 @@ class EventListTile extends StatelessWidget {
               providers: [
                 ChangeNotifierProvider(create: (_) => GiftProvider()),
                 ChangeNotifierProvider(create: (_) => EventProvider()),
+                ChangeNotifierProvider(create: (_) => UserProvider()),
               ],
               child: EventPage(event: event, isEditable: isEditable,),
             ),
