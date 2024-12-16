@@ -36,7 +36,7 @@ class EventListTile extends StatelessWidget {
       title: Text(event.title ?? unknownString),
       subtitle: Text('Event Date: ${event.date?.day}/${event.date?.month}/${event.date?.year}'),
       leading: Hero(
-          tag: event.id!,
+          tag: '${event.id}',
           child:
           const CircleAvatar(
           radius: 25,

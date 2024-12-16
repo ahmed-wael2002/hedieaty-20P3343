@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:lecture_code/features/events/presentation/widgets/event_modal_sheet.dart';
 import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -36,8 +37,37 @@ class SpeeddialButton extends StatelessWidget {
       foregroundColor: Theme.of(context).colorScheme.onPrimary,
       children: [
         _speedDialChild(LineAwesomeIcons.user_friends, 'Add Friend', () { showPhoneNumberPopup(context, addFriendFn); }),
-        _speedDialChild(LineAwesomeIcons.calendar, 'Add Event', (){ showEventPopup(context); }),
+        _speedDialChild(LineAwesomeIcons.calendar, 'Add Event', (){
+          showEventPopup(context);
+          // showEventModalSheet(context);
+        }),
       ],
+    );
+  }
+
+  void showEventModalSheet(BuildContext context){
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
+    var eventProvider = Provider.of<EventProvider>(context, listen: false);
+
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context)=>EventModalSheet(
+          event: EventEntity(
+              id: const Uuid().v4(),
+              title: '',
+              description: '',
+              date: DateTime.now(),
+              location: '',
+              category: '',
+              userId: userProvider.user!.uid
+          ),
+          onSave: (event){
+              eventProvider.createEvent(event: event, context: context);
+              userProvider.addEvent(event);
+          },
+          isEditing: false
+      )
     );
   }
 
