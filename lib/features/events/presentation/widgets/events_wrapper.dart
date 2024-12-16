@@ -7,7 +7,8 @@ import '../../../users/presentation/state_management/user_provider.dart';
 import '../state_management/event_provider.dart';
 
 class EventsWrapper extends StatelessWidget {
-  const EventsWrapper({super.key});
+  final String? friendId;
+  const EventsWrapper({this.friendId, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class EventsWrapper extends StatelessWidget {
     final eventProvider = Provider.of<EventProvider>(context, listen: true);
 
     return FutureBuilder(
-        future: eventProvider.getAllEvents(currentUser!.uid),
+        future: eventProvider.getAllEvents(friendId ?? currentUser!.uid),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -40,8 +41,7 @@ class EventsWrapper extends StatelessWidget {
           else{
             eventsList = snapshot.data!;
           }
-
-          return EventsList(events: eventsList, isEditable: true,);
+          return EventsList(events: eventsList, isEditable: (friendId == null),);
         },
     );
   }

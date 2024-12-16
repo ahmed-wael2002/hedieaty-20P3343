@@ -90,7 +90,7 @@ class EventPageState extends State<EventPage> {
           ),
         ],
       ),
-      floatingActionButton: Row(
+      floatingActionButton: widget.isEditable ? Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
@@ -145,7 +145,7 @@ class EventPageState extends State<EventPage> {
             child: Icon(Icons.add, color: Theme.of(context).colorScheme.surface),
           ),
         ],
-      ),
+      ) : null,
     );
   }
 }
