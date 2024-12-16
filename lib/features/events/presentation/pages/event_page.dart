@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lecture_code/features/events/presentation/widgets/event_modal_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -8,16 +9,30 @@ import '../../../gifts/presentation/state_management/gift_provider.dart';
 import '../../../gifts/presentation/widgets/gift_edit_sheet.dart';
 import '../../../gifts/presentation/widgets/gift_list_view.dart';
 import '../../domain/entity/event.dart';
-// import '../state_management/event_provider.dart';
+import '../state_management/event_provider.dart';
 
-class EventPage extends StatelessWidget {
+class EventPage extends StatefulWidget {
   final EventEntity event;
   const EventPage({super.key, required this.event});
 
   @override
+  EventPageState createState() => EventPageState();
+}
+
+class EventPageState extends State<EventPage> {
+  late EventEntity event;
+
+  @override
+  void initState() {
+    super.initState();
+    event = widget.event;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final giftsProvider = Provider.of<GiftProvider>(context, listen: true);
-    // final eventProvider = Provider.of<EventProvider>(context, listen: true);
+    final eventProvider = Provider.of<EventProvider>(context, listen: true);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(event.title ?? 'Unknown'),
@@ -28,7 +43,7 @@ class EventPage extends StatelessWidget {
             height: 16,
           ),
           Hero(
-            tag: event.id!,
+            tag: '${event.id}',
             child: CircleAvatar(
               radius: 50,
               backgroundImage: AssetImage(defaultEventImagePath),
@@ -47,7 +62,7 @@ class EventPage extends StatelessWidget {
             height: 8,
           ),
           Text(
-            event.date.toString(),
+            'Event Date: ${event.date?.day}/${event.date?.month}/${event.date?.year}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.headlineSmall,
@@ -74,105 +89,62 @@ class EventPage extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        splashColor: Theme.of(context).colorScheme.onPrimaryContainer,
-        onPressed: () {
-          showModalBottomSheet(
-            isScrollControlled: true,
-              context: context,
-              builder: (context) => GiftEditSheet(
-                isEditing: false,
-                gift: GiftEntity(
-                  id: const Uuid().v4(),
-                  name: '',
-                  description: '',
-                  category: '',
-                  price: '',
-                  isPledged: false,
-                  eventId: event.id!,
-                  userId: event.userId!,
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: 'edit_event_${event.id}_${UniqueKey()}',
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            splashColor: Theme.of(context).colorScheme.onPrimaryContainer,
+            onPressed: () {
+              showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                builder: (context) => EventModalSheet(
+                  event: event,
+                  onSave: (updatedEvent) {
+                    setState(() {
+                      event = updatedEvent;
+                    });
+                    eventProvider.updateEvent(event: updatedEvent, context: context);
+                  },
+                  isEditing: true,
                 ),
-                onSave: (gift) {
-                  giftsProvider.createGift(gift);
-                },
-              ),
-          );
-          // showCreateGiftDialog(context, event.id!, event.userId!, (gift) {
-          //   giftsProvider.createGift(gift);
-          //   // eventProvider.addGift(event: event, gift: gift, context: context);
-          // });
-        },
-        child: Icon(Icons.add, color: Theme.of(context).colorScheme.surface),
+              );
+            },
+            child: Icon(Icons.edit, color: Theme.of(context).colorScheme.surface),
+          ),
+          const SizedBox(width: 16),
+          FloatingActionButton(
+            heroTag: 'add_gift_${event.id}_${UniqueKey()}',
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            splashColor: Theme.of(context).colorScheme.onPrimaryContainer,
+            onPressed: () {
+              showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                builder: (context) => GiftEditSheet(
+                  isEditing: false,
+                  gift: GiftEntity(
+                    id: const Uuid().v4(),
+                    name: '',
+                    description: '',
+                    category: '',
+                    price: '',
+                    isPledged: false,
+                    eventId: event.id!,
+                    userId: event.userId!,
+                  ),
+                  onSave: (gift) {
+                    giftsProvider.createGift(gift);
+                  },
+                ),
+              );
+            },
+            child: Icon(Icons.add, color: Theme.of(context).colorScheme.surface),
+          ),
+        ],
       ),
     );
   }
-
-  // void showCreateGiftDialog(BuildContext context, String eventId, String userId, Function(GiftEntity) onGiftCreated) {
-  //   final nameController = TextEditingController();
-  //   final descriptionController = TextEditingController();
-  //   final categoryController = TextEditingController();
-  //   final priceController = TextEditingController();
-  //
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text('Create New Gift'),
-  //         content: SingleChildScrollView(
-  //           child: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: [
-  //               TextFormField(
-  //                 controller: nameController,
-  //                 decoration: const InputDecoration(labelText: 'Name'),
-  //               ),
-  //               const SizedBox(height: 8),
-  //               TextFormField(
-  //                 controller: descriptionController,
-  //                 decoration: const InputDecoration(labelText: 'Description'),
-  //               ),
-  //               const SizedBox(height: 8),
-  //               TextFormField(
-  //                 controller: categoryController,
-  //                 decoration: const InputDecoration(labelText: 'Category'),
-  //               ),
-  //               const SizedBox(height: 8),
-  //               TextFormField(
-  //                 controller: priceController,
-  //                 decoration: const InputDecoration(labelText: 'Price'),
-  //                 keyboardType: TextInputType.number,
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: const Text('Cancel'),
-  //           ),
-  //           TextButton(
-  //             onPressed: () {
-  //               final newGift = GiftEntity(
-  //                 id: const Uuid().v4(),
-  //                 name: nameController.text.trim(),
-  //                 description: descriptionController.text.trim(),
-  //                 category: categoryController.text.trim(),
-  //                 price: priceController.text.trim(),
-  //                 isPledged: false,
-  //                 eventId: eventId,
-  //                 userId: userId,
-  //               );
-  //               onGiftCreated(newGift);
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: const Text('Create'),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 }

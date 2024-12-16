@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_code/common/constants/text_constants.dart';
+// import 'package:lecture_code/features/events/presentation/widgets/events_wrapper.dart';
+import 'package:lecture_code/features/events/presentation/widgets/friend_events_wrapper.dart';
 import 'package:lecture_code/features/users/domain/entity/user.dart';
+import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../common/constants/images_paths.dart';
+import '../../../events/presentation/state_management/event_provider.dart';
+// import '../../../events/presentation/widgets/events_list_view.dart';
+// import '../state_management/user_provider.dart';
 
 class FriendPage extends StatelessWidget {
   final UserEntity friend;
@@ -42,7 +49,15 @@ class FriendPage extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               const SizedBox(height: 10),
-              // EventsList(friend.eventsList),
+              // const EventsWrapper()
+              MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(create: (_) => EventProvider()),
+                  ChangeNotifierProvider(create: (_) => UserProvider()),
+                  // Add other providers here if needed
+                ],
+                child: Expanded(child:FriendEventsWrapper(friendId: friend.uid!)),
+              )
             ],
           ),
       ),

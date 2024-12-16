@@ -18,24 +18,32 @@ class EventProvider extends ChangeNotifier{
   var getAllEventsUsecase = GetAllEventsUsecase(FirestoreRepositoryImpl());
   var addGiftUsecase = AddGiftUsecase(FirestoreRepositoryImpl());
 
-  void createEvent({required EventEntity event, required context}) async{
-    if(await createEventUsecase.call(params: event)){
+
+  void createEvent({required EventEntity event, required context}) async {
+    if (await createEventUsecase.call(params: event)) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Event created successfully'), backgroundColor: Colors.green,));
-    }
-    else{
+      notifyListeners(); // Notify listeners after creating an event
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Could not create event'), backgroundColor: Colors.red,));
     }
-    notifyListeners();
   }
 
-  void deleteEvent({required EventEntity event, required context}) async{
-    if(await deleteEventUsecase.call(params: event)){
+  void deleteEvent({required EventEntity event, required context}) async {
+    if (await deleteEventUsecase.call(params: event)) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Event deleted successfully'), backgroundColor: Colors.green,));
-    }
-    else{
+      notifyListeners(); // Notify listeners after deleting an event
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Could not delete event'), backgroundColor: Colors.red,));
     }
-    notifyListeners();
+  }
+
+  void updateEvent({required EventEntity event, required context}) async {
+    if (await updateEventUsecase.call(params: event)) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Event updated successfully'), backgroundColor: Colors.green,));
+      notifyListeners(); // Notify listeners after updating an event
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Could not update event'), backgroundColor: Colors.red,));
+    }
   }
 
   void fetchEvent({required String? uid}) async{
@@ -43,15 +51,6 @@ class EventProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void updateEvent({required EventEntity event, required context}) async{
-    if(await updateEventUsecase.call(params: event)){
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Event updated successfully'), backgroundColor: Colors.green,));
-    }
-    else{
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Could not update event'), backgroundColor: Colors.red,));
-    }
-    notifyListeners();
-  }
 
   Future<List<EventEntity>?> getAllEvents(String? uid) async{
     return await getAllEventsUsecase.call(params: uid);
