@@ -12,8 +12,9 @@ import '../../domain/entity/event.dart';
 import '../state_management/event_provider.dart';
 
 class EventPage extends StatefulWidget {
+  final bool isEditable;
   final EventEntity event;
-  const EventPage({super.key, required this.event});
+  const EventPage({super.key, required this.event, required this.isEditable});
 
   @override
   EventPageState createState() => EventPageState();
@@ -82,7 +83,7 @@ class EventPageState extends State<EventPage> {
                   }
                   if (snapshot.hasData) {
                     final gifts = snapshot.data as List<GiftEntity>;
-                    return GiftsListView(gifts);
+                    return GiftsListView(gifts: gifts, isEditable: widget.isEditable,);
                   }
                   return const Center(child: Text('No gifts found'));
                 }),
@@ -108,7 +109,7 @@ class EventPageState extends State<EventPage> {
                     });
                     eventProvider.updateEvent(event: updatedEvent, context: context);
                   },
-                  isEditing: true,
+                  isEditing: widget.isEditable,
                 ),
               );
             },

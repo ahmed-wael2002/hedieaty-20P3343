@@ -9,9 +9,10 @@ import '../pages/event_page.dart';
 import '../state_management/event_provider.dart';
 
 class EventListTile extends StatelessWidget {
+  final bool isEditable;
   final EventEntity event;
   final Function() onRemove;
-  const EventListTile({super.key, required this.event, required this.onRemove});
+  const EventListTile({super.key, required this.event, required this.onRemove, required this.isEditable});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class EventListTile extends StatelessWidget {
                 ChangeNotifierProvider(create: (_) => GiftProvider()),
                 ChangeNotifierProvider(create: (_) => EventProvider()),
               ],
-              child: EventPage(event: event),
+              child: EventPage(event: event, isEditable: isEditable,),
             ),
           ),
         );
@@ -43,10 +44,10 @@ class EventListTile extends StatelessWidget {
           backgroundImage: AssetImage('assets/images/default_event.png'),
         ),
       ),
-      trailing: IconButton(
+      trailing: isEditable ? IconButton(
         icon: const Icon(LineAwesomeIcons.trash, color: Colors.red),
         onPressed: () => onRemove(),
-      ),
+      ) : null,
     );
   }
 }

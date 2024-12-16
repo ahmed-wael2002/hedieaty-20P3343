@@ -4,8 +4,9 @@ import 'package:lecture_code/features/gifts/domain/entity/gift.dart';
 import 'package:lecture_code/features/gifts/presentation/widgets/gift_list_tile.dart';
 
 class GiftsListView extends StatefulWidget {
+  final bool isEditable;
   final List<GiftEntity>? gifts;
-  const GiftsListView(this.gifts, {super.key});
+  const GiftsListView({required this.gifts, super.key, required this.isEditable});
 
   @override
   State<GiftsListView> createState() => _GiftsListViewState();
@@ -73,6 +74,7 @@ class _GiftsListViewState extends State<GiftsListView> {
             itemCount: _filteredGifts.length,
             itemBuilder: (BuildContext context, int index) {
               return GiftListTile(
+                isEditable: widget.isEditable,
                 gift: _filteredGifts[index],
               );
             },

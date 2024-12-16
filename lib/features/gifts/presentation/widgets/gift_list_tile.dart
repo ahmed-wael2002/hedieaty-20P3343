@@ -6,9 +6,10 @@ import '../state_management/gift_provider.dart';
 import 'gift_edit_sheet.dart';
 
 class GiftListTile extends StatelessWidget {
+  final bool isEditable;
   final GiftEntity gift;
 
-  const GiftListTile({super.key, required this.gift});
+  const GiftListTile({super.key, required this.gift, required this.isEditable});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class GiftListTile extends StatelessWidget {
           }
         },
       ),
-      trailing: IconButton(
+      trailing: isEditable ? IconButton(
         icon: const Icon(Icons.delete, color: Colors.red),
         onPressed: () async {
           bool? result = await giftProvider.deleteGift(gift);
@@ -62,9 +63,8 @@ class GiftListTile extends StatelessWidget {
             );
           }
         },
-      ),
-
-      onTap: () {
+      ) : null,
+      onTap: isEditable ?  () {
         showModalBottomSheet(
           isScrollControlled: true,
           context: context,
@@ -76,7 +76,7 @@ class GiftListTile extends StatelessWidget {
             },
           ),
         );
-      },
+      } : null,
     );
   }
 }
