@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lecture_code/features/gifts/data/repository/remote/gift_repository.dart';
 import 'package:lecture_code/features/gifts/domain/usecases/fetch_gift_usecase.dart';
 import 'package:lecture_code/features/gifts/domain/usecases/get_gifts_usecase.dart';
+import 'package:lecture_code/features/gifts/domain/usecases/get_pledged_gifts_usecase.dart';
 import '../../domain/entity/gift.dart';
 import '../../domain/usecases/create_gift_usecase.dart';
 import '../../domain/usecases/delete_gift_usecase.dart';
@@ -14,10 +15,19 @@ class GiftProvider extends ChangeNotifier{
   final _createGiftUsecase = CreateGiftUsecase(GiftRepositoryFirestoreImpl());
   final _updateGiftUsecase = UpdateGiftUsecase(GiftRepositoryFirestoreImpl());
   final _deleteGiftUsecase = DeleteGiftUsecase(GiftRepositoryFirestoreImpl());
-
+  final _getPledgedGifts = GetPledgedGiftsUseCase(GiftRepositoryFirestoreImpl());
   // Stream<List<GiftEntity>?> getGiftsStream(String eventId) async* {
   //   yield* await _getGiftsStreamUsecase.call(params: eventId);
   // }
+  Future<List<GiftEntity>?> getPledgedGifts(String userId) async{
+    try {
+      return await _getPledgedGifts.call(params: userId);
+    } catch (e) {
+      debugPrint('Error fetching pledged gifts: $e');
+    }
+    return null;
+  }
+
   Future<List<GiftEntity>?> getGifts(String eventId) async{
     try {
       return await _getGiftsUsecase.call(params: eventId);

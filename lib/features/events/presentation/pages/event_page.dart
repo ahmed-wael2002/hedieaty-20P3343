@@ -7,7 +7,8 @@ import '../../../../common/constants/images_paths.dart';
 import '../../../gifts/domain/entity/gift.dart';
 import '../../../gifts/presentation/state_management/gift_provider.dart';
 import '../../../gifts/presentation/widgets/gift_edit_sheet.dart';
-import '../../../gifts/presentation/widgets/gift_list_view.dart';
+// import '../../../gifts/presentation/widgets/gift_list_view.dart';
+import '../../../gifts/presentation/widgets/gifts_list_wrapper.dart';
 import '../../domain/entity/event.dart';
 import '../state_management/event_provider.dart';
 
@@ -72,21 +73,11 @@ class EventPageState extends State<EventPage> {
             height: 8,
           ),
           Expanded(
-            child: FutureBuilder(
-                future: giftsProvider.getGifts(event.id!),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (snapshot.hasError) {
-                    return const Center(child: Text('An error occurred'));
-                  }
-                  if (snapshot.hasData) {
-                    final gifts = snapshot.data as List<GiftEntity>;
-                    return GiftsListView(gifts: gifts, isEditable: widget.isEditable,);
-                  }
-                  return const Center(child: Text('No gifts found'));
-                }),
+            child: GiftsListWrapper(
+              isEditable: widget.isEditable,
+              event: event,
+              // userId: event.userId,
+            ),
           ),
         ],
       ),

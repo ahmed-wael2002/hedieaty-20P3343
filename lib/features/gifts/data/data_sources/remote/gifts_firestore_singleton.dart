@@ -20,6 +20,17 @@ class GiftFirestore{
     return gifts.map((gift) => GiftEntity.fromMap(gift)).toList();
   }
 
+  Future<List<GiftEntity>?> getPledgedGifts(String userId) async {
+    final gifts =  await _firestore.fetchCollectionByMultipleQuery(
+        collectionPath: _collectionId,
+        conditions: [
+          QueryCondition(field: 'userId', operator: QueryOperator.isEqualTo, value: userId),
+          QueryCondition(field: 'isPledged', operator: QueryOperator.isEqualTo, value: true)
+        ]
+    );
+    return gifts.map((gift) => GiftEntity.fromMap(gift)).toList();
+  }
+
   Future<void> addGift(GiftEntity gift) async {
     await _firestore.addDocument(collectionPath: _collectionId, documentId: gift.id, data: gift.toMap());
   }

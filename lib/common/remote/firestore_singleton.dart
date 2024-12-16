@@ -216,8 +216,68 @@ class FirestoreService {
     });
   }
 
+  /// Method to fetch documents based on multiple queries
+  Future<List<Map<String, dynamic>>> fetchCollectionByMultipleQuery({
+    required String collectionPath,
+    required List<QueryCondition> conditions,
+  }) async {
+    try {
+      Query query = _firestore.collection(collectionPath);
+
+      // Apply each condition to the query
+      for (var condition in conditions) {
+        switch (condition.operator) {
+          case QueryOperator.isEqualTo:
+            query = query.where(condition.field, isEqualTo: condition.value);
+            break;
+          case QueryOperator.isGreaterThan:
+            query = query.where(condition.field, isGreaterThan: condition.value);
+            break;
+          case QueryOperator.isLessThan:
+            query = query.where(condition.field, isLessThan: condition.value);
+            break;
+          case QueryOperator.isGreaterThanOrEqualTo:
+            query = query.where(condition.field, isGreaterThanOrEqualTo: condition.value);
+            break;
+          case QueryOperator.isLessThanOrEqualTo:
+            query = query.where(condition.field, isLessThanOrEqualTo: condition.value);
+            break;
+          case QueryOperator.arrayContains:
+            query = query.where(condition.field, arrayContains: condition.value);
+            break;
+          case QueryOperator.arrayContainsAny:
+            query = query.where(condition.field, arrayContainsAny: condition.value);
+            break;
+          case QueryOperator.isNull:
+            query = query.where(condition.field, isNull: condition.value);
+            break;
+          default:
+            throw Exception('Unsupported query operator: ${condition.operator}');
+        }
+      }
+
+      // Execute the query
+      final querySnapshot = await query.get();
+
+      // Map documents to a list of Map<String, dynamic>
+      return querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
 
+class QueryCondition {
+  final String field;
+  final QueryOperator operator;
+  final dynamic value;
+
+  QueryCondition({
+    required this.field,
+    required this.operator,
+    required this.value,
+  });
+}
 
 
 /// Enum for query operators

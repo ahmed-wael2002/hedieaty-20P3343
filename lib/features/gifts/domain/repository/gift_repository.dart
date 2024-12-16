@@ -8,4 +8,5 @@ abstract class GiftRepository {
   Future<void> deleteGift(GiftEntity giftId);
   // Future<List<GiftEntity>?> getAllGGifts(String eventId);
   Future<List<GiftEntity>?> getGifts(String eventId);
+  Future<List<GiftEntity>?> getPledgedGifts(String userId);
 }
