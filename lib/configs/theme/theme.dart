@@ -62,19 +62,17 @@ class CustomTheme{
 
    ThemeData darkThemeData() {
      return ThemeData(
-       colorScheme: ColorScheme.fromSeed(
-         seedColor: colorSeed,
-         brightness: Brightness.dark, // Adjust for dark mode
-       ),
-       appBarTheme: _getAppBarTheme(_darkColorScheme).copyWith(
-         backgroundColor: Colors.black, // Optional: Customize AppBar for dark theme
-       ),
+       colorScheme: _darkColorScheme,
+       // appBarTheme: _getAppBarTheme(_darkColorScheme).copyWith(
+       //   backgroundColor: Colors.black, // Optional: Customize AppBar for dark theme
+       // ),
+       appBarTheme: _getAppBarTheme(_darkColorScheme),
+       scaffoldBackgroundColor: _darkColorScheme.surface,
        fontFamily: _fontFamily,
        inputDecorationTheme: _inputDecorationTheme.copyWith(
          fillColor: Colors.grey.shade800, // Adjust text field background for dark theme
        ),
        elevatedButtonTheme: ElevatedButtonThemeData(style: buttonPrimary),
-       scaffoldBackgroundColor: _darkColorScheme.surface,
        useMaterial3: true,
      );
    }
