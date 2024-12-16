@@ -41,7 +41,7 @@ class EventsWrapper extends StatelessWidget {
             eventsList = snapshot.data!;
           }
 
-          return EventsList(eventsList);
+          return EventsList(events: eventsList, isEditable: true,);
         },
     );
   }

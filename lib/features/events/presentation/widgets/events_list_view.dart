@@ -8,7 +8,8 @@ import 'event_list_tile.dart';
 
 class EventsList extends StatefulWidget {
   final List<EventEntity>? events;
-  const EventsList(this.events, {super.key});
+  final bool isEditable;
+  const EventsList({required this.events, super.key, required this.isEditable});
 
   @override
   State<EventsList> createState() => _EventsListState();
@@ -78,6 +79,7 @@ class _EventsListState extends State<EventsList> {
             itemCount: _filteredEvents.length,
             itemBuilder: (BuildContext context, int index) {
               return EventListTile(
+                isEditable: widget.isEditable,
                 event: _filteredEvents[index],
                 onRemove: () {
                   setState(() {
