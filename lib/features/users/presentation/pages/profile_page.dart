@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lecture_code/features/users/presentation/pages/UpdateProfilePage.dart';
+import 'package:lecture_code/features/users/presentation/pages/update_profile_page.dart';
+import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import '../../domain/entity/user.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -70,7 +72,10 @@ class ProfilePage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => UpdateProfilePage(user: user),
+                          builder: (context) => ChangeNotifierProvider(
+                            create: (_) => UserProvider(),
+                            child: UpdateProfilePage(user: user),
+                          )
                         ),
                       );
                     },
