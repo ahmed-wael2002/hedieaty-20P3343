@@ -5,6 +5,7 @@ import 'package:lecture_code/features/homepage/presentation/state_management/hom
 import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
 import 'package:lecture_code/features/homepage/presentation/widgets/bottom_navigation_widget.dart';
 import 'package:lecture_code/features/homepage/presentation/widgets/drawer_widget.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 
 // Pages
@@ -31,9 +32,11 @@ class MyHomePage extends StatelessWidget {
         builder: (context) {
           final homepageProvider = Provider.of<HomepageProvider>(context, listen: true);
           final userProvider = Provider.of<UserProvider>(context, listen: true);
-          final authProvider = Provider.of<AuthenticationProvider>(context, listen: true);
+          final authProvider =
+              Provider.of<AuthenticationProvider>(context, listen: true);
 
-          final mockUser = UserEntity('uid', 'name', 'email', 'phoneNumber', [], []);
+          final mockUser =
+              UserEntity('uid', 'name', 'email', 'phoneNumber', [], []);
 
           // Set user and update friends list when authProvider.uid is available
           if (userProvider.user == null) {
@@ -57,24 +60,41 @@ class MyHomePage extends StatelessWidget {
               title: const Text('Hedieaty'),
             ),
             drawer: const CustomDrawer(),
-            body: Column(
+            body:  LiquidPullToRefresh(
+          animSpeedFactor: 1,
+          showChildOpacityTransition: false,
+          height: 100,
+          springAnimationDurationInMilliseconds: 1000,
+          // color: Theme.of(context).colorScheme.primary,
+          color: Theme.of(context).colorScheme.surface,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          onRefresh: () async {
+          userProvider.setUser(authProvider.uid);
+          // await Future.delayed(const Duration(seconds: 1));
+          },
+          child: Column(
               children: [
                 GestureDetector(
                   child: ProfileWidget(user: userProvider.user ?? mockUser),
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => ProfilePage(user: userProvider.user ?? mockUser),
+                      builder: (context) =>
+                          ProfilePage(user: userProvider.user ?? mockUser),
                     ),
                   ),
                 ),
-                Expanded(
-                    child:PageView(
-                      controller: homepageProvider.pageController,
-                      children: homepageProvider.navigationWidgets,
-                    ),
-                )
+               Expanded(
+                      child: PageView(
+                        onPageChanged: (index) {
+                          homepageProvider.setPageIndex(index);
+                        },
+                        controller: homepageProvider.pageController,
+                        children: homepageProvider.navigationWidgets,
+                      ),
+                    )
                 // Expanded(child: homepageProvider.currentView),
               ],
+            ),
             ),
             floatingActionButton: const SpeeddialButton(),
             bottomNavigationBar: const CustomBottomNavigationBar(),

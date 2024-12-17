@@ -23,9 +23,15 @@ class HomepageProvider extends ChangeNotifier {
     ];
   }
 
+  void setPageIndex(int index) {
+    selectedPageIndex = index;
+    // navigateToPage(index);
+    notifyListeners();
+  }
+
   // Navigate to a specific page
   void navigateToPage(int index) {
-    selectedPageIndex = index;
+    // selectedPageIndex = index;
     pageController.animateToPage(
       index,
       duration: const Duration(milliseconds: 100),
