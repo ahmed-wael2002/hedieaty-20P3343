@@ -59,7 +59,7 @@ class EventPageState extends State<EventPage> {
             event.description ?? 'No description',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.headlineLarge,
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
           const SizedBox(
             height: 8,
@@ -68,11 +68,44 @@ class EventPageState extends State<EventPage> {
             'Event Date: ${event.date?.day}/${event.date?.month}/${event.date?.year}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
           const SizedBox(
             height: 8,
           ),
+          Text(
+            'Location: ${event.location ?? 'Unknown'}',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+
+          Text(
+            'Category: ${event.category ?? 'Unknown'}',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+
+          widget.isRemote ?  const SizedBox(): ElevatedButton(
+              onPressed: () async{
+                eventProvider.createEvent(event: event, context: context, isRemote: true);
+                var gifts = await giftsProvider.getGifts(eventId: event.id!, isRemote: false);
+                if(gifts != null){
+                  for (var gift in gifts) {
+                    giftsProvider.createGift(gift: gift, isRemote: true);
+                  }
+                }
+              },
+              child: const Text('Publish event')
+          ),
+
           Expanded(
             child: GiftsListWrapper(
               isEditable: widget.isEditable,
