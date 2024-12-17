@@ -17,8 +17,9 @@ class HomepageProvider extends ChangeNotifier {
     // Initialize the navigation widgets
     navigationWidgets = [
       const FriendsWrapper(),
-      const EventsWrapper(),
-      const GiftsListWrapper(isEditable: true, event: null, userId: null,),
+      const EventsWrapper(isRemote: true,),
+      const GiftsListWrapper(isEditable: true, event: null, userId: null, isRemote: true),
+      const EventsWrapper(isRemote: false),
     ];
   }
 

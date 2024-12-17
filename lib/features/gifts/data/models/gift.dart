@@ -6,7 +6,7 @@ class GiftModel{
   final String description;
   final String category;
   final String price;
-  final bool isPledged;
+  final String isPledged;
   final String eventId;
   final String userId;
 
@@ -28,7 +28,7 @@ class GiftModel{
       description: entity.description,
       category: entity.category,
       price: entity.price,
-      isPledged: entity.isPledged,
+      isPledged: entity.isPledged.toString(),
       eventId: entity.eventId,
       userId: entity.userId,
     );

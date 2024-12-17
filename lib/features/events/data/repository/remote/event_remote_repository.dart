@@ -5,7 +5,7 @@ import 'package:lecture_code/features/gifts/domain/entity/gift.dart';
 // import 'package:lecture_code/features/gifts/data/repository/remote/gift_repository.dart';
 // import 'package:lecture_code/features/gifts/domain/usecases/get_gifts_usecase.dart';
 
-import '../model/event.dart';
+import '../../model/event.dart';
 
 class FirestoreRepositoryImpl implements EventRepository{
   final _firestore = EventFirestore.instance;

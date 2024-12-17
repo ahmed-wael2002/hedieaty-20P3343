@@ -7,9 +7,10 @@ import '../../domain/entity/event.dart';
 import 'event_list_tile.dart';
 
 class EventsList extends StatefulWidget {
+  final bool isRemote;
   final List<EventEntity>? events;
   final bool isEditable;
-  const EventsList({required this.events, super.key, required this.isEditable});
+  const EventsList({required this.events, super.key, required this.isEditable, required this.isRemote});
 
   @override
   State<EventsList> createState() => _EventsListState();
@@ -84,11 +85,11 @@ class _EventsListState extends State<EventsList> {
                 onRemove: () {
                   setState(() {
                     userProvider.removeEvent(_events[index]);
-                    eventProvider.deleteEvent(event: _events[index], context: context);
+                    eventProvider.deleteEvent(event: _events[index], isRemote: widget.isRemote, context: context);
                     _events.removeAt(index);
                     filterEvents();
                   });
-                },
+                }, isRemote: widget.isRemote,
               );
             },
             separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),

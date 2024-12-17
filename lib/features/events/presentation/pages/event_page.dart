@@ -13,9 +13,10 @@ import '../../domain/entity/event.dart';
 import '../state_management/event_provider.dart';
 
 class EventPage extends StatefulWidget {
+  final bool isRemote;
   final bool isEditable;
   final EventEntity event;
-  const EventPage({super.key, required this.event, required this.isEditable});
+  const EventPage({super.key, required this.event, required this.isEditable, required this.isRemote});
 
   @override
   EventPageState createState() => EventPageState();
@@ -76,6 +77,7 @@ class EventPageState extends State<EventPage> {
             child: GiftsListWrapper(
               isEditable: widget.isEditable,
               event: event,
+              isRemote: widget.isRemote,
               // userId: event.userId,
             ),
           ),
@@ -98,7 +100,7 @@ class EventPageState extends State<EventPage> {
                     setState(() {
                       event = updatedEvent;
                     });
-                    eventProvider.updateEvent(event: updatedEvent, context: context);
+                    eventProvider.updateEvent(event: updatedEvent, isRemote: widget.isRemote, context: context);
                   },
                   isEditing: widget.isEditable,
                 ),
@@ -128,7 +130,7 @@ class EventPageState extends State<EventPage> {
                     userId: event.userId!,
                   ),
                   onSave: (gift) {
-                    giftsProvider.createGift(gift);
+                    giftsProvider.createGift(gift: gift, isRemote: widget.isRemote);
                   },
                 ),
               );

@@ -1,15 +1,16 @@
+// import 'package:floor/floor.dart';
+
 import '../../domain/entity/event.dart';
 
 class EventModel{
-
   final String? id;
   final String? title;
   final String? description;
-  final DateTime? date;
+  final String? date;
   final String? location;
   final String? category;
   final String? userId;
-  final List<String>? giftsIds;
+  // final List<String>? giftsIds;
 
   EventModel(
     this.id,
@@ -19,7 +20,7 @@ class EventModel{
     this.location,
     this.category,
     this.userId,
-    this.giftsIds
+    // this.giftsIds
   );
 
   factory EventModel.fromMap(Map<String, dynamic> eventData) {
@@ -27,11 +28,11 @@ class EventModel{
       eventData['id'] as String,
       eventData['title'] as String,
       eventData['description'] as String,
-      DateTime.parse(eventData['date'] as String),
+      eventData['date'],
       eventData['location'] as String,
       eventData['category'] as String,
       eventData['userId'] as String,
-      (eventData['gifts'] as List<dynamic>).map((gift) => gift.toString()).toList()
+      // (eventData['gifts'] as List<dynamic>).map((gift) => gift.toString()).toList()
     );
   }
 
@@ -40,11 +41,11 @@ class EventModel{
       event.id,
       event.title,
       event.description,
-      event.date,
+      event.date.toString(),
       event.location,
       event.category,
       event.userId,
-      []
+      // []
     );
   }
 
@@ -57,7 +58,7 @@ class EventModel{
       'location': location,
       'category': category,
       'userId': userId,
-      'gifts': giftsIds
+      // 'gifts': giftsIds
     };
   }
 

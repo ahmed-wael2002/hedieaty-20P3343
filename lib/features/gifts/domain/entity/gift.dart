@@ -1,3 +1,5 @@
+import '../../data/models/gift.dart';
+
 class GiftEntity{
   final String id;
   final String name;
@@ -79,6 +81,20 @@ class GiftEntity{
       eventId: giftMap['eventId'] as String,
       userId: giftMap['userId'] as String,
     );
+  }
+
+  factory GiftEntity.fromModel(GiftModel gift){
+    return GiftEntity(
+      id: gift.id,
+      name: gift.name,
+      description: gift.description,
+      category: gift.category,
+      price: gift.price,
+      isPledged: bool.parse(gift.isPledged),
+      eventId: gift.eventId,
+      userId: gift.userId,
+    );
+
   }
 
   Map<String, dynamic> toMap() {

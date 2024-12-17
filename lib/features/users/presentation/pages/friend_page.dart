@@ -57,7 +57,7 @@ class FriendPage extends StatelessWidget {
                   ChangeNotifierProvider(create: (_) => UserProvider()),
                   // Add other providers here if needed
                 ],
-                child: Expanded(child: EventsWrapper(friendId: friend.uid,))
+                child: Expanded(child: EventsWrapper(friendId: friend.uid, isRemote: true,))
                 // child: Expanded(child:FriendEventsWrapper(friendId: friend.uid!)),
               )
             ],

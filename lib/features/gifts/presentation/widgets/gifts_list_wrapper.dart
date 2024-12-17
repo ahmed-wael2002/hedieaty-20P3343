@@ -8,11 +8,11 @@ import '../state_management/gift_provider.dart';
 import 'gift_list_view.dart';
 
 class GiftsListWrapper extends StatelessWidget {
+  final bool isRemote;
   final bool isEditable;
   final EventEntity? event;
   final String? userId;
-  const GiftsListWrapper(
-      {required this.isEditable, this.event, this.userId, super.key});
+  const GiftsListWrapper({required this.isEditable, this.event, this.userId, super.key, required this.isRemote});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +21,8 @@ class GiftsListWrapper extends StatelessWidget {
 
     return FutureBuilder(
         future: (event == null)
-            ? giftsProvider.getPledgedGifts(userProvider.user!.uid!)
-            : giftsProvider.getGifts(event!.id!),
+            ? giftsProvider.getPledgedGifts(userId: userProvider.user!.uid!, isRemote: isRemote)
+            : giftsProvider.getGifts(eventId: event!.id!, isRemote: isRemote),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -33,6 +33,7 @@ class GiftsListWrapper extends StatelessWidget {
           if (snapshot.hasData) {
             final gifts = snapshot.data as List<GiftEntity>;
             return GiftsListView(
+              isRemote: isRemote,
               gifts: gifts,
               isEditable: isEditable,
             );

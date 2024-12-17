@@ -1,9 +1,9 @@
 import 'package:lecture_code/common/usecases/usecase.dart';
-import 'package:lecture_code/features/gifts/data/repository/remote/gift_repository.dart';
 import 'package:lecture_code/features/gifts/domain/entity/gift.dart';
+import 'package:lecture_code/features/gifts/domain/repository/gift_repository.dart';
 
 class GetGiftsUsecase implements UseCase<List<GiftEntity>?, String> {
-  final GiftRepositoryFirestoreImpl _giftsRepository;
+  final GiftRepository _giftsRepository;
 
   GetGiftsUsecase(this._giftsRepository);
 

@@ -36,16 +36,14 @@ class SpeeddialButton extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.primary,
       foregroundColor: Theme.of(context).colorScheme.onPrimary,
       children: [
-        _speedDialChild(LineAwesomeIcons.user_friends, 'Add Friend', () { showPhoneNumberPopup(context, addFriendFn); }),
-        _speedDialChild(LineAwesomeIcons.calendar, 'Add Event', (){
-          // showEventPopup(context);
-          showEventModalSheet(context);
-        }),
+        _speedDialChild(LineAwesomeIcons.user_plus, 'Add Friend', () { showPhoneNumberPopup(context, addFriendFn); }),
+        _speedDialChild(LineAwesomeIcons.calendar_plus, 'Add Public Event', (){ showEventModalSheet(context, true);}),
+        _speedDialChild(LineAwesomeIcons.calendar_times_1, 'Add Private Event', (){ showEventModalSheet(context, false);}),
       ],
     );
   }
 
-  void showEventModalSheet(BuildContext context){
+  void showEventModalSheet(BuildContext context, bool isRemote){
     var userProvider = Provider.of<UserProvider>(context, listen: false);
     var eventProvider = Provider.of<EventProvider>(context, listen: false);
 
@@ -63,120 +61,13 @@ class SpeeddialButton extends StatelessWidget {
               userId: userProvider.user!.uid
           ),
           onSave: (event){
-              eventProvider.createEvent(event: event, context: context);
+              eventProvider.createEvent(event: event, context: context, isRemote: isRemote);
               userProvider.addEvent(event);
           },
           isEditing: false
       )
     );
   }
-
-  // void showEventPopup(BuildContext context) {
-  //   final TextEditingController titleController = TextEditingController();
-  //   final TextEditingController descriptionController = TextEditingController();
-  //   final TextEditingController locationController = TextEditingController();
-  //   final TextEditingController categoryController = TextEditingController();
-  //   DateTime? selectedDate;
-  //   final userProvider = Provider.of<UserProvider>(context, listen: false);
-  //   final eventProvider = Provider.of<EventProvider>(context, listen: false);
-  //
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text("Create Event"),
-  //         content: SingleChildScrollView(
-  //           child: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: [
-  //               TextField(
-  //                 controller: titleController,
-  //                 decoration: const InputDecoration(labelText: "Title"),
-  //               ),
-  //               const SizedBox(height: 10),
-  //               TextField(
-  //                 controller: descriptionController,
-  //                 decoration: const InputDecoration(labelText: "Description"),
-  //               ),
-  //               const SizedBox(height: 10),
-  //
-  //               TextField(
-  //                 controller: locationController,
-  //                 decoration: const InputDecoration(labelText: "Location"),
-  //               ),
-  //               const SizedBox(height: 10),
-  //
-  //               TextField(
-  //                 controller: categoryController,
-  //                 decoration: const InputDecoration(labelText: "Category"),
-  //               ),
-  //               const SizedBox(height: 10),
-  //               Row(
-  //                 children: [
-  //                   Text(selectedDate != null
-  //                       ? DateFormat('yyyy-MM-dd').format(selectedDate!)
-  //                       : "Select Date"),
-  //                   const Spacer(),
-  //                   ElevatedButton(
-  //                     style: ButtonStyle(
-  //                       minimumSize: WidgetStateProperty.all(const Size(0, 0)),
-  //                     ),
-  //                     onPressed: () async {
-  //                       DateTime? pickedDate = await showDatePicker(
-  //                         context: context,
-  //                         initialDate: DateTime.now(),
-  //                         firstDate: DateTime(2000),
-  //                         lastDate: DateTime(2101),
-  //                       );
-  //                       if (pickedDate != null) {
-  //                         selectedDate = pickedDate;
-  //                       }
-  //                     },
-  //                     child: const Text("Pick Date"),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: const Text("Cancel"),
-  //           ),
-  //           TextButton(
-  //             onPressed: () {
-  //               if (titleController.text.isNotEmpty &&
-  //                   descriptionController.text.isNotEmpty &&
-  //                   selectedDate != null &&
-  //                   locationController.text.isNotEmpty &&
-  //                   categoryController.text.isNotEmpty) {
-  //
-  //                 var newEvent = EventEntity(
-  //                   id: const Uuid().v4(),
-  //                   title: titleController.text,
-  //                   description: descriptionController.text,
-  //                   date: selectedDate!,
-  //                   location: locationController.text,
-  //                   category: categoryController.text,
-  //                   userId: userProvider.user!.uid,
-  //                 );
-  //
-  //                 eventProvider.createEvent(event: newEvent, context: context);
-  //                 userProvider.addEvent(newEvent);
-  //
-  //                 Navigator.of(context).pop();
-  //               }
-  //             },
-  //             child: const Text("Create"),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 
 
   void showPhoneNumberPopup(BuildContext context, Function(String) onOkPressed) {
@@ -205,7 +96,7 @@ class SpeeddialButton extends StatelessWidget {
                     final permission = FlutterContactPicker.requestPermission();
                     if(await permission){
                       FlutterContactPicker.pickPhoneContact().then((contact) {
-                        phoneNumberController.text = contact.phoneNumber!.number.toString();
+                        phoneNumberController.text = contact.phoneNumber!.number.toString().replaceAll(' ', '');
                       });
                     }
                   },

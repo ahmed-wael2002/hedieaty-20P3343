@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_code/common/constants/text_constants.dart';
 import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../gifts/presentation/state_management/gift_provider.dart';
@@ -10,10 +9,11 @@ import '../pages/event_page.dart';
 import '../state_management/event_provider.dart';
 
 class EventListTile extends StatelessWidget {
+  final bool isRemote;
   final bool isEditable;
   final EventEntity event;
   final Function() onRemove;
-  const EventListTile({super.key, required this.event, required this.onRemove, required this.isEditable});
+  const EventListTile({super.key, required this.event, required this.onRemove, required this.isEditable, required this.isRemote});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class EventListTile extends StatelessWidget {
                 ChangeNotifierProvider(create: (_) => EventProvider()),
                 ChangeNotifierProvider(create: (_) => UserProvider()),
               ],
-              child: EventPage(event: event, isEditable: isEditable,),
+              child: EventPage(event: event, isEditable: isEditable, isRemote: isRemote,),
             ),
           ),
         );
@@ -47,7 +47,7 @@ class EventListTile extends StatelessWidget {
         ),
       ),
       trailing: isEditable ? IconButton(
-        icon: const Icon(LineAwesomeIcons.trash, color: Colors.red),
+        icon: const Icon(Icons.delete, color: Colors.red),
         onPressed: () => onRemove(),
       ) : null,
     );

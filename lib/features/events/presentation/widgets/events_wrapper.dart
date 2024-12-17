@@ -8,7 +8,8 @@ import '../state_management/event_provider.dart';
 
 class EventsWrapper extends StatelessWidget {
   final String? friendId;
-  const EventsWrapper({this.friendId, super.key});
+  final bool isRemote;
+  const EventsWrapper({this.friendId, super.key, required this.isRemote});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class EventsWrapper extends StatelessWidget {
         return Consumer<EventProvider>(
           builder: (context, eventProvider, child) {
             return FutureBuilder(
-              future: eventProvider.getAllEvents(friendId ?? currentUser!.uid),
+              future: eventProvider.getAllEvents(friendId ?? currentUser!.uid, isRemote),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -41,7 +42,7 @@ class EventsWrapper extends StatelessWidget {
                 } else {
                   eventsList = snapshot.data!;
                 }
-                return EventsList(events: eventsList, isEditable: (friendId == null),);
+                return EventsList(events: eventsList, isEditable: (friendId == null), isRemote: isRemote,);
               },
             );
           },
