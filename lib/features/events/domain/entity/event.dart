@@ -27,7 +27,7 @@ class EventEntity{
       id: model.id,
       title: model.title,
       description: model.description,
-      date: model.date,
+      date: DateTime.parse(model.date!),
       location: model.location,
       category: model.category,
       userId: model.userId,

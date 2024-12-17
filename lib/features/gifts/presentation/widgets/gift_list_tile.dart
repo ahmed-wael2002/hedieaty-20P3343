@@ -6,10 +6,11 @@ import '../state_management/gift_provider.dart';
 import 'gift_edit_sheet.dart';
 
 class GiftListTile extends StatelessWidget {
+  final bool isRemote;
   final bool isEditable;
   final GiftEntity gift;
 
-  const GiftListTile({super.key, required this.gift, required this.isEditable});
+  const GiftListTile({super.key, required this.gift, required this.isEditable, required this.isRemote});
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +41,14 @@ class GiftListTile extends StatelessWidget {
             // Update isPledged value
             gift.isPledged = value;
             // Call the eventProvider to update the gift
-            giftProvider.updateGift(gift);
+            giftProvider.updateGift(gift: gift, isRemote: isRemote);
           }
         },
       ),
       trailing: isEditable ? IconButton(
         icon: const Icon(Icons.delete, color: Colors.red),
         onPressed: () async {
-          bool? result = await giftProvider.deleteGift(gift);
+          bool? result = await giftProvider.deleteGift(gift: gift, isRemote: isRemote);
           if(result ?? false){
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -72,7 +73,7 @@ class GiftListTile extends StatelessWidget {
             gift: gift,
             isEditing: true,
             onSave: (gift) {
-              giftProvider.updateGift(gift);
+              giftProvider.updateGift(gift: gift, isRemote: isRemote);
             },
           ),
         );

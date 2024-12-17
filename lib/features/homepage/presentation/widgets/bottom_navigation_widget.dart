@@ -35,6 +35,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
           icon: const Icon(LineAwesomeIcons.gift,),
           title: 'Gifts',
         ),
+        CustomTabItem(
+          color: color,
+          icon: const Icon(LineAwesomeIcons.lock,),
+          title: 'Private',
+        )
       ],
     );
   }

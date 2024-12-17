@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_code/common/constants/text_constants.dart';
 import 'package:lecture_code/features/users/presentation/pages/friend_page.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../../../../common/constants/images_paths.dart';
 import '../../domain/entity/user.dart';
@@ -41,7 +40,7 @@ class FriendListTile extends StatelessWidget {
         onPressed: () {
           onRemove();
         },
-        icon: const Icon(LineAwesomeIcons.trash, color: Colors.red),
+        icon: const Icon(Icons.delete, color: Colors.red),
       ),
     );
   }

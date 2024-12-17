@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lecture_code/features/gifts/data/repository/local/gift_repository.dart';
 import 'package:lecture_code/features/gifts/data/repository/remote/gift_repository.dart';
 import 'package:lecture_code/features/gifts/domain/usecases/fetch_gift_usecase.dart';
 import 'package:lecture_code/features/gifts/domain/usecases/get_gifts_usecase.dart';
@@ -9,46 +10,65 @@ import '../../domain/usecases/delete_gift_usecase.dart';
 import '../../domain/usecases/update_gift_usecase.dart';
 
 class GiftProvider extends ChangeNotifier{
+  // Remote Usecases
+  final _remoteFetchGiftUsecase = FetchGiftUsecase(GiftRepositoryFirestoreImpl());
+  final _remoteGetGiftsUsecase = GetGiftsUsecase(GiftRepositoryFirestoreImpl());
+  final _remoteCreateGiftUsecase = CreateGiftUsecase(GiftRepositoryFirestoreImpl());
+  final _remoteUpdateGiftUsecase = UpdateGiftUsecase(GiftRepositoryFirestoreImpl());
+  final _remoteDeleteGiftUsecase = DeleteGiftUsecase(GiftRepositoryFirestoreImpl());
+  final _remoteGetPledgedGifts = GetPledgedGiftsUseCase(GiftRepositoryFirestoreImpl());
 
-  final _fetchGiftUsecase = FetchGiftUsecase(GiftRepositoryFirestoreImpl());
-  final _getGiftsUsecase = GetGiftsUsecase(GiftRepositoryFirestoreImpl());
-  final _createGiftUsecase = CreateGiftUsecase(GiftRepositoryFirestoreImpl());
-  final _updateGiftUsecase = UpdateGiftUsecase(GiftRepositoryFirestoreImpl());
-  final _deleteGiftUsecase = DeleteGiftUsecase(GiftRepositoryFirestoreImpl());
-  final _getPledgedGifts = GetPledgedGiftsUseCase(GiftRepositoryFirestoreImpl());
-  // Stream<List<GiftEntity>?> getGiftsStream(String eventId) async* {
-  //   yield* await _getGiftsStreamUsecase.call(params: eventId);
-  // }
-  Future<List<GiftEntity>?> getPledgedGifts(String userId) async{
+  final _localFetchGiftUsecase = FetchGiftUsecase(GiftLocalRepositoryImpl());
+  final _localGetGiftsUsecase = GetGiftsUsecase(GiftLocalRepositoryImpl());
+  final _localCreateGiftUsecase = CreateGiftUsecase(GiftLocalRepositoryImpl());
+  final _localUpdateGiftUsecase = UpdateGiftUsecase(GiftLocalRepositoryImpl());
+  final _localDeleteGiftUsecase = DeleteGiftUsecase(GiftLocalRepositoryImpl());
+  final _localGetPledgedGifts = GetPledgedGiftsUseCase(GiftLocalRepositoryImpl());
+
+  Future<List<GiftEntity>?> getPledgedGifts({required String userId, required bool isRemote}) async{
     try {
-      return await _getPledgedGifts.call(params: userId);
+      if(isRemote){
+        return await _remoteGetPledgedGifts.call(params: userId);
+      }
+      return await _localGetPledgedGifts.call(params: userId);
     } catch (e) {
       debugPrint('Error fetching pledged gifts: $e');
     }
     return null;
   }
 
-  Future<List<GiftEntity>?> getGifts(String eventId) async{
+  Future<List<GiftEntity>?> getGifts({required String eventId, required bool isRemote}) async{
     try {
-      return await _getGiftsUsecase.call(params: eventId);
+      if(isRemote){
+        return await _remoteGetGiftsUsecase.call(params: eventId);
+      }
+      return await _localGetGiftsUsecase.call(params: eventId);
     } catch (e) {
       debugPrint('Error fetching gifts: $e');
     }
     return null;
   }
 
-  Future<GiftEntity?> fetchGift(String giftId) async{
+  Future<GiftEntity?> fetchGift({required String giftId, required bool isRemote}) async{
     try {
-      return await _fetchGiftUsecase.call(params: giftId);
+      if(isRemote){
+        return await _remoteFetchGiftUsecase.call(params: giftId);
+      }
+      return await _localFetchGiftUsecase.call(params: giftId);
     } catch (e) {
       debugPrint('Error fetching gift: $e');
     }
     return null;
   }
 
-  Future<bool?> createGift(GiftEntity gift) async{
+  Future<bool?> createGift({required GiftEntity gift, required bool isRemote}) async{
     try {
-      await _createGiftUsecase.call(params: gift);
+      if(isRemote){
+        await _remoteCreateGiftUsecase.call(params: gift);
+      }
+      else{
+        await _localCreateGiftUsecase.call(params: gift);
+      }
       notifyListeners();
       return true;
     } catch (e) {
@@ -57,9 +77,14 @@ class GiftProvider extends ChangeNotifier{
     }
   }
 
-  Future<bool?> updateGift(GiftEntity gift) async{
+  Future<bool?> updateGift({required GiftEntity gift, required bool isRemote}) async{
     try {
-      await _updateGiftUsecase.call(params: gift);
+      if(isRemote){
+        await _remoteUpdateGiftUsecase.call(params: gift);
+      }
+      else{
+        await _localUpdateGiftUsecase.call(params: gift);
+      }
       notifyListeners();
       return true;
     } catch (e) {
@@ -68,9 +93,14 @@ class GiftProvider extends ChangeNotifier{
     }
   }
 
-  Future<bool?> deleteGift(GiftEntity gift) async{
+  Future<bool?> deleteGift({required GiftEntity gift, required bool isRemote}) async{
     try {
-      await _deleteGiftUsecase.call(params: gift);
+      if(isRemote){
+        await _remoteDeleteGiftUsecase.call(params: gift);
+      }
+      else{
+        await _localDeleteGiftUsecase.call(params: gift);
+      }
       notifyListeners();
       return true;
     } catch (e) {
