@@ -1,6 +1,5 @@
 import 'package:lecture_code/common/constants/local/local_database_constants.dart';
 import 'package:lecture_code/common/local/sqflite_singleton.dart';
-import 'package:sqflite/sqflite.dart';
 
 class GiftLocalDatabase extends BaseLocalDatabase {
   static final GiftLocalDatabase instance = GiftLocalDatabase._privateConstructor();
