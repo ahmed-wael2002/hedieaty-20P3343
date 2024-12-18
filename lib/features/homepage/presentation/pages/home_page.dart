@@ -84,14 +84,14 @@ class MyHomePage extends StatelessWidget {
                   ),
                 ),
                Expanded(
-                      child: PageView(
-                        onPageChanged: (index) {
-                          homepageProvider.setPageIndex(index);
-                        },
-                        controller: homepageProvider.pageController,
-                        children: homepageProvider.navigationWidgets,
-                      ),
-                    )
+                  child: PageView(
+                    onPageChanged: (index) {
+                      homepageProvider.setPageIndex(index);
+                    },
+                    controller: homepageProvider.pageController,
+                    children: homepageProvider.navigationWidgets,
+                  ),
+                )
                 // Expanded(child: homepageProvider.currentView),
               ],
             ),

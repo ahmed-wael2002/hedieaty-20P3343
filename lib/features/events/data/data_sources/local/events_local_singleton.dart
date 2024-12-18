@@ -1,5 +1,4 @@
 import 'package:lecture_code/common/constants/local/local_database_constants.dart';
-import 'package:sqflite/sqflite.dart';
 import '../../../../../common/local/sqflite_singleton.dart';
 
 class EventLocalDatabase extends BaseLocalDatabase {
