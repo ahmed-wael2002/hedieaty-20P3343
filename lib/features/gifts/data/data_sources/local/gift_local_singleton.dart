@@ -1,11 +1,9 @@
-import 'package:lecture_code/common/constants/local/local_database_constants.dart';
 import 'package:lecture_code/common/local/sqflite_singleton.dart';
 
 class GiftLocalDatabase extends BaseLocalDatabase {
   static final GiftLocalDatabase instance = GiftLocalDatabase._privateConstructor();
   GiftLocalDatabase._privateConstructor();
 
-  final String _databaseName = databaseName;
   final String _tableName = 'gifts';
 
   Future<int> addGift(Map<String, dynamic> giftData) async {

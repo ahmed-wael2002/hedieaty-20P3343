@@ -36,6 +36,7 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 20),
 
               CustomFormTextField(
+                key: const Key('SignInEmailField'),
                 controller: _emailController,
                 validator: emailValidator,
                 labelText: 'Email',
@@ -46,6 +47,7 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 20),
 
               CustomPasswordField(
+                key: const Key('SignInPasswordField'),
                 controller: _passwordController,
                 validator: passwordValidator,
                 labelText: 'Password',
@@ -55,6 +57,7 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 20),
 
               ElevatedButton(
+                key: const Key('signInButton'),
                 onPressed: ()=>_loginButtonFn(context, _formKey, loginProvider, _emailController.text, _passwordController.text),
                 child: const Text('Login'),
               ),

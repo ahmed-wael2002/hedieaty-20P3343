@@ -1,4 +1,3 @@
-import 'package:lecture_code/common/constants/local/local_database_constants.dart';
 import '../../../../../common/local/sqflite_singleton.dart';
 
 class EventLocalDatabase extends BaseLocalDatabase {
@@ -6,7 +5,6 @@ class EventLocalDatabase extends BaseLocalDatabase {
   static final EventLocalDatabase instance = EventLocalDatabase._privateConstructor();
   EventLocalDatabase._privateConstructor();
 
-  final String _databaseName = databaseName;
   final String _tableName = 'events';
 
   /// Add an event
