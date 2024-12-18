@@ -1,18 +1,30 @@
-allprojects {
+buildscript {
     repositories {
-        google()
-        mavenCentral()
+        google()  // Ensure Google's repository is included
+        mavenCentral()  // Ensure Maven Central repository is included
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:4.4.2'  // Use the correct version
+        // other dependencies if needed
     }
 }
 
-rootProject.buildDir = "../build"
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
+allprojects {
+    repositories {
+        google()  // Google's repository for dependencies
+        mavenCentral()  // Maven Central repository for dependencies
+    }
 }
+
+rootProject.buildDir = "../build"  // Set a custom build directory
 subprojects {
-    project.evaluationDependsOn(":app")
+    project.buildDir = "${rootProject.buildDir}/${project.name}"  // Set build directory for subprojects
+}
+
+subprojects {
+    project.evaluationDependsOn(":app")  // Ensure the app project is evaluated before others
 }
 
 tasks.register("clean", Delete) {
-    delete rootProject.buildDir
+    delete rootProject.buildDir  // Define a clean task that deletes the build directory
 }
