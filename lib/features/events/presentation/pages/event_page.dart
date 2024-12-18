@@ -153,6 +153,7 @@ class EventPageState extends State<EventPage> {
                 builder: (context) => GiftEditSheet(
                   isEditing: false,
                   gift: GiftEntity(
+                    imageUrl: '',
                     id: const Uuid().v4(),
                     name: '',
                     description: '',
@@ -164,6 +165,9 @@ class EventPageState extends State<EventPage> {
                   ),
                   onSave: (gift) {
                     giftsProvider.createGift(gift: gift, isRemote: widget.isRemote);
+                  },
+                  uploadImage: () {
+                    return giftsProvider.uploadImage();
                   },
                 ),
               );

@@ -58,6 +58,8 @@ dependencies:
   json_annotation: ^4.9.0
   floor_generator: ^1.5.0
   liquid_pull_to_refresh: ^3.0.1
+  dio: ^5.7.0
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
