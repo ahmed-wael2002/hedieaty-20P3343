@@ -9,8 +9,10 @@ class GiftEntity{
   bool isPledged;
   final String eventId;
   final String userId;
+  final String imageUrl;
 
   GiftEntity({
+    required this.imageUrl,
     required this.id,
     required this.name,
     required this.description,
@@ -32,6 +34,7 @@ class GiftEntity{
     String? userId,
   }) {
     return GiftEntity(
+      imageUrl: imageUrl,
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
@@ -72,6 +75,7 @@ class GiftEntity{
 
   static GiftEntity fromMap(Map<String, dynamic> giftMap) {
     return GiftEntity(
+      imageUrl: giftMap['imageUrl'] as String,
       id: giftMap['id'] as String,
       name: giftMap['name'] as String,
       description: giftMap['description'] as String,
@@ -85,6 +89,7 @@ class GiftEntity{
 
   factory GiftEntity.fromModel(GiftModel gift){
     return GiftEntity(
+      imageUrl: gift.imageUrl,
       id: gift.id,
       name: gift.name,
       description: gift.description,
@@ -99,6 +104,7 @@ class GiftEntity{
 
   Map<String, dynamic> toMap() {
     return {
+      'imageUrl': imageUrl,
       'id': id,
       'name': name,
       'description': description,

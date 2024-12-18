@@ -15,6 +15,7 @@ List<String> databaseCreateCommands = [
       '''
     CREATE TABLE IF NOT EXISTS gifts (
       id TEXT PRIMARY KEY NOT NULL,
+      imageUrl TEXT,
       name TEXT NOT NULL,
       description TEXT,
       category TEXT,

@@ -6,11 +6,12 @@ import 'package:uuid/uuid.dart';
 import '../../domain/entity/gift.dart';
 
 class GiftEditSheet extends StatefulWidget {
+  final Function() uploadImage;
   final Function(GiftEntity) onSave;
   final GiftEntity gift;
   final bool isEditing;
 
-  const GiftEditSheet({super.key, required this.gift, required this.onSave, required this.isEditing});
+  const GiftEditSheet({super.key, required this.gift, required this.onSave, required this.isEditing, required this.uploadImage});
 
   @override
   GiftEditSheetState createState() => GiftEditSheetState();
@@ -22,6 +23,7 @@ class GiftEditSheetState extends State<GiftEditSheet> {
   late TextEditingController _descriptionController;
   late TextEditingController _priceController;
   late TextEditingController _categoryController;
+  String imageUrl = '';
 
   @override
   void initState() {
@@ -44,6 +46,7 @@ class GiftEditSheetState extends State<GiftEditSheet> {
 
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(), // Dismiss keyboard when tapping outside
       child: SingleChildScrollView(
@@ -101,14 +104,24 @@ class GiftEditSheetState extends State<GiftEditSheet> {
                   inputType: TextInputType.number,
                 ),
                 const SizedBox(height: 16),
+                ElevatedButton(
+                    onPressed: () async{
+                      imageUrl = await widget.uploadImage();
+                      print(imageUrl);
+                    },
+                    child: const Text('Upload image')
+                ),
+                const SizedBox(height: 16),
                 // Save button
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
+                        print(imageUrl);
+                        if (_formKey.currentState!.validate() && imageUrl.isNotEmpty && imageUrl!='') {
                           final newGift = GiftEntity(
+                            imageUrl: imageUrl,
                             id: widget.isEditing ? widget.gift.id : const Uuid().v4(),
                             name: _nameController.text.trim(),
                             description: _descriptionController.text.trim(),

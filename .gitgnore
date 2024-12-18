@@ -1,0 +1,5 @@
+# Ignore the Firebase options file
+/lib/firebase_options.dart
+
+# Ignore the "common" directory
+/lib/common/

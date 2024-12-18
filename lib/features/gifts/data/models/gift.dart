@@ -9,8 +9,10 @@ class GiftModel{
   final String isPledged;
   final String eventId;
   final String userId;
+  final String imageUrl;
 
   GiftModel({
+    required this.imageUrl,
     required this.id,
     required this.name,
     required this.description,
@@ -23,6 +25,7 @@ class GiftModel{
 
   factory GiftModel.fromEntity(GiftEntity entity){
     return GiftModel(
+      imageUrl: entity.imageUrl,
       id: entity.id,
       name: entity.name,
       description: entity.description,
@@ -36,6 +39,7 @@ class GiftModel{
 
   factory GiftModel.fromMap(Map<String, dynamic> giftMap) {
     return GiftModel(
+      imageUrl: giftMap['imageUrl'],
       id: giftMap['id'],
       name: giftMap['name'],
       description: giftMap['description'],
@@ -49,6 +53,7 @@ class GiftModel{
 
   Map<String, dynamic> toMap() {
     return {
+      'imageUrl': imageUrl,
       'id': id,
       'name': name,
       'description': description,

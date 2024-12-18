@@ -4,12 +4,15 @@ import 'package:lecture_code/features/gifts/data/repository/remote/gift_reposito
 import 'package:lecture_code/features/gifts/domain/usecases/fetch_gift_usecase.dart';
 import 'package:lecture_code/features/gifts/domain/usecases/get_gifts_usecase.dart';
 import 'package:lecture_code/features/gifts/domain/usecases/get_pledged_gifts_usecase.dart';
+import 'package:lecture_code/features/gifts/domain/usecases/upload_image_usecase.dart';
 import '../../domain/entity/gift.dart';
 import '../../domain/usecases/create_gift_usecase.dart';
 import '../../domain/usecases/delete_gift_usecase.dart';
 import '../../domain/usecases/update_gift_usecase.dart';
 
 class GiftProvider extends ChangeNotifier{
+  final _uploadImageUsecase = UploadImageUsecase();
+
   // Remote Usecases
   final _remoteFetchGiftUsecase = FetchGiftUsecase(GiftRepositoryFirestoreImpl());
   final _remoteGetGiftsUsecase = GetGiftsUsecase(GiftRepositoryFirestoreImpl());
@@ -91,6 +94,10 @@ class GiftProvider extends ChangeNotifier{
       debugPrint('Error updating gift: $e');
       return false;
     }
+  }
+
+  Future<String?> uploadImage(){
+    return _uploadImageUsecase();
   }
 
   Future<bool?> deleteGift({required GiftEntity gift, required bool isRemote}) async{
