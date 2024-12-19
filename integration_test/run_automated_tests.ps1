@@ -1,17 +1,18 @@
-# Set the test directory path
-$testDirectory = "D:\College\Semester 9\1-Mobile Programming\Project\test"
+# Set the integration_test directory path
+$testDirectory = "D:\College\Semester 9\1-Mobile Programming\Project\integration_test"
+$projectDirectory = "D:\College\Semester 9\1-Mobile Programming\Project\"
 $recordingFileName = "screen_recording.mp4"
 $recordingPath = "/sdcard/$recordingFileName"
 
+Set-Location -Path $projectDirectory
 # Start the screen recording in the background (time-limited to 60 seconds)
-Start-Process adb -ArgumentList "shell", "screenrecord --time-limit 60 $recordingPath"
+Start-Process adb -ArgumentList "shell", "screenrecord --time-limit 100 $recordingPath" -NoNewWindow
 
-# Run the Flutter tests
-cd $testDirectory
-$flutterProcess = Start-Process flutter -ArgumentList "run", "test/login_page_test.dart" -PassThru
+# Start the Flutter test process
+$flutterProcess = Start-Process flutter -ArgumentList "test", "integration_test" -PassThru -NoNewWindow
 
-# Wait for 60 seconds to allow the test to run
-Start-Sleep -Seconds 60
+# Wait for the Flutter test to run (time limit of 60 seconds for screen recording)
+Start-Sleep -Seconds 100
 
 # Kill the Flutter process if it's still running
 if (!$flutterProcess.HasExited) {

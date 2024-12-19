@@ -58,6 +58,7 @@ class SignupPage extends StatelessWidget {
                     Text('Sign Up', style: Theme.of(context).textTheme.headlineLarge),
                     const SizedBox(height: 20),
                     CustomFormTextField(
+                      key: const Key('SignUpNameField'),
                       controller: _nameController,
                       validator: nameValidator,
                       labelText: 'User name',
@@ -66,6 +67,7 @@ class SignupPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     CustomFormTextField(
+                      key: const Key('SignUpEmailField'),
                       controller: _emailController,
                       validator: emailValidator,
                       labelText: 'E-mail',
@@ -74,6 +76,7 @@ class SignupPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     CustomFormTextField(
+                      key: const Key('SignUpPhoneField'),
                       controller: _phoneController,
                       validator: nameValidator,
                       labelText: 'Phone Number',
@@ -82,6 +85,7 @@ class SignupPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     CustomPasswordField(
+                      key: const Key('SignUpPasswordField'),
                       controller: _passwordController,
                       validator: passwordValidator,
                       labelText: 'Password',
@@ -89,6 +93,7 @@ class SignupPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
+                      key: const Key('SignUpButton'),
                       onPressed: () => _signUpFn(
                           context,
                           _formKey,

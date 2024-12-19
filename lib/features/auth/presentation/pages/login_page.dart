@@ -69,6 +69,7 @@ class LoginPage extends StatelessWidget {
                 children: [
                   const Text('Don\'t have an account? '),
                   GestureDetector(
+                    key: const Key('RedirectToSignUp'),
                     onTap: ()=>Navigator.of(context).push(
                       MaterialPageRoute(builder: (context)=>SignupPage())
                     ),
