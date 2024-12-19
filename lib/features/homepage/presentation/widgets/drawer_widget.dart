@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lecture_code/features/settings/presentation/pages/settings_page.dart';
 import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -38,14 +39,20 @@ class CustomDrawer extends StatelessWidget {
         ),
         ElevatedButton(
             onPressed: () => userProvider.setUser(authProvider.uid),
-            child: const Text('Test User')
+            child: const Text('Reload User Details')
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        ElevatedButton(
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage())),
+            child: const Text('Settings')
         ),
 
         const SizedBox(
           height: 20,
         ),
 
-        ElevatedButton(onPressed: () {}, child: const Text('Logout')),
         const SizedBox(
           height: 20,
         ),

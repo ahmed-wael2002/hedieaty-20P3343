@@ -5,6 +5,8 @@ import 'package:lecture_code/features/users/domain/entity/user.dart';
 import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../auth/presentation/state_mgmt/auth_provider.dart';
+
 class UpdateProfilePage extends StatefulWidget {
   final UserEntity user;
   const UpdateProfilePage({super.key, required this.user});
@@ -37,83 +39,81 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(builder: (context, userProvider, child) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Update Profile'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(26.0),
-          child: Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  // crossAxisAlignment: CrossAxisAlignment,
-                  // mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const CircleAvatar(
-                      radius: 60,
-                      backgroundImage:
-                          AssetImage('assets/images/Ahmed Wael.jpg'),
-                    ),
-                    const SizedBox(height: 20),
-                    CustomFormTextField(
-                        controller: _nameController,
-                        validator: FormFieldValidators.name,
-                        labelText: 'Full Name',
-                        hintText: 'Enter your full name',
-                        inputType: TextInputType.name),
-                    const SizedBox(height: 20),
-                    CustomFormTextField(
-                        controller: _emailController,
-                        validator: FormFieldValidators.email,
-                        labelText: 'Email',
-                        hintText: 'Enter your email',
-                        inputType: TextInputType.emailAddress),
-                    const SizedBox(height: 20),
-                    CustomFormTextField(
-                        controller: _phoneNumberController,
-                        validator: FormFieldValidators.number,
-                        labelText: 'Phone Number',
-                        hintText: 'Enter your phone number',
-                        inputType: TextInputType.phone),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            bool? success = false;
-                            success = await userProvider
-                                .updateUser(UserEntity(
-                                    widget.user.uid,
-                                    _nameController.text,
-                                    _emailController.text,
-                                    _phoneNumberController.text,
-                                    widget.user.friendsList,
-                                    widget.user.eventsList,
-                                    widget.user.fcmToken
-                            ))
-                                .then((value) => value);
-                            if (success) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text(
-                                          'Profile updated successfully')));
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content:
-                                          Text('Failed to update profile')));
-                            }
-                            Navigator.pop(context);
+    final userProvider = Provider.of<UserProvider>(context);
+    final authProvider = Provider.of<AuthenticationProvider>(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Update Profile'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(26.0),
+        child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment,
+                // mainAxisSize: MainAxisSize.min,
+                children: [
+                  const CircleAvatar(
+                    radius: 60,
+                    backgroundImage: AssetImage('assets/images/default.jpg'),
+                  ),
+                  const SizedBox(height: 20),
+                  CustomFormTextField(
+                      controller: _nameController,
+                      validator: FormFieldValidators.name,
+                      labelText: 'Full Name',
+                      hintText: 'Enter your full name',
+                      inputType: TextInputType.name),
+                  const SizedBox(height: 20),
+                  CustomFormTextField(
+                      controller: _emailController,
+                      validator: FormFieldValidators.email,
+                      labelText: 'Email',
+                      hintText: 'Enter your email',
+                      inputType: TextInputType.emailAddress),
+                  const SizedBox(height: 20),
+                  CustomFormTextField(
+                      controller: _phoneNumberController,
+                      validator: FormFieldValidators.number,
+                      labelText: 'Phone Number',
+                      hintText: 'Enter your phone number',
+                      inputType: TextInputType.phone),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          bool? success = false;
+                          success = await userProvider
+                              .updateUser(UserEntity(
+                                  widget.user.uid,
+                                  _nameController.text,
+                                  _emailController.text,
+                                  _phoneNumberController.text,
+                                  widget.user.friendsList,
+                                  widget.user.eventsList,
+                                  widget.user.fcmToken))
+                              .then((value) => value);
+                          userProvider.setUser(authProvider.uid);
+                          if (success) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text('Profile updated successfully')));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Failed to update profile')));
                           }
-                        },
-                        child: const Text('Update Profile')),
-                  ],
-                ),
-              )),
-        ),
-      );
-    });
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: const Text('Update Profile')),
+                ],
+              ),
+            )),
+      ),
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lecture_code/features/auth/presentation/state_mgmt/auth_provider.dart';
 import 'package:lecture_code/features/users/presentation/pages/update_profile_page.dart';
 import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -37,7 +38,7 @@ class ProfilePage extends StatelessWidget {
                       height: 120,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
-                        child: const Image(image: AssetImage('assets/images/Ahmed Wael.jpg')),
+                        child: const Image(image: AssetImage('assets/images/default.jpg')),
                       ),
                     ),
                     Positioned(
@@ -72,8 +73,11 @@ class ProfilePage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ChangeNotifierProvider(
-                            create: (_) => UserProvider(),
+                          builder: (context) => MultiProvider(
+                            providers: [
+                              ChangeNotifierProvider(create: (_) => UserProvider()),
+                              ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
+                            ],
                             child: UpdateProfilePage(user: user),
                           )
                         ),

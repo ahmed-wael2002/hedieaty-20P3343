@@ -5,7 +5,7 @@ class PledgeGiftSubject implements ISubject{
   late final String _myName;
   String _friendToken = '';
   String _giftName = '';
-  List<IObserver> _observers = [];
+  final List<IObserver> _observers = [];
 
   PledgeGiftSubject(
     this._myName,

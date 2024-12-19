@@ -63,9 +63,6 @@ class CustomTheme{
    ThemeData darkThemeData() {
      return ThemeData(
        colorScheme: _darkColorScheme,
-       // appBarTheme: _getAppBarTheme(_darkColorScheme).copyWith(
-       //   backgroundColor: Colors.black, // Optional: Customize AppBar for dark theme
-       // ),
        appBarTheme: _getAppBarTheme(_darkColorScheme),
        scaffoldBackgroundColor: _darkColorScheme.surface,
        fontFamily: _fontFamily,

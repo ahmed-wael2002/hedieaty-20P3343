@@ -10,8 +10,8 @@ import 'package:uuid/uuid.dart';
 
 import '../../../events/domain/entity/event.dart';
 import '../../../events/presentation/state_management/event_provider.dart';
-import '../../../notification/data/firebase_messaging_api/push_notification_service.dart';
-import '../../../notification/domain/Entities/add_friend_subject.dart';
+// import '../../../notification/data/firebase_messaging_api/push_notification_service.dart';
+// import '../../../notification/domain/Entities/add_friend_subject.dart';
 
 
 class SpeeddialButton extends StatelessWidget {

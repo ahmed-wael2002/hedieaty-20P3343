@@ -48,8 +48,8 @@ class _GiftsListViewState extends State<GiftsListView> {
 
   @override
   Widget build(BuildContext context) {
-    var userProvider = Provider.of<UserProvider>(context, listen: true);
-    print('From gift list view: ${userProvider.user?.name}');
+    // var userProvider = Provider.of<UserProvider>(context, listen: true);
+    // print('From gift list view: ${userProvider.user?.name}');
     return Column(
       children: [
         Padding(

@@ -16,7 +16,7 @@ import '../../domain/usecase/remove_event_usecase.dart';
 import '../../domain/usecase/remove_friend_usecase.dart';
 
 class UserProvider extends ChangeNotifier {
-  String userName = '';
+  // String userName = '';
   UserEntity? user;
   AddFriendSubject? friendSubject;
   NotificationObserver? notificationObserver;
@@ -32,16 +32,16 @@ class UserProvider extends ChangeNotifier {
   void setUser(String? userId) async {
     if (userId != null) {
       user = await getUserUsecase.call(params: userId);
-      userName = user!.name ?? '';
+      // userName = user!.name ?? '';
       friendSubject = AddFriendSubject();
       notificationObserver = NotificationObserver(friendSubject!);
       notifyListeners();
     }
   }
 
-  String getUserName(){
-    return userName;
-  }
+  // String getUserName(){
+  //   return userName;
+  // }
 
   Future<UserEntity?> getUser(String userId) async{
     return await getUserUsecase.call(params: userId);

@@ -107,7 +107,7 @@ class GiftEditSheetState extends State<GiftEditSheet> {
                 ElevatedButton(
                     onPressed: () async{
                       imageUrl = await widget.uploadImage();
-                      print(imageUrl);
+                      // print(imageUrl);
                     },
                     child: const Text('Upload image')
                 ),
@@ -118,7 +118,7 @@ class GiftEditSheetState extends State<GiftEditSheet> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        print(imageUrl);
+                        // print(imageUrl);
                         if (_formKey.currentState!.validate() && imageUrl.isNotEmpty && imageUrl!='') {
                           final newGift = GiftEntity(
                             imageUrl: imageUrl,

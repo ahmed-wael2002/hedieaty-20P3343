@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:lecture_code/features/homepage/presentation/state_management/homepage_provider.dart';
 // import 'package:provider/provider.dart';
 
-import '../../../users/domain/entity/user.dart';
+import '../../domain/entity/user.dart';
 
 class ProfileWidget extends StatelessWidget {
 
@@ -26,7 +26,7 @@ class ProfileWidget extends StatelessWidget {
             height: 80,
             child: ClipOval(
               child: Image.asset(
-                'assets/images/Ahmed Wael.jpg',
+                'assets/images/default.jpg',
                 // homepageProvider.user.imageUrl,
                 fit: BoxFit.cover,
               ),

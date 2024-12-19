@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lecture_code/features/gifts/presentation/state_management/gift_provider.dart';
 import 'package:lecture_code/features/users/domain/entity/user.dart';
 import 'package:lecture_code/features/homepage/presentation/state_management/homepage_provider.dart';
+import 'package:lecture_code/features/users/presentation/pages/update_profile_page.dart';
 import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
 import 'package:lecture_code/features/homepage/presentation/widgets/bottom_navigation_widget.dart';
 import 'package:lecture_code/features/homepage/presentation/widgets/drawer_widget.dart';
@@ -9,10 +10,10 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 
 // Pages
-import '../../../users/presentation/pages/profile_page.dart';
+// import '../../../users/presentation/pages/profile_page.dart';
 import '../../../auth/presentation/state_mgmt/auth_provider.dart';
 import '../../../events/presentation/state_management/event_provider.dart';
-import '../widgets/profile_widget.dart';
+import '../../../users/presentation/widgets/profile_widget.dart';
 import '../widgets/speeddial_widget.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -52,7 +53,7 @@ class MyHomePage extends StatelessWidget {
             );
           }
 
-          print('From home page: ${userProvider.user?.name}');
+          // print('From home page: ${userProvider.user?.name}');
 
           return Scaffold(
             appBar: AppBar(
@@ -77,8 +78,13 @@ class MyHomePage extends StatelessWidget {
                     child: ProfileWidget(user: userProvider.user ?? mockUser),
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) =>
-                            ProfilePage(user: userProvider.user ?? mockUser),
+                        builder: (context) => MultiProvider(
+                            providers: [
+                              ChangeNotifierProvider(create: (_) => UserProvider()),
+                              ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
+                            ],
+                            child: UpdateProfilePage(user: userProvider.user ?? mockUser),
+                        )
                       ),
                     ),
                   ),

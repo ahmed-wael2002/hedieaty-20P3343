@@ -1,20 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:lecture_code/configs/theme/theme.dart';
-import 'package:lecture_code/features/auth/presentation/pages/auth_wrapper.dart';
+import 'features/auth/presentation/pages/auth_wrapper.dart';
 
-import 'features/notification/data/firebase_messaging/firebase_messaging_api.dart';
+import 'common/shared_preferences/shared_preferences_singleton.dart';
+import 'features/settings/presentation/state_management/settings_provider.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Firebase Initializations
   await Firebase.initializeApp();
-  await FirebaseAPI().initNotification();
-  // Initialize Local Databases
-  // Run Application
-  runApp(const MyApp());
+  // Initialize SharedPreferences
+  await SharedPrefs().init();
 
-  // Fixing notification issue
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -23,13 +22,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final customTheme = CustomTheme();
-    return MaterialApp(
-      title: 'Hedieaty',
-      theme: customTheme.lightThemeData(context),
-      darkTheme: customTheme.darkThemeData(),
-      themeMode: ThemeMode.system,
-      debugShowCheckedModeBanner: false,
-      home: const AuthWrapper(),
+    return ChangeNotifierProvider(
+      create: (context) => SettingsProvider(),
+      child: Consumer<SettingsProvider>(
+        builder: (context, settingsProvider, _) {
+          return MaterialApp(
+            title: 'Hedieaty',
+            theme: customTheme.lightThemeData(context),
+            darkTheme: customTheme.darkThemeData(),
+            themeMode: settingsProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light, // Apply theme mode dynamically
+            debugShowCheckedModeBanner: false,
+            home: const AuthWrapper(),
+          );
+        },
+      ),
     );
   }
 }

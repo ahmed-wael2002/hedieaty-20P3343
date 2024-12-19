@@ -4,7 +4,7 @@ import 'package:lecture_code/features/gifts/presentation/state_management/gift_p
 import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
 import '../../../events/domain/entity/event.dart';
 import '../../domain/entity/gift.dart';
-import 'gift_list_tile.dart';
+// import 'gift_list_tile.dart';
 import 'gift_list_view.dart'; // or wherever your GiftListTile is used
 
 class GiftsListWrapper extends StatelessWidget {
@@ -38,7 +38,7 @@ class GiftsListWrapper extends StatelessWidget {
             eventId: event!.id!,
             isRemote: isRemote),
         builder: (context, snapshot) {
-          print('From gift list wrapper: ${Provider.of<UserProvider>(context, listen: true).user?.name}');
+          // print('From gift list wrapper: ${Provider.of<UserProvider>(context, listen: true).user?.name}');
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }

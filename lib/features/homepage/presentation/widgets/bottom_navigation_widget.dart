@@ -20,22 +20,22 @@ class CustomBottomNavigationBar extends StatelessWidget {
       showElevation: false, // use this to remove appBar's elevation
       onItemSelected: (index) => homepageProvider.navigateToPage(index),
       items: [
-        CustomTabItem(
+        customTabItem(
           color: color,
           icon: const Icon(LineAwesomeIcons.user,),
           title: 'Friends',
         ),
-        CustomTabItem(
+        customTabItem(
           color: color,
           icon: const Icon(LineAwesomeIcons.calendar,),
           title: 'Events',
         ),
-        CustomTabItem(
+        customTabItem(
           color: color,
           icon: const Icon(LineAwesomeIcons.gift,),
           title: 'Gifts',
         ),
-        CustomTabItem(
+        customTabItem(
           color: color,
           icon: const Icon(LineAwesomeIcons.lock,),
           title: 'Private',
@@ -43,7 +43,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
       ],
     );
   }
-  FlashyTabBarItem CustomTabItem({
+  FlashyTabBarItem customTabItem({
     required Color color,
     required Icon icon,
     required String title,
