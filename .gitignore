@@ -44,5 +44,4 @@ app.*.map.json
 
 # Some secret API keys 
 /lib/firebase_options.dart 
-/lib/common/
-*.ps1
+/lib/configs/secret

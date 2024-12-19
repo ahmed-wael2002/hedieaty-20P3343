@@ -13,6 +13,8 @@ void main() async{
   // Initialize Local Databases
   // Run Application
   runApp(const MyApp());
+
+  // Fixing notification issue
 }
 
 class MyApp extends StatelessWidget {
