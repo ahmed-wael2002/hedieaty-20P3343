@@ -24,9 +24,8 @@ class GiftListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final giftProvider = Provider.of<GiftProvider>(context, listen: true);
-    final mainContext = context;
     final userProvider = Provider.of<UserProvider>(context, listen: true);
-    print('From gift: ${userProvider.user?.name}');
+    // print('From gift: ${userProvider.user?.name}');
 
     return Dismissible(
       key: ValueKey(gift.id), // Use a unique key for each item
@@ -117,7 +116,23 @@ class GiftListTile extends StatelessWidget {
               // Call the eventProvider to update the gift
               giftProvider.updateGift(gift: gift, isRemote: isRemote);
               if (!isEditable) {
-                notifyFriendWithPledge(mainContext);
+                // Send notification to the gift owner
+                UserEntity? owner = await userProvider.getUser(gift.userId);
+                if (owner != null) {
+                  if(value){
+                    PushNotificationService.sendNotificationToDevice(
+                      deviceToken: owner.fcmToken!,
+                      title: 'Gift Pledged',
+                      body: '${gift.name} has been pledged',
+                    );
+                  } else {
+                    PushNotificationService.sendNotificationToDevice(
+                      deviceToken: owner.fcmToken!,
+                      title: 'Gift Unpledged',
+                      body: '${gift.name} has been unpledged',
+                    );
+                  }
+                }
               }
             }
           },
@@ -145,44 +160,4 @@ class GiftListTile extends StatelessWidget {
       ),
     );
   }
-
-  notifyFriendWithPledge(BuildContext mainContext) async {
-    try {
-      var userProvider = Provider.of<UserProvider>(mainContext, listen: false); // Set listen to false
-
-      // Get the friend information
-      UserEntity? friend = await userProvider.getUser(gift.userId);
-
-      // Handle cases where the friend or their FCM token is null
-      if (friend == null) {
-        debugPrint("Friend not found for userId: ${gift.userId}");
-        return;
-      }
-      String? friendToken = friend.fcmToken;
-      if (friendToken == null || friendToken.isEmpty) {
-        debugPrint("Friend's FCM token is null or empty for userId: ${gift.userId}");
-        return;
-      }
-
-      // Get the current user's name
-      String? myName = userProvider.user?.name;
-      if (myName == null || myName.isEmpty) {
-        debugPrint("Current user's name is null or empty");
-        return;
-      }
-
-      // Send the notification
-      PushNotificationService.sendNotificationToDevice(
-        deviceToken: friendToken,
-        title: '${gift.name} has been edited',
-        body: '$myName has un/pledged your gift',
-      );
-
-      debugPrint("Notification sent to ${friend.name}");
-    } catch (e) {
-      debugPrint("Error in notifyFriendWithPledge: $e");
-    }
-  }
-
-
 }
