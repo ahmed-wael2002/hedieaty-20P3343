@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_code/features/gifts/domain/entity/gift.dart';
+import 'package:lecture_code/features/notification/data/firebase_messaging_api/push_notification_service.dart';
+import 'package:lecture_code/features/users/domain/entity/user.dart';
+import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../state_management/gift_provider.dart';
@@ -17,9 +20,13 @@ class GiftListTile extends StatelessWidget {
     required this.isRemote,
   });
 
+
   @override
   Widget build(BuildContext context) {
     final giftProvider = Provider.of<GiftProvider>(context, listen: true);
+    final mainContext = context;
+    final userProvider = Provider.of<UserProvider>(context, listen: true);
+    print('From gift: ${userProvider.user?.name}');
 
     return Dismissible(
       key: ValueKey(gift.id), // Use a unique key for each item
@@ -52,7 +59,8 @@ class GiftListTile extends StatelessWidget {
       },
       onDismissed: (direction) async {
         // Perform deletion
-        bool? result = await giftProvider.deleteGift(gift: gift, isRemote: isRemote);
+        bool? result =
+            await giftProvider.deleteGift(gift: gift, isRemote: isRemote);
         if (result ?? false) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -76,9 +84,8 @@ class GiftListTile extends StatelessWidget {
         leading: CircleAvatar(
           radius: 25,
           backgroundColor: Colors.grey[200],
-          backgroundImage: gift.imageUrl.isNotEmpty
-              ? NetworkImage(gift.imageUrl)
-              : null,
+          backgroundImage:
+              gift.imageUrl.isNotEmpty ? NetworkImage(gift.imageUrl) : null,
           child: gift.imageUrl.isEmpty
               ? const Icon(Icons.image, color: Colors.grey)
               : null,
@@ -103,12 +110,15 @@ class GiftListTile extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
             width: 2,
           ),
-          onChanged: (bool? value) {
+          onChanged: (bool? value) async {
             if (value != null) {
               // Update isPledged value
               gift.isPledged = value;
               // Call the eventProvider to update the gift
               giftProvider.updateGift(gift: gift, isRemote: isRemote);
+              if (!isEditable) {
+                notifyFriendWithPledge(mainContext);
+              }
             }
           },
         ),
@@ -116,23 +126,63 @@ class GiftListTile extends StatelessWidget {
         // On Tap: Open edit sheet (only if editable)
         onTap: isEditable
             ? () {
-          showModalBottomSheet(
-            isScrollControlled: true,
-            context: context,
-            builder: (context) => GiftEditSheet(
-              gift: gift,
-              isEditing: true,
-              uploadImage: () {
-                return giftProvider.uploadImage();
-              },
-              onSave: (gift) {
-                giftProvider.updateGift(gift: gift, isRemote: isRemote);
-              },
-            ),
-          );
-        }
+                showModalBottomSheet(
+                  isScrollControlled: true,
+                  context: context,
+                  builder: (context) => GiftEditSheet(
+                    gift: gift,
+                    isEditing: true,
+                    uploadImage: () {
+                      return giftProvider.uploadImage();
+                    },
+                    onSave: (gift) {
+                      giftProvider.updateGift(gift: gift, isRemote: isRemote);
+                    },
+                  ),
+                );
+              }
             : null,
       ),
     );
   }
+
+  notifyFriendWithPledge(BuildContext mainContext) async {
+    try {
+      var userProvider = Provider.of<UserProvider>(mainContext, listen: false); // Set listen to false
+
+      // Get the friend information
+      UserEntity? friend = await userProvider.getUser(gift.userId);
+
+      // Handle cases where the friend or their FCM token is null
+      if (friend == null) {
+        debugPrint("Friend not found for userId: ${gift.userId}");
+        return;
+      }
+      String? friendToken = friend.fcmToken;
+      if (friendToken == null || friendToken.isEmpty) {
+        debugPrint("Friend's FCM token is null or empty for userId: ${gift.userId}");
+        return;
+      }
+
+      // Get the current user's name
+      String? myName = userProvider.user?.name;
+      if (myName == null || myName.isEmpty) {
+        debugPrint("Current user's name is null or empty");
+        return;
+      }
+
+      // Send the notification
+      PushNotificationService.sendNotificationToDevice(
+        deviceToken: friendToken,
+        title: '${gift.name} has been edited',
+        body: '$myName has un/pledged your gift',
+      );
+
+      debugPrint("Notification sent to ${friend.name}");
+    } catch (e) {
+      debugPrint("Error in notifyFriendWithPledge: $e");
+    }
+  }
+
+
 }

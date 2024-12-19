@@ -8,6 +8,12 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"  // Flutter plugin
 }
 
+dependencies {
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation 'com.google.firebase:firebase-messaging:23.0.0'
+    // Other dependencies
+}
+
 android {
     namespace = "com.example.lecture_code"  // Set the namespace for your app
     compileSdk = flutter.compileSdkVersion  // Use Flutter's compile SDK version

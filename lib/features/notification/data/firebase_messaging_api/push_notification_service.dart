@@ -1,32 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:googleapis_auth/auth_io.dart' as auth;
-import 'package:googleapis/servicecontrol/v1.dart' as servicecontrol;
+// import 'package:googleapis/servicecontrol/v1.dart' as servicecontrol;
 
 import '../../../../common/network/dio_service.dart';
 
-class PushNotificationService{
+class PushNotificationService {
 
-  static Future<void> setupDioWithServiceAccount(
-      Map<String, dynamic> serviceAccountJson,
-      List<String> scopes
-  ) async {
-    // Simulating the auth client creation and token extraction
-    final authToken = await auth.getAuthTokenFromServiceAccount(
-      auth.ServiceAccountCredentials.fromJson(serviceAccountJson),
-      scopes,
-    );
-
-    final dioService = DioService();
-    dioService.setBaseUrl('https://your-api-url.com'); // Replace with your actual base URL
-    dioService.setHeaders({'Authorization': 'Bearer $authToken'});
-
-    // You can now use dioService to make authenticated requests
-    final response = await dioService.get('/endpoint');
-    debugPrint('Response: ${response?.data}');
-  }
-
-
-  static Future<String> getAccessToken() async{
+  static Future<String> getAccessToken() async {
     final serviceAccountJson = {
       "type": "service_account",
       "project_id": "hedieaty-15d58",
@@ -40,27 +20,64 @@ class PushNotificationService{
       "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/hedeiaty%40hedieaty-15d58.iam.gserviceaccount.com",
       "universe_domain": "googleapis.com"
     };
-    List<String> scopes = [
+
+    final scopes = [
       'https://www.googleapis.com/auth/userinfo.email',
       'https://www.googleapis.com/auth/firebase.database',
-      'https://www.googleapis.com/auth/firebase.messaging'
+      'https://www.googleapis.com/auth/firebase.messaging',
     ];
 
-    setupDioWithServiceAccount(
-      serviceAccountJson,
-      scopes,
-    );
-    // http.Client client = await auth.clientServiceAccount(
-    //   auth.ServiceAccountCredentials.fromJson(serviceAccountJson),
-    //   scopes,
-    // );
+    // Create credentials with the given scopes
+    final credentials = auth.ServiceAccountCredentials.fromJson(serviceAccountJson);
 
+    // Obtain the access token
+    final client = await auth.clientViaServiceAccount(credentials, scopes);
+    final accessToken = client.credentials.accessToken.data;
 
-    // get the access token
-
+    return accessToken;
   }
 
-  static sendNotificationToDevice(String deviceToken, BuildContext context, String tripId) async{
+  static sendNotificationToDevice({
+    required String deviceToken,
+    required String title,
+    required String body,
+  }) async {
+    try {
+      final String serverAccessTokenKey = await getAccessToken();
+      String endpointFirebaseCloudMessaging = 'https://fcm.googleapis.com/v1/projects/hedieaty-15d58/messages:send';
 
+      final Map<String, dynamic> message = {
+        'message': {
+          'token': deviceToken,
+          'notification': {
+            'title': title,
+            'body': body,
+          },
+          // 'data': {
+          //   'tripId': tripId,
+          // },
+        }
+      };
+
+      final dioService = DioService();
+      dioService.setBaseUrl(endpointFirebaseCloudMessaging);
+
+      final response = await dioService.post(
+        '',
+        data: message,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $serverAccessTokenKey',
+        },
+      );
+
+      if (response != null && response.statusCode == 200) {
+        debugPrint('Notification sent successfully');
+      } else {
+        debugPrint('Failed to send notification: ${response?.statusCode ?? "Unknown error"}');
+      }
+    } catch (e) {
+      debugPrint('Error sending notification: $e');
+    }
   }
 }

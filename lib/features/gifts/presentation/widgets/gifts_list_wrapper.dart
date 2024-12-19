@@ -1,29 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:lecture_code/features/gifts/presentation/state_management/gift_provider.dart';
+import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
 import '../../../events/domain/entity/event.dart';
-import '../../../users/presentation/state_management/user_provider.dart';
 import '../../domain/entity/gift.dart';
-import '../state_management/gift_provider.dart';
-import 'gift_list_view.dart';
+import 'gift_list_tile.dart';
+import 'gift_list_view.dart'; // or wherever your GiftListTile is used
 
 class GiftsListWrapper extends StatelessWidget {
   final bool isRemote;
   final bool isEditable;
   final EventEntity? event;
   final String? userId;
-  const GiftsListWrapper({required this.isEditable, this.event, this.userId, super.key, required this.isRemote});
+
+  const GiftsListWrapper({
+    required this.isEditable,
+    this.event,
+    this.userId,
+    super.key,
+    required this.isRemote,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final giftsProvider = Provider.of<GiftProvider>(context, listen: true);
-    final userProvider = Provider.of<UserProvider>(context, listen: true);
-
-    return FutureBuilder(
+    // Wrapping providers in the build method
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => GiftProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+      ],
+      child: FutureBuilder(
         future: (event == null)
-            ? giftsProvider.getPledgedGifts(userId: userProvider.user!.uid!, isRemote: isRemote)
-            : giftsProvider.getGifts(eventId: event!.id!, isRemote: isRemote),
+            ? Provider.of<GiftProvider>(context, listen: false).getPledgedGifts(
+            userId: Provider.of<UserProvider>(context, listen: false).user?.uid ?? '',
+            isRemote: isRemote)
+            : Provider.of<GiftProvider>(context, listen: false).getGifts(
+            eventId: event!.id!,
+            isRemote: isRemote),
         builder: (context, snapshot) {
+          print('From gift list wrapper: ${Provider.of<UserProvider>(context, listen: true).user?.name}');
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -39,6 +54,8 @@ class GiftsListWrapper extends StatelessWidget {
             );
           }
           return const Center(child: Text('No gifts found'));
-        });
+        },
+      ),
+    );
   }
 }

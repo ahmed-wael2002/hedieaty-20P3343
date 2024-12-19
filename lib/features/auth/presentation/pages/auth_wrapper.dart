@@ -1,3 +1,5 @@
+// lib/features/auth/presentation/pages/auth_wrapper.dart
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lecture_code/features/auth/presentation/pages/login_page.dart';
@@ -31,6 +33,7 @@ class AuthWrapper extends StatelessWidget {
 
               // If the user is logged in
               if (snapshot.hasData && snapshot.data != null) {
+                Future.microtask(() => authProvider.setUserId(snapshot.data!.uid)); // Set the userId in authProvider
                 return const MyHomePage();
               }
 

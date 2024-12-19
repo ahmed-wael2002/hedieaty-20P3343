@@ -2,6 +2,7 @@
 import 'package:lecture_code/features/users/domain/entity/user.dart';
 
 class UserModel {
+  final String? fcmToken;
   final List<dynamic> friendsIds;
   final List<dynamic> eventsIds;
   final String? uid;
@@ -10,6 +11,7 @@ class UserModel {
   final String? phoneNumber;
 
   UserModel({
+    required this.fcmToken,
     required this.uid,
     required this.name,
     required this.email,
@@ -20,6 +22,7 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> userData) {
     return UserModel(
+        fcmToken: userData['fcmToken'] as String,
         uid: userData['id'] as String,
         name: userData['name'] as String,
         email: userData['email'] as String,
@@ -31,6 +34,7 @@ class UserModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'fcmToken' : fcmToken,
       'id': uid,
       'name': name,
       'email': email,
@@ -42,6 +46,7 @@ class UserModel {
 
   factory UserModel.fromEntity(UserEntity userData) {
     return UserModel(
+      fcmToken: userData.fcmToken,
       uid: userData.uid.toString(), // Ensure uid is a string
       name: userData.name,
       email: userData.email,

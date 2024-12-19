@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:lecture_code/features/users/data/data_sources/remote/firestore_singleton.dart';
 import 'package:lecture_code/features/users/data/model/user.dart';
 
@@ -63,13 +65,17 @@ class FirebaseAuthSingleton {
       // Get the newly created user
       User? user = userCredential.user;
 
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
+      String? fcmToken = await messaging.getToken();
+
       await UserFirestore.instance.addUser(user!.uid, UserModel(
           uid: user.uid,
           name: name,
           email: email,
           phoneNumber: phoneNumber,
           friendsIds: [],
-          eventsIds: []
+          eventsIds: [],
+          fcmToken: fcmToken,
         ).toMap()
       );
 

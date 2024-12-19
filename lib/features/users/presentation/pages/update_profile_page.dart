@@ -90,7 +90,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                     _emailController.text,
                                     _phoneNumberController.text,
                                     widget.user.friendsList,
-                                    widget.user.eventsList))
+                                    widget.user.eventsList,
+                                    widget.user.fcmToken
+                            ))
                                 .then((value) => value);
                             if (success) {
                               ScaffoldMessenger.of(context).showSnackBar(

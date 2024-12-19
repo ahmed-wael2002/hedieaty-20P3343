@@ -1,4 +1,8 @@
-import 'package:flutter/cupertino.dart';
+// lib/features/users/presentation/state_management/user_provider.dart
+
+import 'package:flutter/material.dart';
+import 'package:lecture_code/features/notification/domain/Entities/add_friend_subject.dart';
+import 'package:lecture_code/features/notification/domain/Entities/notification_observer.dart';
 import 'package:lecture_code/features/users/data/repository/remote/user_firestore_repository.dart';
 import 'package:lecture_code/features/users/domain/usecase/get_user_usecase.dart';
 import 'package:lecture_code/features/users/domain/usecase/update_user_usecase.dart';
@@ -13,6 +17,8 @@ import '../../domain/usecase/remove_friend_usecase.dart';
 
 class UserProvider extends ChangeNotifier {
   UserEntity? user;
+  AddFriendSubject? friendSubject;
+  NotificationObserver? notificationObserver;
 
   final getUserUsecase = GetUserUsecase(FirestoreRepositoryImpl());
   final addFriendUsecase = AddFriendUsecase(FirestoreRepositoryImpl());
@@ -22,9 +28,26 @@ class UserProvider extends ChangeNotifier {
   final removeEventUsecase = RemoveEventUsecase(FirestoreRepositoryImpl());
   final updateUserUsecase = UpdateUserUsecase(FirestoreRepositoryImpl());
 
-  void setUser(String userId) async {
-    user = await getUserUsecase.call(params: userId);
-    notifyListeners();
+  void setUser(String? userId) async {
+    if (userId == null || userId.isEmpty) {
+      debugPrint('Error: userId is null or empty.');
+      return;
+    }
+    try {
+      user = await getUserUsecase.call(params: userId);
+      debugPrint('Current user is: ${user!.name}');
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error fetching user by userId: $e');
+    }
+  }
+
+  String? getUserName(){
+    return user?.name;
+  }
+
+  Future<UserEntity?> getUser(String userId) async{
+    return await getUserUsecase.call(params: userId);
   }
 
   Future<bool> updateUser(UserEntity newUser) async {

@@ -2,6 +2,7 @@ import '../../../events/domain/entity/event.dart';
 import '../../data/model/user.dart';
 
 class UserEntity {
+  final String? fcmToken;
   final String? uid;
   final String? name;
   final String? email;
@@ -9,7 +10,7 @@ class UserEntity {
   List<UserEntity> friendsList; // Now it's a final list that must be provided at creation
   List<EventEntity> eventsList;
 
-  UserEntity(this.uid, this.name, this.email, this.phoneNumber, this.friendsList, this.eventsList);
+  UserEntity(this.uid, this.name, this.email, this.phoneNumber, this.friendsList, this.eventsList, this.fcmToken);
 
   factory UserEntity.fromUserModel(UserModel userModel) {
     return UserEntity(
@@ -19,11 +20,13 @@ class UserEntity {
       userModel.phoneNumber as String,
       [], // Initialize with an empty list
       [], // Initialize with an empty list
+      userModel.fcmToken
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
+      'fcmToken':fcmToken,
       'uid': uid,
       'name': name,
       'email': email,

@@ -37,7 +37,7 @@ class MyHomePage extends StatelessWidget {
               Provider.of<AuthenticationProvider>(context, listen: true);
 
           final mockUser =
-              UserEntity('uid', 'name', 'email', 'phoneNumber', [], []);
+              UserEntity('uid', 'name', 'email', 'phoneNumber', [], [], 'fcmToken');
 
           // Set user and update friends list when authProvider.uid is available
           if (userProvider.user == null) {

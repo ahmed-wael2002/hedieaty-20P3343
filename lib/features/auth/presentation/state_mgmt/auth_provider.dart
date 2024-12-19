@@ -1,3 +1,5 @@
+// lib/features/auth/presentation/state_mgmt/auth_provider.dart
+
 import 'package:flutter/cupertino.dart';
 import 'package:lecture_code/features/auth/data/data_sources/fireauth_singleton.dart';
 import 'package:lecture_code/features/auth/domain/usecases/register_usecase.dart';
@@ -28,6 +30,12 @@ class AuthenticationProvider extends ChangeNotifier {
     var prefs = await SharedPreferences.getInstance();
     isLoggedIn = prefs.getBool(isLoggedInKey) ?? false;
     uid = prefs.getString(userIdKey) ?? '';
+    notifyListeners();
+  }
+
+  /// Set the userId
+  void setUserId(String userId) {
+    uid = userId;
     notifyListeners();
   }
 
