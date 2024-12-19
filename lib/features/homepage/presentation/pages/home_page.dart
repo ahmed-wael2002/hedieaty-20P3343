@@ -30,7 +30,8 @@ class MyHomePage extends StatelessWidget {
       ],
       child: Builder(
         builder: (context) {
-          final homepageProvider = Provider.of<HomepageProvider>(context, listen: true);
+          final homepageProvider =
+              Provider.of<HomepageProvider>(context, listen: true);
           final userProvider = Provider.of<UserProvider>(context, listen: true);
           final authProvider =
               Provider.of<AuthenticationProvider>(context, listen: true);
@@ -60,41 +61,41 @@ class MyHomePage extends StatelessWidget {
               title: const Text('Hedieaty'),
             ),
             drawer: const CustomDrawer(),
-            body:  LiquidPullToRefresh(
-          animSpeedFactor: 1,
-          showChildOpacityTransition: false,
-          height: 100,
-          springAnimationDurationInMilliseconds: 1000,
-          // color: Theme.of(context).colorScheme.primary,
-          color: Theme.of(context).colorScheme.surface,
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          onRefresh: () async {
-          userProvider.setUser(authProvider.uid);
-          // await Future.delayed(const Duration(seconds: 1));
-          },
-          child: Column(
-              children: [
-                GestureDetector(
-                  child: ProfileWidget(user: userProvider.user ?? mockUser),
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          ProfilePage(user: userProvider.user ?? mockUser),
+            body: LiquidPullToRefresh(
+              animSpeedFactor: 1,
+              showChildOpacityTransition: false,
+              height: 100,
+              springAnimationDurationInMilliseconds: 1000,
+              // color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.surface,
+              // backgroundColor: Theme.of(context).colorScheme.primary,
+              onRefresh: () async {
+                userProvider.setUser(authProvider.uid);
+                // await Future.delayed(const Duration(seconds: 1));
+              },
+              child: Column(
+                children: [
+                  GestureDetector(
+                    child: ProfileWidget(user: userProvider.user ?? mockUser),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ProfilePage(user: userProvider.user ?? mockUser),
+                      ),
                     ),
                   ),
-                ),
-               Expanded(
-                  child: PageView(
-                    onPageChanged: (index) {
-                      homepageProvider.setPageIndex(index);
-                    },
-                    controller: homepageProvider.pageController,
-                    children: homepageProvider.navigationWidgets,
-                  ),
-                )
-                // Expanded(child: homepageProvider.currentView),
-              ],
-            ),
+                  Expanded(
+                    child: PageView(
+                      onPageChanged: (index) {
+                        homepageProvider.setPageIndex(index);
+                      },
+                      controller: homepageProvider.pageController,
+                      children: homepageProvider.navigationWidgets,
+                    ),
+                  )
+                  // Expanded(child: homepageProvider.currentView),
+                ],
+              ),
             ),
             floatingActionButton: const SpeeddialButton(),
             bottomNavigationBar: const CustomBottomNavigationBar(),

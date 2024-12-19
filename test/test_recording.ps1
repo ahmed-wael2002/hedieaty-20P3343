@@ -3,26 +3,38 @@ $testDirectory = "D:\College\Semester 9\1-Mobile Programming\Project\test"
 $recordingFileName = "screen_recording.mp4"
 $recordingPath = "/sdcard/$recordingFileName"
 
-# Start the screen recording in the background
+# Start the screen recording in the background (time-limited to 60 seconds)
 Start-Process adb -ArgumentList "shell", "screenrecord --time-limit 60 $recordingPath"
 
 # Run the Flutter tests
 cd $testDirectory
 $flutterProcess = Start-Process flutter -ArgumentList "run", "test/login_page_test.dart" -PassThru
 
-# Wait for 30 seconds
-Start-Sleep -Seconds 15
+# Wait for 60 seconds to allow the test to run
+Start-Sleep -Seconds 60
 
-# Forcefully kill the Flutter process after 30 seconds
+# Kill the Flutter process if it's still running
 if (!$flutterProcess.HasExited) {
     $flutterProcess.Kill()
 }
 
-# Wait for screen recording to finish and then pull the recording
-Start-Sleep -Seconds 70
-adb pull $recordingPath $testDirectory
+# Wait for the screen recording to finish (optional buffer time for adb)
+Start-Sleep -Seconds 10
+
+# Pull the recording file from the device
+try {
+    adb pull $recordingPath $testDirectory
+    Write-Host "Screen recording pulled to $testDirectory."
+} catch {
+    Write-Host "Failed to pull the screen recording."
+}
 
 # Clean up the recording from the device
-adb shell "rm $recordingPath"
+try {
+    adb shell "rm $recordingPath"
+    Write-Host "Screen recording removed from the device."
+} catch {
+    Write-Host "Failed to remove the recording from the device."
+}
 
-Write-Host "Test and recording complete."
+Write-Host "Test and recording process complete."
