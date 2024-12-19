@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:lecture_code/common/constants/images_paths.dart';
 import 'package:lecture_code/features/gifts/domain/entity/gift.dart';
 import 'package:lecture_code/features/gifts/presentation/widgets/gift_list_tile.dart';
-import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
-import 'package:provider/provider.dart';
+// import 'package:lecture_code/features/users/presentation/state_management/user_provider.dart';
+// import 'package:provider/provider.dart';
 
 class GiftsListView extends StatefulWidget {
   final bool isRemote;
   final bool isEditable;
   final List<GiftEntity>? gifts;
-  const GiftsListView({required this.gifts, super.key, required this.isEditable, required this.isRemote});
+
+  const GiftsListView({
+    required this.gifts,
+    super.key,
+    required this.isEditable,
+    required this.isRemote,
+  });
 
   @override
   State<GiftsListView> createState() => _GiftsListViewState();
@@ -24,11 +30,9 @@ class _GiftsListViewState extends State<GiftsListView> {
   void initState() {
     super.initState();
     _gifts = widget.gifts ?? [];
-    _filteredGifts = _gifts;
-    _searchController  = TextEditingController();
-    _searchController.addListener(() {
-      filterEvents();
-    });
+    _filteredGifts = List.from(_gifts); // Initialize _filteredGifts with _gifts
+    _searchController = TextEditingController();
+    _searchController.addListener(filterEvents);
   }
 
   @override
@@ -46,10 +50,18 @@ class _GiftsListViewState extends State<GiftsListView> {
     });
   }
 
+  // Callback function for onDismissed
+  void _onDismissed(GiftEntity gift) {
+    setState(() {
+      _gifts.remove(gift); // Remove the dismissed gift from the list
+      _filteredGifts = List.from(_gifts); // Re-filter the list after removal
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // var userProvider = Provider.of<UserProvider>(context, listen: true);
-    // print('From gift list view: ${userProvider.user?.name}');
+
     return Column(
       children: [
         Padding(
@@ -78,13 +90,11 @@ class _GiftsListViewState extends State<GiftsListView> {
             padding: const EdgeInsets.all(16.0),
             itemCount: _filteredGifts.length,
             itemBuilder: (BuildContext context, int index) {
-              return ChangeNotifierProvider(
-                  create: (_) => UserProvider(),
-                child: GiftListTile(
-                  isRemote: widget.isRemote,
-                  isEditable: widget.isEditable,
-                  gift: _filteredGifts[index],
-                ),
+              return GiftListTile(
+                isRemote: widget.isRemote,
+                isEditable: widget.isEditable,
+                gift: _filteredGifts[index],
+                onDismissedCallback: _onDismissed, // Pass the callback here
               );
             },
             separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),

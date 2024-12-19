@@ -66,8 +66,8 @@ class MyHomePage extends StatelessWidget {
               height: 100,
               springAnimationDurationInMilliseconds: 1000,
               // color: Theme.of(context).colorScheme.primary,
-              color: Theme.of(context).colorScheme.surface,
-              // backgroundColor: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.primary,
+              backgroundColor: Theme.of(context).colorScheme.surface,
               onRefresh: () async {
                 userProvider.setUser(authProvider.uid);
                 // await Future.delayed(const Duration(seconds: 1));

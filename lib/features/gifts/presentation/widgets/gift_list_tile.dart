@@ -12,24 +12,24 @@ class GiftListTile extends StatelessWidget {
   final bool isRemote;
   final bool isEditable;
   final GiftEntity gift;
+  final ValueChanged<GiftEntity> onDismissedCallback;
 
   const GiftListTile({
     super.key,
     required this.gift,
     required this.isEditable,
     required this.isRemote,
+    required this.onDismissedCallback, // Callback to notify the parent widget
   });
-
 
   @override
   Widget build(BuildContext context) {
     final giftProvider = Provider.of<GiftProvider>(context, listen: true);
     final userProvider = Provider.of<UserProvider>(context, listen: true);
-    // print('From gift: ${userProvider.user?.name}');
 
     return Dismissible(
-      key: ValueKey(gift.id), // Use a unique key for each item
-      direction: DismissDirection.endToStart, // Swipe left to delete
+      key: ValueKey(gift.id),
+      direction: DismissDirection.endToStart,
       background: Container(
         color: Colors.red,
         alignment: Alignment.centerRight,
@@ -37,7 +37,6 @@ class GiftListTile extends StatelessWidget {
         child: const Icon(Icons.delete, color: Colors.white),
       ),
       confirmDismiss: (direction) async {
-        // Confirm the deletion
         return await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
@@ -57,40 +56,26 @@ class GiftListTile extends StatelessWidget {
         );
       },
       onDismissed: (direction) async {
-        // Perform deletion
-        bool? result =
-            await giftProvider.deleteGift(gift: gift, isRemote: isRemote);
+        bool? result = await giftProvider.deleteGift(gift: gift, isRemote: isRemote);
         if (result ?? false) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Gift deleted successfully'),
-              backgroundColor: Colors.green,
-            ),
+            const SnackBar(content: Text('Gift deleted successfully'), backgroundColor: Colors.green),
           );
+          // Notify the parent widget to remove the gift
+          onDismissedCallback(gift);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Error deleting gift'),
-            ),
+            const SnackBar(content: Text('Error deleting gift')),
           );
         }
       },
       child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        // Leading: Circular avatar with network image
         leading: CircleAvatar(
           radius: 25,
           backgroundColor: Colors.grey[200],
-          backgroundImage:
-              gift.imageUrl.isNotEmpty ? NetworkImage(gift.imageUrl) : null,
-          child: gift.imageUrl.isEmpty
-              ? const Icon(Icons.image, color: Colors.grey)
-              : null,
+          backgroundImage: gift.imageUrl.isNotEmpty ? NetworkImage(gift.imageUrl) : null,
+          child: gift.imageUrl.isEmpty ? const Icon(Icons.image, color: Colors.grey) : null,
         ),
-
-        // Title and Subtitle
         title: Text(gift.name, style: Theme.of(context).textTheme.titleMedium),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,65 +84,48 @@ class GiftListTile extends StatelessWidget {
             Text('${gift.price} EGP'),
           ],
         ),
-
-        // Trailing: Checkbox only
         trailing: Checkbox(
           value: gift.isPledged,
           activeColor: Theme.of(context).colorScheme.primary,
           checkColor: Colors.white,
-          side: BorderSide(
-            color: Theme.of(context).colorScheme.primary,
-            width: 2,
-          ),
+          side: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
           onChanged: (bool? value) async {
             if (value != null) {
-              // Update isPledged value
               gift.isPledged = value;
-              // Call the eventProvider to update the gift
               giftProvider.updateGift(gift: gift, isRemote: isRemote);
               if (!isEditable) {
-                // Send notification to the gift owner
                 UserEntity? owner = await userProvider.getUser(gift.userId);
                 if (owner != null) {
-                  if(value){
-                    PushNotificationService.sendNotificationToDevice(
-                      deviceToken: owner.fcmToken!,
-                      title: 'Gift Pledged',
-                      body: '${gift.name} has been pledged',
-                    );
-                  } else {
-                    PushNotificationService.sendNotificationToDevice(
-                      deviceToken: owner.fcmToken!,
-                      title: 'Gift Unpledged',
-                      body: '${gift.name} has been unpledged',
-                    );
-                  }
+                  PushNotificationService.sendNotificationToDevice(
+                    deviceToken: owner.fcmToken!,
+                    title: value ? 'Gift Pledged' : 'Gift Unpledged',
+                    body: '${gift.name} has been ${value ? 'pledged' : 'unpledged'}',
+                  );
                 }
               }
             }
           },
         ),
-
-        // On Tap: Open edit sheet (only if editable)
         onTap: isEditable
             ? () {
-                showModalBottomSheet(
-                  isScrollControlled: true,
-                  context: context,
-                  builder: (context) => GiftEditSheet(
-                    gift: gift,
-                    isEditing: true,
-                    uploadImage: () {
-                      return giftProvider.uploadImage();
-                    },
-                    onSave: (gift) {
-                      giftProvider.updateGift(gift: gift, isRemote: isRemote);
-                    },
-                  ),
-                );
-              }
+          showModalBottomSheet(
+            isScrollControlled: true,
+            context: context,
+            builder: (context) => GiftEditSheet(
+              gift: gift,
+              isEditing: true,
+              uploadImage: () {
+                return giftProvider.uploadImage();
+              },
+              onSave: (gift) {
+                giftProvider.updateGift(gift: gift, isRemote: isRemote);
+              },
+            ),
+          );
+        }
             : null,
       ),
     );
   }
 }
+

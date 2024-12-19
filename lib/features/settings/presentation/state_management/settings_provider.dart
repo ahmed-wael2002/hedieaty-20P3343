@@ -1,43 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:lecture_code/common/shared_preferences/shared_preferences_singleton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsProvider extends ChangeNotifier {
-  // State variables to hold settings
   bool _isDarkMode = false;
   bool _notificationsEnabled = true;
+  String _selectedColorHex = 'FF4081'; // Default color is pink
 
+  // Getters
   bool get isDarkMode => _isDarkMode;
   bool get notificationsEnabled => _notificationsEnabled;
+  String get selectedColorHex => _selectedColorHex;
+  Color get selectedColor => Color(int.parse('0xFF$_selectedColorHex'));  // Ensure the color is in the correct format
 
-  // Constructor to load the saved settings when the provider is created
   SettingsProvider() {
-    _loadSettings();
+    _loadSettings(); // Load settings when the provider is created
   }
 
   // Load settings from SharedPreferences
   Future<void> _loadSettings() async {
-    final sharedPrefs = SharedPrefs();
-    _isDarkMode = sharedPrefs.get<bool>('isDarkMode', defaultValue: false) ?? false;
-    _notificationsEnabled = sharedPrefs.get<bool>('notificationsEnabled', defaultValue: true) ?? true;
-    notifyListeners(); // Notify listeners after loading the settings
+    final prefs = await SharedPreferences.getInstance();
+
+    _isDarkMode = prefs.getBool('isDarkMode') ?? false;
+    _notificationsEnabled = prefs.getBool('notificationsEnabled') ?? true;
+    _selectedColorHex = prefs.getString('selectedColorHex') ?? 'FF4081'; // Default pink
+
+    notifyListeners();
   }
 
   // Save settings to SharedPreferences
-  Future<void> _saveSetting(String key, bool value) async {
-    await SharedPrefs().set<bool>(key, value);
+  Future<void> _saveSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    prefs.setBool('isDarkMode', _isDarkMode);
+    prefs.setBool('notificationsEnabled', _notificationsEnabled);
+    prefs.setString('selectedColorHex', _selectedColorHex);
   }
 
-  // Update the dark mode setting and notify listeners
-  Future<void> toggleDarkMode(bool value) async {
+  // Methods to change settings
+  void toggleDarkMode(bool value) {
     _isDarkMode = value;
-    await _saveSetting('isDarkMode', value);
-    notifyListeners(); // Notify listeners when the setting changes
+    _saveSettings();  // Save changes
+    notifyListeners();
   }
 
-  // Update the notifications setting and notify listeners
-  Future<void> toggleNotifications(bool value) async {
+  void toggleNotifications(bool value) {
     _notificationsEnabled = value;
-    await _saveSetting('notificationsEnabled', value);
-    notifyListeners(); // Notify listeners when the setting changes
+    _saveSettings();  // Save changes
+    notifyListeners();
+  }
+
+  void changeSelectedColor(Color color) {
+    _selectedColorHex = color.value.toRadixString(16).substring(2).toUpperCase(); // Extract hex without '0x'
+    _saveSettings();  // Save changes
+    notifyListeners();
   }
 }

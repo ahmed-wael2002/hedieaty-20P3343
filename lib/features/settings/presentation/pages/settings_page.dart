@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-// import '../../../../common/shared_preferences/shared_preferences_singleton.dart';
+
 import '../state_management/settings_provider.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -35,6 +35,41 @@ class SettingsPage extends StatelessWidget {
               onChanged: (value) {
                 settingsProvider.toggleNotifications(value); // Update notifications setting
               },
+            ),
+            const Divider(),
+
+            // Color Selector Dropdown
+            ListTile(
+              title: const Text('Select Color'),
+              subtitle: Text('Current color: ${settingsProvider.selectedColor}'),
+              trailing: DropdownButton<String>(
+                value: settingsProvider.selectedColorHex, // Use the getter for color hex
+                onChanged: (String? newColorHex) {
+                  if (newColorHex != null) {
+                    // Convert the selected hex back to a Color
+                    Color newColor = Color(int.parse('0xFF$newColorHex'));
+                    settingsProvider.changeSelectedColor(newColor); // Update selected color
+                  }
+                },
+                items: [
+                  DropdownMenuItem<String>(
+                    value: 'FF4081', // Hex color value for pink
+                    child: Container(width: 24, height: 24, color: Colors.pink),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: '4CAF50', // Hex color value for green
+                    child: Container(width: 24, height: 24, color: Colors.green),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: '2196F3', // Hex color value for blue
+                    child: Container(width: 24, height: 24, color: Colors.blue),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: '9C27B0', // Hex color value for purple
+                    child: Container(width: 24, height: 24, color: Colors.purple),
+                  ),
+                ],
+              ),
             ),
             const Divider(),
 
