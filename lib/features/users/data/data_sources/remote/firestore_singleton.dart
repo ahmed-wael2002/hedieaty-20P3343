@@ -25,7 +25,7 @@ class UserFirestore {
 
   // Example of fetching a document by ID
   Future<Map<String, dynamic>?> getUserById(String userId) async {
-    debugPrint('Trying to get the user: $userId');
+    // debugPrint('Trying to get the user: $userId');
     try {
       return await _firestore.fetchDocument(
         collectionPath: _collectionId,
@@ -96,6 +96,7 @@ class UserFirestore {
       }
 
       // If results exist, return the first match
+
       return results.first;
     } catch (e) {
       // Log the error and rethrow it for further handling

@@ -30,14 +30,10 @@ class MyHomePage extends StatelessWidget {
       ],
       child: Builder(
         builder: (context) {
-          final homepageProvider =
-              Provider.of<HomepageProvider>(context, listen: true);
+          final homepageProvider = Provider.of<HomepageProvider>(context, listen: true);
           final userProvider = Provider.of<UserProvider>(context, listen: true);
-          final authProvider =
-              Provider.of<AuthenticationProvider>(context, listen: true);
-
-          final mockUser =
-              UserEntity('uid', 'name', 'email', 'phoneNumber', [], [], 'fcmToken');
+          final authProvider = Provider.of<AuthenticationProvider>(context, listen: true);
+          final mockUser = UserEntity('uid', 'name', 'email', 'phoneNumber', [], [], 'fcmToken');
 
           // Set user and update friends list when authProvider.uid is available
           if (userProvider.user == null) {
@@ -55,6 +51,8 @@ class MyHomePage extends StatelessWidget {
               ),
             );
           }
+
+          print('From home page: ${userProvider.user?.name}');
 
           return Scaffold(
             appBar: AppBar(

@@ -30,12 +30,12 @@ void main() async {
     Testing existing UI components in Login Page
      */
     testWidgets(
-        'Displays form fields and login button', (WidgetTester tester) async {
-      await tester.pumpWidget(createTestableWidget());
-      // Verify UI components
-      expect(find.byType(TextFormField),
-          findsNWidgets(2)); // Email and password fields
-      expect(find.byType(ElevatedButton), findsOneWidget);
+      'Displays form fields and login button',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(createTestableWidget());
+        // Verify UI components
+        expect(find.byType(TextFormField), findsNWidgets(2)); // Email and password fields
+        expect(find.byType(ElevatedButton), findsOneWidget);
     });
 
 

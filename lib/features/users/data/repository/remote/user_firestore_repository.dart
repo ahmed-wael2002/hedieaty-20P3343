@@ -1,4 +1,5 @@
 import 'package:lecture_code/features/events/data/data_sources/remote/event_firestore_singleton.dart';
+import 'package:lecture_code/features/notification/data/firebase_messaging_api/push_notification_service.dart';
 import 'package:lecture_code/features/users/data/data_sources/remote/firestore_singleton.dart';
 import 'package:lecture_code/features/users/domain/entity/user.dart';
 import 'package:lecture_code/features/users/domain/repository/user_repository.dart';
@@ -79,6 +80,11 @@ class FirestoreRepositoryImpl implements UserRepository {
       var friendMap = await _firestore.getUserByPhoneNumber(phoneNumber);
       if (friendMap.isNotEmpty) {
         UserModel friend = UserModel.fromMap(friendMap);
+        PushNotificationService.sendNotificationToDevice(
+            deviceToken: friend.fcmToken!,
+            title: 'New follower',
+            body: '${me.name} is now following your events'
+        );
         me.addFriend(UserEntity.fromUserModel(friend));
         UserModel userModel = UserModel.fromEntity(me);
         return await _firestore.updateUser(me.uid!, userModel.toMap());

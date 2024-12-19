@@ -11,6 +11,7 @@ import 'package:uuid/uuid.dart';
 import '../../../events/domain/entity/event.dart';
 import '../../../events/presentation/state_management/event_provider.dart';
 import '../../../notification/data/firebase_messaging_api/push_notification_service.dart';
+import '../../../notification/domain/Entities/add_friend_subject.dart';
 
 
 class SpeeddialButton extends StatelessWidget {
@@ -75,11 +76,6 @@ class SpeeddialButton extends StatelessWidget {
     // Controller to manage the text field input
     final TextEditingController phoneNumberController = TextEditingController();
     String phoneNumber;
-    PushNotificationService.sendNotificationToDevice(
-      deviceToken: 'ca1GnYaxS1yqmOc5du0t_A:APA91bEI0Fv8BtQcbwXDXn__aXzyDsTD_C53uujuziqRu-YVpgoMT0DgrFTPkwqjagZhvSkkcShyujPaUxMCELpuZAqCqUvScs40aN8YDUSYASyDdaNtXoE',
-      title: "User is trying to access",
-      body: "user notification body"
-    );
 
     showDialog(
       context: context,

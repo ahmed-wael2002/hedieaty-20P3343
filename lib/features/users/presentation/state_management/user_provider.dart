@@ -29,16 +29,11 @@ class UserProvider extends ChangeNotifier {
   final updateUserUsecase = UpdateUserUsecase(FirestoreRepositoryImpl());
 
   void setUser(String? userId) async {
-    if (userId == null || userId.isEmpty) {
-      debugPrint('Error: userId is null or empty.');
-      return;
-    }
-    try {
+    if (userId != null) {
       user = await getUserUsecase.call(params: userId);
-      debugPrint('Current user is: ${user!.name}');
+      friendSubject = AddFriendSubject();
+      notificationObserver = NotificationObserver(friendSubject!);
       notifyListeners();
-    } catch (e) {
-      debugPrint('Error fetching user by userId: $e');
     }
   }
 
