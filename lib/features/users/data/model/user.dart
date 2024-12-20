@@ -22,13 +22,13 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> userData) {
     return UserModel(
-        fcmToken: userData['fcmToken'] as String,
-        uid: userData['id'] as String,
-        name: userData['name'] as String,
-        email: userData['email'] as String,
-        phoneNumber: userData['phoneNumber'] as String,
-        friendsIds: userData['friends'] as List<dynamic>,
-        eventsIds: userData['events'] as List<dynamic>
+      fcmToken: userData['fcmToken'] as String?,
+      uid: userData['id'] as String?,
+      name: userData['name'] as String?,
+      email: userData['email'] as String?,
+      phoneNumber: userData['phoneNumber'] as String?,
+      friendsIds: List<dynamic>.from(userData['friends'] ?? []),
+      eventsIds: List<dynamic>.from(userData['events'] ?? []),
     );
   }
 

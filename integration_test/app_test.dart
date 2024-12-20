@@ -1,4 +1,5 @@
 // import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -13,10 +14,15 @@ void main(){
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   group('Test A single complete user scenario', (){
 
+  setUpAll(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+  });
+
   testWidgets(
     'Main app widget testing',
-
     (WidgetTester tester) async {
+      // await Firebase.initializeApp();
       app.main();
 
       /***********************************************************
@@ -45,13 +51,18 @@ void main(){
       /***********************************************************
        * Testing going to event page and creating an event
        ************************************************************/
-      await tester.pumpAndSettle(const Duration(seconds: 5));
       print('Running Test: Event Page Testing');
+
+      await tester.pumpAndSettle(const Duration(seconds: 5));
+
       expect(find.byType(FlashyTabBar), findsNWidgets(4));
       expect(find.byType(SpeeddialButton), findsOneWidget);
+
+      await tester.tap(find.byType(SpeedDial));
       await tester.tap(find.byType(FlashyTabBar).at(2));
-      await tester.pumpAndSettle(const Duration(seconds: 5));
-      // await tester.tap(find.byKey(const Key('speedDial')));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const Key('speedDial')));
       await tester.tap(find.byType(SpeeddialButton));
       await tester.pumpAndSettle(const Duration(seconds: 5));
 
