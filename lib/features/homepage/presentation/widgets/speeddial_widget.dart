@@ -32,6 +32,7 @@ class SpeeddialButton extends StatelessWidget {
     final addFriendFn = userProvider.addFriend;
 
     return SpeedDial(
+      key: const Key('speedDial'),
       elevation: 5,
       icon: LineAwesomeIcons.plus,
       activeIcon: LineAwesomeIcons.times,
