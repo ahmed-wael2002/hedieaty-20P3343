@@ -31,8 +31,8 @@ class UserEntity {
       'name': name,
       'email': email,
       'phoneNumber': phoneNumber,
-      'friendsList': friendsList.map((friend) => friend.toMap()).toList(),
-      'eventsList': eventsList,
+      'friends': friendsList.map((friend) => friend.toMap()).toList(),
+      'events': eventsList,
     };
   }
 
