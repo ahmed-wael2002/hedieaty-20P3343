@@ -27,6 +27,65 @@ class GiftListTile extends StatelessWidget {
     final giftProvider = Provider.of<GiftProvider>(context, listen: true);
     final userProvider = Provider.of<UserProvider>(context, listen: true);
 
+    Widget tile = ListTile(
+      leading: CircleAvatar(
+        radius: 25,
+        backgroundColor: Colors.grey[200],
+        backgroundImage: gift.imageUrl.isNotEmpty ? NetworkImage(gift.imageUrl) : null,
+        child: gift.imageUrl.isEmpty ? const Icon(Icons.image, color: Colors.grey) : null,
+      ),
+      title: Text(gift.name, style: Theme.of(context).textTheme.titleMedium),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(gift.description),
+          Text('${gift.price} EGP'),
+        ],
+      ),
+      trailing: Checkbox(
+        value: gift.isPledged,
+        activeColor: Theme.of(context).colorScheme.primary,
+        checkColor: Colors.white,
+        side: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
+        onChanged: (bool? value) async {
+          if (value != null) {
+            gift.isPledged = value;
+            giftProvider.updateGift(gift: gift, isRemote: isRemote);
+            if (!isEditable) {
+              UserEntity? owner = await userProvider.getUser(gift.userId);
+              if (owner != null) {
+                PushNotificationService.sendNotificationToDevice(
+                  deviceToken: owner.fcmToken!,
+                  title: value ? 'Gift Pledged' : 'Gift Unpledged',
+                  body: '${gift.name} has been ${value ? 'pledged' : 'unpledged'}',
+                );
+              }
+            }
+          }
+        },
+      ),
+      onTap: isEditable
+          ? () {
+        showModalBottomSheet(
+          isScrollControlled: true,
+          context: context,
+          builder: (context) => GiftEditSheet(
+            gift: gift,
+            isEditing: true,
+            uploadImage: () {
+              return giftProvider.uploadImage();
+            },
+            onSave: (gift) {
+              giftProvider.updateGift(gift: gift, isRemote: isRemote);
+            },
+          ),
+        );
+      }
+          : null,
+    );
+
+    if (!isEditable) return tile;
+
     return Dismissible(
       key: ValueKey(gift.id),
       direction: DismissDirection.endToStart,
@@ -69,63 +128,7 @@ class GiftListTile extends StatelessWidget {
           );
         }
       },
-      child: ListTile(
-        leading: CircleAvatar(
-          radius: 25,
-          backgroundColor: Colors.grey[200],
-          backgroundImage: gift.imageUrl.isNotEmpty ? NetworkImage(gift.imageUrl) : null,
-          child: gift.imageUrl.isEmpty ? const Icon(Icons.image, color: Colors.grey) : null,
-        ),
-        title: Text(gift.name, style: Theme.of(context).textTheme.titleMedium),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(gift.description),
-            Text('${gift.price} EGP'),
-          ],
-        ),
-        trailing: Checkbox(
-          value: gift.isPledged,
-          activeColor: Theme.of(context).colorScheme.primary,
-          checkColor: Colors.white,
-          side: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
-          onChanged: (bool? value) async {
-            if (value != null) {
-              gift.isPledged = value;
-              giftProvider.updateGift(gift: gift, isRemote: isRemote);
-              if (!isEditable) {
-                UserEntity? owner = await userProvider.getUser(gift.userId);
-                if (owner != null) {
-                  PushNotificationService.sendNotificationToDevice(
-                    deviceToken: owner.fcmToken!,
-                    title: value ? 'Gift Pledged' : 'Gift Unpledged',
-                    body: '${gift.name} has been ${value ? 'pledged' : 'unpledged'}',
-                  );
-                }
-              }
-            }
-          },
-        ),
-        onTap: isEditable
-            ? () {
-          showModalBottomSheet(
-            isScrollControlled: true,
-            context: context,
-            builder: (context) => GiftEditSheet(
-              gift: gift,
-              isEditing: true,
-              uploadImage: () {
-                return giftProvider.uploadImage();
-              },
-              onSave: (gift) {
-                giftProvider.updateGift(gift: gift, isRemote: isRemote);
-              },
-            ),
-          );
-        }
-            : null,
-      ),
+      child: tile,
     );
   }
 }
-
